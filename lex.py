@@ -3,73 +3,75 @@ import ply.lex as lex
 # Lista de nombres de tokens. Esto es obligatorio.
 tokens = (
     #palabras reservadas de php
-    '__halt_compiler',
-    'abstract',
-    'and',
-    'array',
-    'as',
-    'break',
-    'callable',
-    'case',
-    'catch',
-    'class',
-    'clone',
-    'const',
-    'continue',
-    'declare',
-    'default',
-    'die',
-    'do',
-    'echo',
-    'else',
-    'elseif',
-    'empty',
-    'enddeclare',
-    'endfor',
-    'endforeach',
-    'endif',
-    'endswitch',
-    'endwhile',
-    'eval',
-    'exit',
-    'extends',
-    'final',
-    'for',
-    'foreach',
-    'function',
-    'global',
-    'goto',
-    'if',
-    'implements',
-    'include', 
-    'include_once',
-    'instanceof',
-    'insteadof',
-    'interface',
-    'isset',
-    'list',
-    'namespace',
-    'new',
-    'or',
-    'print',
-    'private',
-    'protected',
-    'public',
-    'require',
-    'require_once',
-    'return',
-    'static',
-    'switch',
-    'throw',
-    'trait',
-    'try',
-    'unset',
-    'use',
-    'var',
-    'while',
-    'xor',
-    'yield',
-    'yield from',
+    '__HALT_COMPILER',
+    'ABSTRACT',
+    'AND',
+    'ARRAY',
+    'AS',
+    'BREAK',
+    'CALLABLE',
+    'CASE',
+    'CATCH',
+    'CLASS',
+    'CLONE',
+    'CONST',
+    'CONTINUE',
+    'DECLARE',
+    'DEFAULT',
+    'DIE',
+    'DO',
+    'ECHO',
+    'ELSE',
+    'ELSEIF',
+    'EMPTY',
+    'ENDDECLARE',
+    'ENDFOR',
+    'ENDFOREACH',
+    'ENDIF',
+    'ENDSWITCH',
+    'ENDWHILE',
+    'EVAL',
+    'EXIT',
+    'EXTENDS',
+    'FINAL',
+    'FINALLY',
+    'FN',
+    'FOR',
+    'FOREACH',
+    'FUNCTION',
+    'GLOBAL',
+    'GOTO',
+    'IF',
+    'IMPLEMENTS',
+    'INCLUDE',
+    'INCLUDE_ONCE',
+    'INSTANCEOF',
+    'INSTEADOF',
+    'INTERFACE',
+    'ISSET',
+    'LIST',
+    'NAMESPACE',
+    'NEW',
+    'OR',
+    'PRINT',
+    'PRIVATE',
+    'PROTECTED',
+    'PUBLIC',
+    'REQUIRE',
+    'REQUIRE_ONCE',
+    'RETURN',
+    'STATIC',
+    'SWITCH',
+    'THROW',
+    'TRAIT',
+    'TRY',
+    'UNSET',
+    'USE',
+    'VAR',
+    'WHILE',
+    'XOR',
+    'YIELD',
+    'YIELD FROM',
     #palabras reservadas de constantes en el tiempo de compilacion
     '__CLASS__',
     '__DIR__',
@@ -79,416 +81,308 @@ tokens = (
     '__METHOD__',
     '__NAMESPACE__',
     '__TRAIT__',
-    #toca ver pero son tokens de php
-    #creo que son symbols
-    #falta 
-    'T_AND_EQUAL',
-    'T_ARRAY_CAST', #!tengo que verla nota
-    'T_ARRAY',  #!tengo que verla nota
-    'T_ATTRIBUTE',
-    'T_BAD_CHARACTER',
-    'T_BOOLEAN_AND',
-    'T_BOOLEAN_OR',
-    'T_BOOL_CAST',
-    'T_CLOSE_TAG', 
-    'T_COALESCE', 
-    'T_COALESCE_EQUAL', 
-    'T_COMMENT', 
-    'T_CONCAT_EQUAL', 
-    
-    'T_CONSTANT_ENCAPSED_STRING', 
-   
-    'T_CURLY_OPEN', 
-    'T_DEC', 
-
-    'T_DIV_EQUAL', 
-    'T_DO', 
-    'T_DOC_COMMENT', 
-    'T_DOLLAR_OPEN_CURLY_BRACES', 
-    'T_DOUBLE_ARROW', 
-    'T_DOUBLE_CAST', 
-    'T_DOUBLE_COLON', 
-
-    'T_ELLIPSIS', 
-    
-    'T_DNUMBER',
-    'T_ENCAPSED_AND_WHITESPACE', 
-    
-    'T_END_HEREDOC', 
-    'T_EVAL', #!tengo que verla nota
-    
-    'T_HALT_COMPILER', #!tengo que verla nota
-    
+    #symbols de php
+    #falta revisar que no falte alguno
+    #?no hay para + o - o ( o ) ¿revisar?
+    'AND_EQUAL',
+    'ARRAY_CAST', #!tengo que verla nota
+    'ATTRIBUTE',
+    'BAD_CHARACTER',
+    'BOOLEAN_AND',
+    'BOOLEAN_OR',
+    'BOOL_CAST',
+    'CLOSE_TAG', 
+    'COALESCE', 
+    'COALESCE_EQUAL', 
+    'COMMENT', 
+    'CONCAT_EQUAL', 
+    'CONSTANT_ENCAPSED_STRING', 
+    'CURLY_OPEN', 
+    'DEC', 
+    'DIV_EQUAL',  
+    'DOC_COMMENT', 
+    'DOLLAR_OPEN_CURLY_BRACES', 
+    'DOUBLE_ARROW', 
+    'DOUBLE_CAST', 
+    'DOUBLE_COLON', 
+    'ELLIPSIS',    
+    'DNUMBER',
+    'ENCAPSED_AND_WHITESPACE', 
+    'END_HEREDOC', 
     'T_INC', 
-    'T_INCLUDE', #!tengo que verla nota
-    'T_INCLUDE_ONCE', #!tengo que verla nota
-    'T_INLINE_HTML',
-    
-    'T_INT_CAST', 
-    'T_ISSET', #!tengo que verla nota
-    'T_IS_EQUAL', 
-    'T_IS_GREATER_OR_EQUAL', 
-    'T_IS_IDENTICAL', 
-    'T_IS_NOT_EQUAL',
-    'T_IS_NOT_IDENTICAL', 
-    'T_IS_SMALLER_OR_EQUAL', 
-
-    'T_LIST',#!tengo que verla nota
-    'T_LNUMBER',
-    
-    
-    'T_MINUS_EQUAL',
-    'T_MOD_EQUAL', 
-    'T_MUL_EQUAL', 
-    
-    'T_NS_SEPARATOR', 
-    'T_NUM_STRING', 
-    'T_OBJECT_CAST', #!tengo que verla nota
-    'T_OBJECT_OPERATOR',
-    'T_NULLSAFE_OBJECT_OPERATOR', 
-    'T_OPEN_TAG', 
-    'T_OPEN_TAG_WITH_ECHO',
-    'T_OR_EQUAL', 
-    'T_PAAMAYIM_NEKUDOTAYIM', 
-    'T_PLUS_EQUAL', 
-    'T_POW',
-    'T_POW_EQUAL',
-    'T_PRINT', #!tengo que verla nota
-    
-    'T_SL', 
-    'T_SL_EQUAL', 
-    'T_SPACESHIP', 
-    'T_SR', 
-    'T_SR_EQUAL',
-    'T_START_HEREDOC', 
-
-    'T_STRING', 
-    'T_STRING_CAST', 
-    'T_STRING_VARNAME', 
-    
-    'T_VARIABLE',
-
-    'T_XOR_EQUAL', 
+    'INLINE_HTML',
+    'INT_CAST', 
+    'IS_EQUAL', 
+    'IS_GREATER_OR_EQUAL', 
+    'IS_IDENTICAL', 
+    'IS_NOT_EQUAL',
+    'IS_NOT_IDENTICAL', 
+    'IS_SMALLER_OR_EQUAL', 
+    'LNUMBER',
+    'MINUS_EQUAL',
+    'MOD_EQUAL', 
+    'MUL_EQUAL', 
+    'NS_SEPARATOR', 
+    'NUM_STRING', 
+    'OBJECT_CAST', #?tengo que verla nota(object no es palabra reservda de php)
+    'OBJECT_OPERATOR',
+    'NULLSAFE_OBJECT_OPERATOR', 
+    'OPEN_TAG', 
+    'OPEN_TAG_WITH_ECHO',
+    'OR_EQUAL', 
+    'PAAMAYIM_NEKUDOTAYIM', 
+    'PLUS_EQUAL', 
+    'POW',
+    'POW_EQUAL',
+    'SL', 
+    'SL_EQUAL', 
+    'SPACESHIP', 
+    'SR', 
+    'SR_EQUAL',
+    'START_HEREDOC', 
+    'STRING', 
+    'STRING_CAST', 
+    'STRING_VARNAME', 
+    'VARIABLE',
+    'WHITESPACE',
+    'XOR_EQUAL', 
 )
 
 # Reglas de expresiones regulares para tokens simples.
-t_T_AND_EQUAL = r'&='
-t_T_ARRAY = r'array()' #!tengo que verla nota
-t_T_ARRAY_CAST = r'(array)' #!tengo que verla nota
-t_T_ATTRIBUTE = r'#['
-t_T_BOOLEAN_AND = r'&&'
-t_T_BOOLEAN_OR = r'\|\|'
-t_T_BOOL_CAST = r'(bool)|(boolean)' #!tengo que verla nota
-t_T_CLOSE_TAG = r'\?>|%\>'
-t_T_COALESCE = r'\?\?'
-t_T_COALESCE_EQUAL = r'\?\?='
-# Para comentarios, este puede ser simplificado ya que PLY maneja los comentarios de manera automática
-t_T_CONCAT_EQUAL = r'\.='
-t_T_CONSTANT_ENCAPSED_STRING = r'\".*?\"|\\\'.*?\\\''
-# Las reglas para T_CURLY_OPEN y T_DOLLAR_OPEN_CURLY_BRACES pueden ser más complejas y dependen de cómo manejes la sintaxis compleja en tu analizador
-t_T_DEC = r'--'
-t_T_DIV_EQUAL = r'/='
-# Los comentarios tipo PHPDoc también pueden ser manejados automáticamente por PLY, dependiendo de cómo quieras procesarlos
-t_T_DOUBLE_ARROW = r'=>'
-t_T_DOUBLE_CAST = r'\(real\)|\(double\)|\(float\)'
-# T_DOUBLE_COLON es alias de T_PAAMAYIM_NEKUDOTAYIM, que no está definido en esta lista
-t_T_ELLIPSIS = r'\.\.\.'
-t_T_ENCAPSED_AND_WHITESPACE = r'\"\s*\$[a-zA-Z_][a-zA-Z_0-9]*\"'
-t_T_EVAL = r'eval\(\)' #!tengo que verla nota
-t_T_EXIT = r'exit|die'  #!tengo que verla nota
-t_T_HALT_COMPILER = r'__halt_compiler\(\)' #!tengo que verla nota
-t_T_INC = r'\+\+'
-# T_INLINE_HTML es especial y podría requerir un enfoque diferente dependiendo de cómo manejes HTML fuera de PHP
-t_T_INT_CAST = r'\(int\)|\(integer\)'
-t_T_IS_EQUAL = r'=='
-t_T_IS_GREATER_OR_EQUAL = r'>='
-t_T_IS_IDENTICAL = r'==='
-t_T_IS_NOT_EQUAL = r'!=|<>'
-t_T_IS_NOT_IDENTICAL = r'!=='
-t_T_IS_SMALLER_OR_EQUAL = r'<='
-t_T_MINUS_EQUAL = r'-='
-t_T_MOD_EQUAL = r'%='
-t_T_MUL_EQUAL = r'\*='
-t_T_NS_SEPARATOR = r'\\'
-# T_NUM_STRING podría requerir un enfoque especial para manejar correctamente los contextos en los que aparece
-t_T_OBJECT_CAST = r'\(object\)' #!tengo que verla nota
-t_T_OBJECT_OPERATOR = r'->'
-t_T_NULLSAFE_OBJECT_OPERATOR = r'\?->'
-t_T_OPEN_TAG = r'<\?(php)?'
-t_T_OPEN_TAG_WITH_ECHO = r'<\?='
-t_T_OR_EQUAL = r'\|='
-t_T_PAAMAYIM_NEKUDOTAYIM = r'::'  # También conocido como T_DOUBLE_COLON
-t_T_PLUS_EQUAL = r'\+='
-t_T_POW = r'**'
-t_T_POW_EQUAL = r'**='
-t_T_SL = r'<<'
-t_T_SL_EQUAL = r'<<='
-t_T_SPACESHIP = r'<=>'
-t_T_SR = r'>>'
-t_T_SR_EQUAL = r'>>='
-# La sintaxis de Heredoc puede ser complicada de manejar; esta es una simplificación
-t_T_START_HEREDOC = r'<<<'
-t_T_STRING_CAST = r'\(string\)'
-# T_STRING_VARNAME captura la sintaxis compleja de las variables dentro de strings
-t_T_STRING_VARNAME = r'\$\{[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*'
-t_T_UNSET_CAST = r'\(unset\)'
-t_T_XOR_EQUAL = r'^='
+#?hay que encontrarlas
 
 #palabras reservadas declaracion
-def t_abstract(t):
+#las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
+def T_HALT_COMPILER(t):
+    r'__halt_compiler\(\)'
+    return t
+def T_ABSTRACT(t):
     r'abstract'
     return t
-def t_and(t):
+def T_LOGICAL_AND(t):
     r'and'
     return t
-def t_array(t):
+def T_ARRAY(t):
     r'array'
     return t
-def t_as(t):
+def T_AS(t):
     r'as'
     return t
-def t_break(t):
+def T_BREAK(t):
     r'break'
     return t
-def t_callable(t):
+def T_CALLABLE(t):
     r'callable'
     return t
-def t_case(t):
+def T_CASE(t):
     r'case'
     return t
-def t_catch(t):
+def T_CATCH(t):
     r'catch'
     return t
-def t_class(t):
+def T_CLASS(t):
     r'class'
     return t
-def t_clone(t):
+def T_CLONE(t):
     r'clone'
     return t
-def t_const(t):
+def T_CONST(t):
     r'const'
     return t
-def t_continue(t):
+def T_CONTINUE(t):
     r'continue'
     return t
-def t_declare(t):
+def T_DECLARE(t):
     r'declare'
     return t
-def t_default(t):
+def T_DEFAULT(t):
     r'default'
     return t
-def t_die(t):
-    r'die'
-    return t
-def t_do(t):
+def T_DO(t):
     r'do'
     return t
-def t_echo(t):
+def T_ECHO(t):
     r'echo'
     return t
-def t_else(t):
+def T_ELSE(t):
     r'else'
     return t
-def t_elseif(t):
+def T_ELSEIF(t):
     r'elseif'
     return t
-def t_empty(t):
+def T_EMPTY(t):
     r'empty'
     return t
-def t_enddeclare(t):
+def T_ENDDECLARE(t):
     r'enddeclare'
     return t
-def t_endfor(t):
+def T_ENDFOR(t):
     r'endfor'
     return t
-def t_endforeach(t):
+def T_ENDFOREACH(t):
     r'endforeach'
     return t
-def t_endif(t):
+def T_ENDIF(t):
     r'endif'
     return t
-def t_endswitch(t):
+def T_ENDSWITCH(t):
     r'endswitch'
     return t
-def t_endwhile(t):
+def T_ENDWHILE(t):
     r'endwhile'
     return t
-def t_eval(t):
+def T_EVAL(t): #!revisar
     r'eval'
     return t
-def t_exit(t):
-    r'exit'
+def T_EXIT(t):
+    r'exit | die'
     return t
-def t_extends(t):
+def T_EXTENDS(t):
     r'extends'
     return t
-def t_final(t):
+def T_FINAL(t):
     r'final'
     return t
-def t_for(t):
+def T_FINALLY(t):
+    r'finally'
+    return t
+def T_FN(t):
+    r'fn'
+    return t
+def T_FOR(t):
     r'for'
     return t
-def t_foreach(t):
+def T_FOREACH(t):
     r'foreach'
     return t
-def t_function(t):
+def T_FUNCTION(t):
     r'function'
     return t
-def t_global(t):
+def T_GLOBAL(t):
     r'global'
     return t
-def t_goto(t):
+def T_GOTO(t):
     r'goto'
     return t
-def t_if(t):
+def T_IF(t):
     r'if'
     return t
-def t_implements(t):
+def T_IMPLEMENTS(t):
     r'implements'
     return t
-def t_include(t):
+def T_INCLUDE(t): #!revisar
     r'include'
     return t
-def t_include_once(t):
+def T_INCLUDE_ONCE(t): #!revisa
     r'include_once'
     return t
-def t_instanceof(t):
+def T_INSTANCEOF(t):
     r'instanceof'
     return t
-def t_insteadof(t):
+def T_INSTEADOF(t):
     r'insteadof'
     return t
-def t_interface(t):
+def T_INTERFACE(t):
     r'interface'
     return t
-def t_isset(t):
+def T_ISSET(t): #!revisa
     r'isset'
     return t
-def t_list(t):
+def T_LIST(t): #!revisa
     r'list'
     return t
-def t_namespace(t):
+def T_NAMESPACE(t):
     r'namespace'
     return t
-def t_new(t):
+def T_NEW(t):
     r'new'
     return t
-def t_or(t):
+def T_LOGICAL_OR(t):
     r'or'
     return t
-def t_print(t):
-    r'print'
+def T_PRINT(t): #!revisa
+    r'print\(.*?\)'
     return t
-def t_private(t):
+def T_PRIVATE(t):
     r'private'
     return t
-def t_protected(t):
+def T_PROTECTED(t):
     r'protected'
     return t
-def t_public(t):
+def T_PUBLIC(t):
     r'public'
     return t
-def t_require(t):
+def T_REQUIRE(t): #!revisar
     r'require'
     return t
-def t_require_once(t):
+def T_REQUIRE_ONCE(t): #!revisar
     r'require_once'
     return t
-def t_return(t):
+def T_RETURN(t):
     r'return'
     return t
-def t_static(t):
+def T_STATIC(t):
     r'static'
     return t
-def t_switch(t):
+def T_SWITCH(t):
     r'switch'
     return t
-def t_throw(t):
+def T_THROW(t):
     r'throw'
     return t
-def t_trait(t):
+def T_TRAIT(t):
     r'trait'
     return t
-def t_try(t):
+def T_TRY(t):
     r'try'
     return t
-def t_unset(t):
+def T_UNSET(t): #!revisar
     r'unset'
     return t
-def t_use(t):
+def T_USE(t):
     r'use'
     return t
-def t_var(t):
+def T_VAR(t):
     r'var'
     return t
-def t_while(t):
+def T_WHILE(t):
     r'while'
     return t
-def t_xor(t):
+def T_LOGICAL_XOR(t):
     r'xor'
     return t
-def t_yield(t):
+def T_YIELD(t):
     r'yield'
     return t
-def t_yield_from(t):
+def T_YIELD_FROM(t):
     r'yield from'
     return t
-def t___CLASS__(t):
+def T_CLASS_C(t):
     r'__CLASS__'
     return t
-def t___DIR__(t):
+def T_DIR(t):
     r'__DIR__'
     return t
-def t___FILE__(t):
+def T_FILE(t):
     r'__FILE__'
     return t
-def t___FUNCTION__(t):
+def T_FUNC_C(t):
     r'__FUNCTION__'
     return t
-def t___LINE__(t):
+def T_LINE(t):
     r'__LINE__'
     return t
-def t___METHOD__(t):
+def T_METHOD_C(t):
     r'__METHOD__'
     return t
-def t___NAMESPACE__(t):
+def T_NS_C(t):
     r'__NAMESPACE__'
     return t
-def t___TRAIT__(t):
+def T_TRAIT_C(t):
     r'__TRAIT__'
     return t
 #hasta qui las palabras reservadas de php
-
-
-def t_T_INLINE_HTML(t):
-    r'.+?(?=<\?php)|.+$'
-    pass  # Aquí decides si ignorar el contenido HTML o manejarlo de alguna manera
-
-# Una regla más compleja con una función de acción. Esto captura números enteros.
-def t_T_LNUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
-
-# Para números de punto flotante.
-def t_T_DNUMBER(t):
-    r'\d+\.\d+'
-    t.value = float(t.value)
-    return t
-
-# Cadena simple para capturar palabras como identificadores/strings.
-def t_T_STRING(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    return t
-
-def t_T_NUM_STRING(t):
-    r'\"\$[a-zA-Z_][a-zA-Z_0-9]*\[\d+\]\"'
-    return t
-
-# Variables (esto es bastante simplificado).
-def t_T_VARIABLE(t):
-    r'\$[a-zA-Z_][a-zA-Z_0-9]*'
-    return t
+#*FAlta la definicion de los simbolos de php
 
 # Ignorar espacios y tabs.
 t_ignore = ' \t\r\n'
