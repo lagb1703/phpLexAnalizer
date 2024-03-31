@@ -1,5 +1,5 @@
 import ply.lex as lex
-
+import sys
 # Lista de nombres de tokens. Esto es obligatorio.
 tokens = (
     #palabras reservadas de php
@@ -71,7 +71,7 @@ tokens = (
     'WHILE',
     'XOR',
     'YIELD',
-    'YIELD FROM',
+    'YIELDFROM',
     #palabras reservadas de constantes en el tiempo de compilacion
     '__CLASS__',
     '__DIR__',
@@ -109,7 +109,7 @@ tokens = (
     'DNUMBER',
     'ENCAPSED_AND_WHITESPACE', 
     'END_HEREDOC', 
-    'T_INC', 
+    'INC', 
     'INLINE_HTML',
     'INT_CAST', 
     'IS_EQUAL', 
@@ -150,10 +150,10 @@ tokens = (
 
 # Reglas de expresiones regulares para tokens simples.
 #?hay que encontrarlas
-
+T_NS_SEPARATOR = r'\\'
 #palabras reservadas declaracion
 #las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
-def T_HALT_COMPILER(t):
+def T_HALT_COMPILER(t): #!revisar
     r'__halt_compiler\(\)'
     return t
 def T_ABSTRACT(t):
@@ -383,42 +383,220 @@ def T_TRAIT_C(t):
     return t
 #hasta qui las palabras reservadas de php
 #*FAlta la definicion de los simbolos de php
-
-# Ignorar espacios y tabs.
-t_ignore = ' \t\r\n'
-
-
-# Ignorar comentarios de una y varias líneas
-def t_T_COMMENT(t):
-    r'(/\*(.|\n)*?\*/)|(//.*?\n)|(#.*?\n)'
-    pass  # Token is ignored
-
-# Ignorar comentarios tipo PHPDoc
-def t_T_DOC_COMMENT(t):
+def T_AND_EQUAL(t):
+    r'&='
+    return t
+def T_ARRAY_CAST(t):
+    r'\(array\)'
+    return t
+def T_ATTRIBUTE(t): #!revisar por motivo de la lista 
+    r'\#\[.*?\]'
+    return t
+def T_BAD_CHARACTER(t): #!revisar no se como tomarlo por lo que este debajo des ascii 32 y sus excepciones
+    r'.'
+    return t
+def T_BOOLEAN_AND(t):
+    r'&&'
+    return t
+def T_BOOLEAN_OR(t):
+    r'\|\|'
+    return t
+def T_BOOL_CAST(t):
+    r'\(bool\) | \(boolean\)'
+    return t
+def T_CLOSE_TAG(t):
+    r'\?> | \%\>'
+    return t
+def T_COALESCE(t):
+    r'\?\?'
+    return t
+def T_COALESCE_EQUAL(t):
+    r'\?\?='
+    return t
+def T_COMMENT(t):
+    r'//.*?\n | /\*.*?\*/ | #.*?\n'
+    return t
+def T_CONCAT_EQUAL(t):
+    r'\.='
+    return t
+def T_CONSTANT_ENCAPSED_STRING(t): #!revisar la expresion regular
+    r'\'[^\']*\' | \"[^\"]*\"'
+    return t
+def T_CURLY_OPEN(t):
+    r'\$\{'
+    return t
+def T_DEC(t):
+    r'--'
+    return t
+def T_DIV_EQUAL(t):
+    r'/='
+    return t
+def T_DOC_COMMENT(t): #!revisar la expresion regular
     r'/\*\*(.|\n)*?\*/'
-    pass  # Token is ignored
+    return t
+def T_DOLLAR_OPEN_CURLY_BRACES(t):
+    r'\$\{'
+    return t
+def T_DOUBLE_ARROW(t):
+    r'=>'
+    return t
+def T_DOUBLE_CAST(t):
+    r'\(double\) | \(float\) | \(real\)'
+    return t
+def T_DOUBLE_COLON(t):
+    r'::'
+    return t
+def T_ELLIPSIS(t):
+    r'\.\.\.'
+    return t
+def T_DNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)
+    r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
+    return t
+def T_ENCAPSED_AND_WHITESPACE(t): #!revisar la expresion regular y significado de este token
+    r'(?<=\")((?:\\\\.|[^"])+)(?=\")(?=\s|$)'
+    return t
+def T_END_HEREDOC(t): #!esta no es la expresion regular hay que encontrarla
+    r'\?>'
+    return t
+def T_INC(t):
+    r'\+\+'
+    return t
+def T_INLINE_HTML(t): #!revisar la expresion regular y significado de este token
+    r'<\?php\s+(.*?)(?:\?>|$)'
+    return t
+def T_INT_CAST(t): #*revisar la expresion regular y significado de este token
+    r'\(int\) | \(integer\)'
+    return t
+def T_IS_EQUAL(t):
+    r'=='
+    return t
+def T_IS_GREATER_OR_EQUAL(t):
+    r'>='
+    return t
+def T_IS_IDENTICAL(t):
+    r'==='
+    return t
+def T_IS_NOT_EQUAL(t):
+    r'!= | <>'
+    return t
+def T_IS_NOT_IDENTICAL(t):
+    r'!=='
+    return t
+def T_IS_SMALLER_OR_EQUAL(t):
+    r'<='
+    return t
+def T_LNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)
+    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
+    return t
+def T_MINUS_EQUAL(t):
+    r'-='
+    return t
+def T_MOD_EQUAL(t):
+    r'%='
+    return t
+def T_MUL_EQUAL(t):
+    r'\*='
+    return t
+def T_NUM_STRING(t): #!revisar la expresion regular y significado de este token
+    r'\[(?<indices>\d+(?:,\d+)*)\]'
+    return t
+def T_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
+    r'\(object\)'
+    return t
+def T_OBJECT_OPERATOR(t):
+    r'->'
+    return t
+def T_NULLSAFE_OBJECT_OPERATOR(t):
+    r'\?->'
+    return t
+def T_OPEN_TAG(t):
+    r'<\?php | <% | <\?'
+    return t
+def T_OPEN_TAG_WITH_ECHO(t):
+    r'<\?= | <%='
+    return t
+def T_OR_EQUAL(t):
+    r'\|='
+    return t
+def T_PAAMAYIM_NEKUDOTAYIM(t): # todo: esta se repite con T_DOUBLE_COLON revisar
+    r'::'
+    return t
+def T_PLUS_EQUAL(t):
+    r'\+='
+    return t
+def T_POW(t):
+    r'\*\*'
+    return t
+def T_POW_EQUAL(t):
+    r'\*\*='
+    return t
+def T_SL(t):
+    r'<<'
+    return t
+def T_SL_EQUAL(t):
+    r'<<='
+    return t
+def T_SPACESHIP(t):
+    r'<=>'
+    return t
+def T_SR(t):
+    r'>>'
+    return t
+def T_SR_EQUAL(t):
+    r'>>='
+    return t
+def T_START_HEREDOC(t): #todo mor revisar heredoc
+    r'<<<'
+    return t
+def T_STRING(t): #!revisar la expresion regular
+    r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)'
+    return t
+def T_STRING_CAST(t): #*revisar la expresion regular y significado de este token
+    r'\(string\)'
+    return t
+def T_STRING_VARNAME(t): #!revisar la expresion regular y significado de este token
+    r'\$\{(?<name>[a-zA-Z_][a-zA-Z0-9_]*)\}'
+    return t
+def T_VARIABLE(t): #!revisar la expresion regular
+    r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+    return t
+def T_WHITESPACE(t): #*revisar la expresion regular (es la de la documentacion de php)
+    r'\t | \n | \r'
+    return t
+def T_XOR_EQUAL(t):
+    r'\^='
+    return t
+
+# # Ignorar espacios y tabs.
+# t_ignore = r'\t |\r |\n'
+
+
 
 
 # Una regla para manejar errores.
 def t_error(t):
-    print(f"Illegal character '{t.value[0]}'")
+    print ("Lexical error: " + str(t.value[0]))
     t.lexer.skip(1)
-
-def t_T_BAD_CHARACTER(t):
-    r'.'
-    print(f"Bad character '{t.value}'")
-    return t
+    
+def test(data, lexer):
+	lexer.input(data)
+	while True:
+		tok = lexer.token()
+		if not tok:
+			break
+		print (tok)
 
 # Construye el lexer
 lexer = lex.lex()
 
-# Para probarlo, vamos a alimentarlo con un string de entrada.
-input_string = "if $variable1 == 10 while echo 123"
-lexer.input(input_string)
-
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok:
-        break  # No more input
-    print(tok)
+if __name__ == '__main__':
+	if (len(sys.argv) > 1):
+		fin = sys.argv[1]
+	else:
+		fin = 'test.txt'
+	f = open(fin, 'r')
+	data = f.read()
+	print (data)
+	lexer.input(data)
+	test(data, lexer)
+	#input()
