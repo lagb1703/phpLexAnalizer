@@ -148,6 +148,8 @@ tokens = (
     'XOR_EQUAL', 
 )
 
+se llama lola 
+
 # Reglas de expresiones regulares para tokens simples.
 #?hay que encontrarlas
 T_NS_SEPARATOR = r'\\'
