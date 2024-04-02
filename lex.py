@@ -93,6 +93,11 @@ tokens = (
     'RIGHT_PARENTHESIS',
     'LEFT_PARENTHESIS',
     'SEMICOLON',
+    'COLON',
+    'RIGHT_CBRAC',
+    'LEFT_CBRAC',
+    'RIGHT_SQRBRAC',
+    'LEFT_SQRBRAC',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
@@ -160,7 +165,13 @@ t_NS_SEPARATOR = r'\\'
 t_EQUAL = r'='
 t_LEFT_PARENTHESIS = r'\('
 t_RIGHT_PARENTHESIS = r'\)'
+t_RIGHT_CBRAC= r'\}'
+t_LEFT_CBRAC= r'\{'
+t_RIGHT_SQRBRAC= r'\]'
+t_LEFT_SQRBRAC= r'\['
 t_SEMICOLON = r'\;'
+t_COLON = r'\,'
+
 #palabras reservadas declaracion
 #las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
 def t_HALT_COMPILER(t): #!revisar
@@ -459,19 +470,19 @@ def t_DOUBLE_COLON(t):
 def t_ELLIPSIS(t):
     r'\.\.\.'
     return t
-def t_DNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)
+def t_DNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)  ♥
     r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
     return t
-def t_ENCAPSED_AND_WHITESPACE(t): #!revisar la expresion regular y significado de este token
+def t_ENCAPSED_AND_WHITESPACE(t): #!revisar la expresion regular y significado de este token  ♥
     r'(?<=\")((?:\\\\.|[^"])+)(?=\")(?=\s|$)'
     return t
-def t_END_HEREDOC(t): #!esta no es la expresion regular hay que encontrarla
+def t_END_HEREDOC(t): #!esta no es la expresion regular hay que encontrarla  ♥
     r'\?>'
     return t
 def t_INC(t):
     r'\+\+'
     return t
-def t_INLINE_HTML(t): #!revisar la expresion regular y significado de este token
+def t_INLINE_HTML(t): #!revisar la expresion regular y significado de este token  ♥
     r'<\?php\s+(.*?)(?:\?>|$)'
     return t
 def t_INT_CAST(t): #*revisar la expresion regular y significado de este token
@@ -495,7 +506,7 @@ def t_IS_NOT_IDENTICAL(t):
 def t_IS_SMALLER_OR_EQUAL(t):
     r'<='
     return t
-def t_LNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)
+def t_LNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)  ♥
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 def t_MINUS_EQUAL(t):
@@ -507,7 +518,7 @@ def t_MOD_EQUAL(t):
 def t_MUL_EQUAL(t):
     r'\*='
     return t
-def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token
+def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token  ♥
     r'\[(\?<indices>\d+(?:,\d+)*)\]'
     return t
 def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
@@ -555,7 +566,7 @@ def t_SR(t):
 def t_SR_EQUAL(t):
     r'>>='
     return t
-def t_START_HEREDOC(t): #todo mor revisar heredoc
+def t_START_HEREDOC(t): #todo mor ♥ revisar heredoc
     r'<<<'
     return t
 def t_STRING(t): #!revisar la expresion regular

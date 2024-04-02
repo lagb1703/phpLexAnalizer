@@ -8,7 +8,7 @@ function calcularAreaRectangulo($longitud, $ancho) {
 // Llamada a la función con valores específicos
 $longitud = 5;
 $ancho = 3;
-require;
+require(123);
 $area_rectangulo = calcularAreaRectangulo($longitud, $ancho);
 
 // Imprimir el resultado
