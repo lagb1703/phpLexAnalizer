@@ -579,7 +579,7 @@ def t_STRING_VARNAME(t): #!revisar la expresion regular y significado de este to
     r'\$\{\(?<name>[a-zA-Z_][a-zA-Z0-9_]*\)\}'
     return t
 def t_VARIABLE(t): #!revisar la expresion regular
-    r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+    r'\$[a-zA-Z_][a-zA-Z0-9_]*'
     return t
 def t_WHITESPACE(t): #*revisar la expresion regular (es la de la documentacion de php)
     r'\t | \n | \r'
