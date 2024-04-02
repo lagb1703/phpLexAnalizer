@@ -323,7 +323,7 @@ def t_PUBLIC(t):
     r'public'
     return t
 def t_REQUIRE(t): #!revisar
-    r'require'
+    r'require'   
     return t
 def t_REQUIRE_ONCE(t): #!revisar
     r'require_once'
