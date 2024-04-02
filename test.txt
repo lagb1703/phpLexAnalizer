@@ -1,6 +1,6 @@
 <?php
 
-$main_output_world = 'snakes!';
+$main_output_world;
 
 echo('There are' 10 $main_output_world);
 
