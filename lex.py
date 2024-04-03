@@ -98,6 +98,7 @@ tokens = (
     'LEFT_CBRAC',
     'RIGHT_SQRBRAC',
     'LEFT_SQRBRAC',
+    'ASTERISK',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
@@ -171,6 +172,7 @@ t_RIGHT_SQRBRAC= r'\]'
 t_LEFT_SQRBRAC= r'\['
 t_SEMICOLON = r'\;'
 t_COLON = r'\,'
+t_ASTERISK = r'\*'
 #palabras reservadas declaracion
 #las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
 def t_HALT_COMPILER(t): #!revisar
