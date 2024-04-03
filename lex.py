@@ -93,6 +93,11 @@ tokens = (
     'RIGHT_PARENTHESIS',
     'LEFT_PARENTHESIS',
     'SEMICOLON',
+    'COLON',
+    'RIGHT_CBRAC',
+    'LEFT_CBRAC',
+    'RIGHT_SQRBRAC',
+    'LEFT_SQRBRAC',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
