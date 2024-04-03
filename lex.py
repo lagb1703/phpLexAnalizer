@@ -423,9 +423,6 @@ def t_COALESCE(t):
 def t_COALESCE_EQUAL(t):
     r'\?\?='
     return t
-def t_COMMENT(t):
-    r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
-    return t
 def t_CONCAT_EQUAL(t):
     r'\.='
     return t
@@ -581,6 +578,9 @@ def t_XOR_EQUAL(t):
 
 t_ignore = r'\t |\r |\n'
 
+def t_COMMENT(t):
+    r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
+    t.lexer.lineno += t.value.count('\n')
 
 
 
