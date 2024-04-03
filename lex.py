@@ -165,7 +165,12 @@ t_NS_SEPARATOR = r'\\'
 t_EQUAL = r'='
 t_LEFT_PARENTHESIS = r'\('
 t_RIGHT_PARENTHESIS = r'\)'
+t_RIGHT_CBRAC= r'\}'
+t_LEFT_CBRAC= r'\{'
+t_RIGHT_SQRBRAC= r'\]'
+t_LEFT_SQRBRAC= r'\['
 t_SEMICOLON = r'\;'
+t_COLON = r'\,'
 #palabras reservadas declaracion
 #las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
 def t_HALT_COMPILER(t): #!revisar
