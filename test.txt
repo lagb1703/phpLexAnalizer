@@ -4,13 +4,16 @@ function calcularAreaRectangulo($longitud, $ancho) {
     $area = $longitud * $ancho;
     return $area;
 }
+class C {}
 
 // Llamada a la función con valores específicos
+
 $longitud = 5;
 $ancho = 3;
 require(123);
 $area_rectangulo = calcularAreaRectangulo($longitud, $ancho);
 
 // Imprimir el resultado
-echo "El área del rectángulo con longitud $longitud y ancho $ancho es: $area_rectangulo";
+echo "El area del rectangulo con longitud ${longitud} y ancho ${ancho} es: ${area_rectangulo} ";
+echo "hola mundo";
 ?>
