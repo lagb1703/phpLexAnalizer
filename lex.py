@@ -170,33 +170,6 @@ tokens = (
     #----------------------------------
 )
 
-# Reglas de expresiones regulares para tokens simples.
-#?hay que encontrarlas
-t_NS_SEPARATOR = r'\\'
-t_EQUAL = r'='
-t_LEFT_PARENTHESIS = r'\('
-t_RIGHT_PARENTHESIS = r'\)'
-t_RIGHT_CBRAC= r'\}'
-t_LEFT_CBRAC= r'\{'
-t_RIGHT_SQRBRAC= r'\]'
-t_LEFT_SQRBRAC= r'\['
-t_SEMICOLON = r'\;'
-t_COLON = r'\,'
-t_ASTERISK = r'\*'
-t_CONCAT = r'\.'
-t_DIVIDE = r'/'
-t_DQUOTATION_MARK = r'\"'
-t_AMPERSAND = r'\&'
-t_NEGATION = r'\!'
-t_MORE_THAN = r'\>'
-t_LESS_THAN = r'\<'
-t_BITWISE_XOR = r'\^'
-t_BITWISE_NOT = r'\~'
-t_BITWISE_OR = r'\|'
-t_TERNARY_OPERATION = r'\?'
-t_DOUBLE_POINT = r'\:'
-
-
 #palabras reservadas declaracion de php
 def t_HALT_COMPILER(t): 
     r'__halt_compiler'
@@ -491,20 +464,23 @@ def t_ELLIPSIS(t):
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]*'
     return t
+
 def t_BAD_CARACTER(t):
     #r'([a-zA-Z_\x7f-\xff])+\$[a-zA-Z0-9_\x7f-\xff]*'
     r'([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*'
     print ("Lexical error: " + str(t.value))
     t.lexer.skip(1)
+    
 def t_EXPONENT_DNUMBER(t): #numero decimal con exponente  
-    r'([0-9]*([0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)[eE][+-]?[0-9]+(_[0-9]+)*'
+    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*e[-]?[0-9]+'
     return t
 def t_DNUMBER(t): #numero decimal
-    r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
+    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*'
     return t
 def t_LNUMBER(t): #numero entero
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
+
 def t_INC(t):
     r'\+\+'
     return t
@@ -601,7 +577,7 @@ def t_XOR_EQUAL(t):
 
 t_ignore = r'\t '
 
-#ignor los comentarios de php
+#ignora los comentarios de php
 
 def t_COMMENT(t):
     r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
@@ -609,6 +585,33 @@ def t_COMMENT(t):
 def t_DOC_COMMENT(t):
     r'(/\*\*(.|\n)*?\*/)'
     t.lexer.lineno += t.value.count('\n')
+
+# Reglas de expresiones regulares para tokens simples.
+#?hay que encontrarlas
+t_NS_SEPARATOR = r'\\'
+t_EQUAL = r'='
+t_LEFT_PARENTHESIS = r'\('
+t_RIGHT_PARENTHESIS = r'\)'
+t_RIGHT_CBRAC= r'\}'
+t_LEFT_CBRAC= r'\{'
+t_RIGHT_SQRBRAC= r'\]'
+t_LEFT_SQRBRAC= r'\['
+t_SEMICOLON = r'\;'
+t_COLON = r'\,'
+t_ASTERISK = r'\*'
+t_CONCAT = r'\.'
+t_DIVIDE = r'/'
+t_DQUOTATION_MARK = r'\"'
+t_AMPERSAND = r'\&'
+t_NEGATION = r'\!'
+t_MORE_THAN = r'\>'
+t_LESS_THAN = r'\<'
+t_BITWISE_XOR = r'\^'
+t_BITWISE_NOT = r'\~'
+t_BITWISE_OR = r'\|'
+t_TERNARY_OPERATION = r'\?'
+t_DOUBLE_POINT = r'\:'
+
 
 # Una regla para manejar errores.
 def t_error(t):
