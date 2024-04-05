@@ -83,25 +83,13 @@ tokens = (
     '__TRAIT__',
     #symbols de php
     #falta revisar que no falte alguno
-    #?no hay para + o - ni ,¿revisar?
     'AND_EQUAL',
-    'ARRAY_CAST', #!tengo que verla nota
+    # 'ARRAY_CAST',
     'ATTRIBUTE',
-    #----------------------------------
-    # Tokens que no maneja php de por si
-    'EQUAL',
-    'RIGHT_PARENTHESIS',
-    'LEFT_PARENTHESIS',
-    'SEMICOLON',
-    'COLON',
-    'RIGHT_CBRAC',
-    'LEFT_CBRAC',
-    'RIGHT_SQRBRAC',
-    'LEFT_SQRBRAC',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
-    'BOOL_CAST',
+    # 'BOOL_CAST',
     'CLOSE_TAG', 
     'COALESCE', 
     'COALESCE_EQUAL', 
@@ -114,15 +102,13 @@ tokens = (
     'DOC_COMMENT', 
     'DOLLAR_OPEN_CURLY_BRACES', 
     'DOUBLE_ARROW', 
-    'DOUBLE_CAST', 
+    # 'DOUBLE_CAST', 
     'DOUBLE_COLON', 
     'ELLIPSIS',    
-    'DNUMBER',
-    'ENCAPSED_AND_WHITESPACE', 
-    'END_HEREDOC', 
+    'DNUMBER', 
     'INC', 
     'INLINE_HTML',
-    'INT_CAST', 
+    # 'INT_CAST', 
     'IS_EQUAL', 
     'IS_GREATER_OR_EQUAL', 
     'IS_IDENTICAL', 
@@ -134,14 +120,13 @@ tokens = (
     'MOD_EQUAL', 
     'MUL_EQUAL', 
     'NS_SEPARATOR', 
-    'NUM_STRING', 
-    'OBJECT_CAST', #?tengo que verla nota(object no es palabra reservda de php)
+    # 'NUM_STRING', 
+    # 'OBJECT_CAST', 
     'OBJECT_OPERATOR',
     'NULLSAFE_OBJECT_OPERATOR', 
     'OPEN_TAG', 
     'OPEN_TAG_WITH_ECHO',
     'OR_EQUAL', 
-    'PAAMAYIM_NEKUDOTAYIM', 
     'PLUS_EQUAL', 
     'POW',
     'POW_EQUAL',
@@ -152,11 +137,26 @@ tokens = (
     'SR_EQUAL',
     'START_HEREDOC', 
     'STRING', 
-    'STRING_CAST', 
-    'STRING_VARNAME', 
+    # 'STRING_CAST', 
+    # 'STRING_VARNAME', 
     'VARIABLE',
     'WHITESPACE',
     'XOR_EQUAL', 
+    # Tokens que no maneja php de por si
+    'EQUAL',
+    'RIGHT_PARENTHESIS',
+    'LEFT_PARENTHESIS',
+    'SEMICOLON',
+    'COLON',
+    'RIGHT_CBRAC',
+    'LEFT_CBRAC',
+    'RIGHT_SQRBRAC',
+    'LEFT_SQRBRAC',
+    'ASTERISK',
+    'CONCAT',
+    'DIVIDE',
+    'DQUOTATION_MARK',
+    #----------------------------------
 )
 
 # Reglas de expresiones regulares para tokens simples.
@@ -171,11 +171,13 @@ t_RIGHT_SQRBRAC= r'\]'
 t_LEFT_SQRBRAC= r'\['
 t_SEMICOLON = r'\;'
 t_COLON = r'\,'
-
-#palabras reservadas declaracion
-#las que tienen revisar a un lado es porque en la lista aparece con un () y falta decidir como tomar esa exprecion
-def t_HALT_COMPILER(t): #!revisar
-    r'__halt_compiler\(\)'
+t_ASTERISK = r'\*'
+t_CONCAT = r'\.'
+t_DIVIDE = r'/'
+t_DQUOTATION_MARK = r'\"'
+#palabras reservadas declaracion de php
+def t_HALT_COMPILER(t): 
+    r'__halt_compiler'
     return t
 def t_ABSTRACT(t):
     r'abstract'
@@ -252,7 +254,7 @@ def t_ENDSWITCH(t):
 def t_ENDWHILE(t):
     r'endwhile'
     return t
-def t_EVAL(t): #!revisar
+def t_EVAL(t): 
     r'eval'
     return t
 def t_EXIT(t):
@@ -291,10 +293,10 @@ def t_IF(t):
 def t_IMPLEMENTS(t):
     r'implements'
     return t
-def t_INCLUDE(t): #!revisar
+def t_INCLUDE(t):
     r'include'
     return t
-def t_INCLUDE_ONCE(t): #!revisa
+def t_INCLUDE_ONCE(t):
     r'include_once'
     return t
 def t_INSTANCEOF(t):
@@ -306,10 +308,10 @@ def t_INSTEADOF(t):
 def t_INTERFACE(t):
     r'interface'
     return t
-def t_ISSET(t): #!revisa
+def t_ISSET(t):
     r'isset'
     return t
-def t_LIST(t): #!revisa
+def t_LIST(t):
     r'list'
     return t
 def t_NAMESPACE(t):
@@ -321,8 +323,8 @@ def t_NEW(t):
 def t_LOGICAL_OR(t):
     r'or'
     return t
-def t_PRINT(t): #!revisa
-    r'print\(.*?\)'
+def t_PRINT(t):
+    r'print'
     return t
 def t_PRIVATE(t):
     r'private'
@@ -333,10 +335,10 @@ def t_PROTECTED(t):
 def t_PUBLIC(t):
     r'public'
     return t
-def t_REQUIRE(t): #!revisar
-    r'require'   
+def t_REQUIRE(t): 
+    r'require'
     return t
-def t_REQUIRE_ONCE(t): #!revisar
+def t_REQUIRE_ONCE(t): 
     r'require_once'
     return t
 def t_RETURN(t):
@@ -357,7 +359,7 @@ def t_TRAIT(t):
 def t_TRY(t):
     r'try'
     return t
-def t_UNSET(t): #!revisar
+def t_UNSET(t):
     r'unset'
     return t
 def t_USE(t):
@@ -403,28 +405,25 @@ def t_TRAIT_C(t):
     r'__TRAIT__'
     return t
 #hasta qui las palabras reservadas de php
-#*FAlta la definicion de los simbolos de php
+#simbolos no simples de php
 def t_AND_EQUAL(t):
     r'&='
     return t
-def t_ARRAY_CAST(t):
-    r'\(array\)'
-    return t
-def t_ATTRIBUTE(t): #!revisar por motivo de la lista 
+# def t_ARRAY_CAST(t):
+#     r'\(array\)'
+#     return t
+def t_ATTRIBUTE(t): 
     r'\#\[.*?\]'
     return t
-# def t_BAD_CHARACTER(t): #!revisar no se como tomarlo por lo que este debajo des ascii 32 y sus excepciones
-#     r'.'
-#     return t
 def t_BOOLEAN_AND(t):
     r'&&'
     return t
 def t_BOOLEAN_OR(t):
     r'\|\|'
     return t
-def t_BOOL_CAST(t):
-    r'\(bool\) | \(boolean\)'
-    return t
+# def t_BOOL_CAST(t):
+#     r'\(bool\) | \(boolean\)'
+#     return t
 def t_CLOSE_TAG(t):
     r'\?> | \%\>'
     return t
@@ -434,13 +433,13 @@ def t_COALESCE(t):
 def t_COALESCE_EQUAL(t):
     r'\?\?='
     return t
-def t_COMMENT(t):
-    r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
-    return t
 def t_CONCAT_EQUAL(t):
     r'\.='
     return t
-def t_CONSTANT_ENCAPSED_STRING(t): #!revisar la expresion regular
+# def t_STRING_VARNAME(t): #nombre de variable dentro de un string
+#     r'\"(. | \b)*?\$\{[a-zA-Z_][a-zA-Z0-9_]*\}'
+#     return t
+def t_CONSTANT_ENCAPSED_STRING(t): #captura strings dentro de comillas simples o dobles 
     r'(\'[^\']*\' | \"[^\"]*\")'
     return t
 def t_CURLY_OPEN(t):
@@ -452,42 +451,33 @@ def t_DEC(t):
 def t_DIV_EQUAL(t):
     r'/='
     return t
-def t_DOC_COMMENT(t): #!revisar la expresion regular
-    r'(/\*\*(.|\n)*?\*/)'
-    return t
 def t_DOLLAR_OPEN_CURLY_BRACES(t):
     r'\$\{'
     return t
 def t_DOUBLE_ARROW(t):
     r'=>'
     return t
-def t_DOUBLE_CAST(t):
-    r'\(double\) | \(float\) | \(real\)'
-    return t
+# def t_DOUBLE_CAST(t):
+#     r'\(double\) | \(float\) | \(real\)'
+#     return t
 def t_DOUBLE_COLON(t):
     r'::'
     return t
 def t_ELLIPSIS(t):
     r'\.\.\.'
     return t
-def t_DNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)  ♥
+def t_DNUMBER(t): #numero decimal
     r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
-    return t
-def t_ENCAPSED_AND_WHITESPACE(t): #!revisar la expresion regular y significado de este token  ♥
-    r'(?<=\")((?:\\\\.|[^"])+)(?=\")(?=\s|$)'
-    return t
-def t_END_HEREDOC(t): #!esta no es la expresion regular hay que encontrarla  ♥
-    r'\?>'
     return t
 def t_INC(t):
     r'\+\+'
     return t
-def t_INLINE_HTML(t): #!revisar la expresion regular y significado de este token  ♥
+def t_INLINE_HTML(t): 
     r'<\?php\s+(.*?)(?:\?>|$)'
     return t
-def t_INT_CAST(t): #*revisar la expresion regular y significado de este token
-    r'\(int\) | \(integer\)'
-    return t
+# def t_INT_CAST(t):
+#     r'\(int\) | \(integer\)'
+#     return t
 def t_IS_EQUAL(t):
     r'=='
     return t
@@ -506,7 +496,7 @@ def t_IS_NOT_IDENTICAL(t):
 def t_IS_SMALLER_OR_EQUAL(t):
     r'<='
     return t
-def t_LNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)  ♥
+def t_LNUMBER(t): #numero entero
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 def t_MINUS_EQUAL(t):
@@ -518,12 +508,12 @@ def t_MOD_EQUAL(t):
 def t_MUL_EQUAL(t):
     r'\*='
     return t
-def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token  ♥
-    r'\[(\?<indices>\d+(?:,\d+)*)\]'
-    return t
-def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
-    r'\(object\)'
-    return t
+# def t_NUM_STRING(t): 
+#     r'\[(\?<indices>\d+(?:,\d+)*)\]'
+#     return t
+# def t_OBJECT_CAST(t): 
+#     r'\(object\)'
+#     return t
 def t_OBJECT_OPERATOR(t):
     r'->'
     return t
@@ -539,9 +529,6 @@ def t_OPEN_TAG_WITH_ECHO(t):
 def t_OR_EQUAL(t):
     r'\|='
     return t
-def t_PAAMAYIM_NEKUDOTAYIM(t): # todo: esta se repite con T_DOUBLE_COLON revisar
-    r'::'
-    return t
 def t_PLUS_EQUAL(t):
     r'\+='
     return t
@@ -550,6 +537,9 @@ def t_POW(t):
     return t
 def t_POW_EQUAL(t):
     r'\*\*='
+    return t
+def t_START_HEREDOC(t): 
+    r'<<<'
     return t
 def t_SL(t):
     r'<<'
@@ -566,22 +556,18 @@ def t_SR(t):
 def t_SR_EQUAL(t):
     r'>>='
     return t
-def t_START_HEREDOC(t): #todo mor ♥ revisar heredoc
-    r'<<<'
-    return t
-def t_STRING(t): #!revisar la expresion regular
+
+def t_STRING(t):
     r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)'
     return t
-def t_STRING_CAST(t): #*revisar la expresion regular y significado de este token
-    r'\(string\)'
+# def t_STRING_CAST(t):
+#     r'\(string\)'
+#     return t
+
+def t_VARIABLE(t):
+    r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
     return t
-def t_STRING_VARNAME(t): #!revisar la expresion regular y significado de este token
-    r'\$\{\(?<name>[a-zA-Z_][a-zA-Z0-9_]*\)\}'
-    return t
-def t_VARIABLE(t): #!revisar la expresion regular
-    r'\$[a-zA-Z_][a-zA-Z0-9_]*'
-    return t
-def t_WHITESPACE(t): #*revisar la expresion regular (es la de la documentacion de php)
+def t_WHITESPACE(t):
     r'\t | \n | \r'
     return t
 def t_XOR_EQUAL(t):
@@ -590,8 +576,16 @@ def t_XOR_EQUAL(t):
 
 # # Ignorar espacios y tabs.
 
-t_ignore = r'\t |\r |\n'
+t_ignore = r'\t |\r'
 
+#ignor los comentarios de php
+def t_COMMENT(t):
+    r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
+    t.lexer.lineno += t.value.count('\n')
+
+def t_DOC_COMMENT(t):
+    r'(/\*\*(.|\n)*?\*/)'
+    t.lexer.lineno += t.value.count('\n')
 
 
 
