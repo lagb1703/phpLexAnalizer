@@ -166,6 +166,7 @@ tokens = (
     'TERNARY_OPERATION' ,
     'DOUBLE_POINT' ,
     'BAD_CARACTER',
+    'EXPONENT_DNUMBER',
     #----------------------------------
 )
 
@@ -495,8 +496,14 @@ def t_BAD_CARACTER(t):
     r'([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*'
     print ("Lexical error: " + str(t.value))
     t.lexer.skip(1)
+def t_EXPONENT_DNUMBER(t): #numero decimal con exponente  
+    r'([0-9]*([0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)[eE][+-]?[0-9]+(_[0-9]+)*'
+    return t
 def t_DNUMBER(t): #numero decimal
     r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
+    return t
+def t_LNUMBER(t): #numero entero
+    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 def t_INC(t):
     r'\+\+'
@@ -521,9 +528,6 @@ def t_IS_NOT_IDENTICAL(t):
     return t
 def t_IS_SMALLER_OR_EQUAL(t):
     r'<='
-    return t
-def t_LNUMBER(t): #numero entero
-    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 def t_MINUS_EQUAL(t):
     r'-='
