@@ -107,7 +107,7 @@ tokens = (
     'ELLIPSIS',    
     'DNUMBER', 
     'INC', 
-    'INLINE_HTML',
+    # 'INLINE_HTML',
     # 'INT_CAST', 
     'IS_EQUAL', 
     'IS_GREATER_OR_EQUAL', 
@@ -472,11 +472,8 @@ def t_DNUMBER(t): #numero decimal
 def t_INC(t):
     r'\+\+'
     return t
-def t_INLINE_HTML(t): 
-    r'<\?php\s+(.*?)(?:\?>|$)'
-    return t
-# def t_INT_CAST(t):
-#     r'\(int\) | \(integer\)'
+# def t_INLINE_HTML(t): 
+#     r'<\?php\s+(.*?)(?:\?>|$)'
 #     return t
 def t_IS_EQUAL(t):
     r'=='
@@ -556,14 +553,9 @@ def t_SR(t):
 def t_SR_EQUAL(t):
     r'>>='
     return t
-
 def t_STRING(t):
     r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)'
     return t
-# def t_STRING_CAST(t):
-#     r'\(string\)'
-#     return t
-
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
     return t
@@ -576,18 +568,16 @@ def t_XOR_EQUAL(t):
 
 # # Ignorar espacios y tabs.
 
-t_ignore = r'\t |\r'
+t_ignore = r'\t '
 
 #ignor los comentarios de php
+
 def t_COMMENT(t):
     r'(//.*?\n | /\*.*?\*/ | \#.*?\n)'
     t.lexer.lineno += t.value.count('\n')
-
 def t_DOC_COMMENT(t):
     r'(/\*\*(.|\n)*?\*/)'
     t.lexer.lineno += t.value.count('\n')
-
-
 
 # Una regla para manejar errores.
 def t_error(t):
