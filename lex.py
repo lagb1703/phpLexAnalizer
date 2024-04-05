@@ -272,11 +272,11 @@ def t_FINALLY(t):
 def t_FN(t):
     r'fn'
     return t
-def t_FOR(t):
-    r'for'
-    return t
 def t_FOREACH(t):
     r'foreach'
+    return t
+def t_FOR(t):
+    r'for'
     return t
 def t_FUNCTION(t):
     r'function'

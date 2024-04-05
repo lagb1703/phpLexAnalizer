@@ -1,20 +1,104 @@
 <?php
-// Definicion de una función que calcula el área de un rectángulo
-function calcularAreaRectangulo($longitud, $ancho) {
-    $area = $longitud * $ancho;
-    return $area;
+namespace MiEspacioDeNombres;
+
+// Usando clases, interfaces y traits
+class ClaseBase {
+    public const CONSTANTE = 'ValorConstante';
+    
+    public static function metodoEstatico() {
+        echo "Método estático\n";
+    }
 }
-class C {}
 
-// Llamada a la función con valores específicos
+trait MiTrait {
+    public function metodoTrait() {
+        echo "Método del trait\n";
+    }
+}
 
-$longitud = 5;
-$ancho = 3.45;
-require(123);
-$area_rectangulo = calcularAreaRectangulo($longitud, $ancho);
+interface MiInterface {
+    public function metodoInterface();
+}
 
-// Imprimir el resultado
-echo "El area del rectangulo con longitud ${longitud} y ancho ${ancho} es: ${area_rectangulo} ";
-echo "hola mundo";
+class MiClase extends ClaseBase implements MiInterface {
+    use MiTrait;
 
+    public $propiedad;
+    private static $propiedadEstatica = 'Propiedad estática';
+
+    public function __construct() {
+        $this->propiedad = "Inicializada";
+    }
+
+    public function metodoInterface() {
+        echo "Implementación del método de la interfaz\n";
+    }
+
+    final public static function metodoFinalEstatico() {
+        echo "Método final estático\n";
+    }
+
+    public function demo() {
+        if (isset($this->propiedad)) {
+            echo "La propiedad está definida\n";
+        }
+
+        foreach ([1, 2, 3] as $valor) {
+            echo "Valor: $valor\n";
+        }
+
+        $x = 0;
+        while ($x++ < 3) {
+            echo "X es $x\n";
+        }
+
+        do {
+            echo "Haciendo algo\n";
+        } while (false);
+
+        switch ($x) {
+            case 4:
+                echo "X es 4\n";
+                break;
+            default:
+                echo "Valor por defecto\n";
+        }
+
+        try {
+            throw new \Exception("Algo falló");
+        } catch (\Exception $e) {
+            echo "Excepción capturada: " . $e->getMessage() . "\n";
+        } finally {
+            echo "Bloque finally\n";
+        }
+
+        $fn = fn() => "Expresión lambda\n";
+        echo $fn();
+
+        return true ?? false;
+    }
+
+    public function __destruct() {
+        self::metodoEstatico();
+        echo self::$propiedadEstatica . "\n";
+        echo self::CONSTANTE . "\n";
+    }
+}
+
+$obj = new MiClase();
+$obj->demo();
+MiClase::metodoFinalEstatico();
+
+// Global scope
+global $varGlobal;
+
+// Funciones generadoras y yield
+function generador() {
+    yield 'valor1';
+    yield from [2, 3, 4];
+}
+
+foreach (generador() as $valor) {
+    echo "Generado: $valor\n";
+}
 ?>
