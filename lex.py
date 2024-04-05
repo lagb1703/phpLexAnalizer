@@ -84,12 +84,12 @@ tokens = (
     #symbols de php
     #falta revisar que no falte alguno
     'AND_EQUAL',
-    'ARRAY_CAST',
+    # 'ARRAY_CAST',
     'ATTRIBUTE',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
-    'BOOL_CAST',
+    # 'BOOL_CAST',
     'CLOSE_TAG', 
     'COALESCE', 
     'COALESCE_EQUAL', 
@@ -102,13 +102,13 @@ tokens = (
     'DOC_COMMENT', 
     'DOLLAR_OPEN_CURLY_BRACES', 
     'DOUBLE_ARROW', 
-    'DOUBLE_CAST', 
+    # 'DOUBLE_CAST', 
     'DOUBLE_COLON', 
     'ELLIPSIS',    
     'DNUMBER', 
     'INC', 
     'INLINE_HTML',
-    'INT_CAST', 
+    # 'INT_CAST', 
     'IS_EQUAL', 
     'IS_GREATER_OR_EQUAL', 
     'IS_IDENTICAL', 
@@ -121,7 +121,7 @@ tokens = (
     'MUL_EQUAL', 
     'NS_SEPARATOR', 
     # 'NUM_STRING', 
-    'OBJECT_CAST', 
+    # 'OBJECT_CAST', 
     'OBJECT_OPERATOR',
     'NULLSAFE_OBJECT_OPERATOR', 
     'OPEN_TAG', 
@@ -409,9 +409,9 @@ def t_TRAIT_C(t):
 def t_AND_EQUAL(t):
     r'&='
     return t
-def t_ARRAY_CAST(t):
-    r'\(array\)'
-    return t
+# def t_ARRAY_CAST(t):
+#     r'\(array\)'
+#     return t
 def t_ATTRIBUTE(t): 
     r'\#\[.*?\]'
     return t
@@ -421,9 +421,9 @@ def t_BOOLEAN_AND(t):
 def t_BOOLEAN_OR(t):
     r'\|\|'
     return t
-def t_BOOL_CAST(t):
-    r'\(bool\) | \(boolean\)'
-    return t
+# def t_BOOL_CAST(t):
+#     r'\(bool\) | \(boolean\)'
+#     return t
 def t_CLOSE_TAG(t):
     r'\?> | \%\>'
     return t
@@ -457,9 +457,9 @@ def t_DOLLAR_OPEN_CURLY_BRACES(t):
 def t_DOUBLE_ARROW(t):
     r'=>'
     return t
-def t_DOUBLE_CAST(t):
-    r'\(double\) | \(float\) | \(real\)'
-    return t
+# def t_DOUBLE_CAST(t):
+#     r'\(double\) | \(float\) | \(real\)'
+#     return t
 def t_DOUBLE_COLON(t):
     r'::'
     return t
@@ -475,9 +475,9 @@ def t_INC(t):
 def t_INLINE_HTML(t): 
     r'<\?php\s+(.*?)(?:\?>|$)'
     return t
-def t_INT_CAST(t):
-    r'\(int\) | \(integer\)'
-    return t
+# def t_INT_CAST(t):
+#     r'\(int\) | \(integer\)'
+#     return t
 def t_IS_EQUAL(t):
     r'=='
     return t
@@ -511,9 +511,9 @@ def t_MUL_EQUAL(t):
 # def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token
 #     r'\[(\?<indices>\d+(?:,\d+)*)\]'
 #     return t
-def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
-    r'\(object\)'
-    return t
+# def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
+#     r'\(object\)'
+#     return t
 def t_OBJECT_OPERATOR(t):
     r'->'
     return t
