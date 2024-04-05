@@ -165,6 +165,7 @@ tokens = (
     'BITWISE_OR',
     'TERNARY_OPERATION' ,
     'DOUBLE_POINT' ,
+    'BAD_CARACTER',
     #----------------------------------
 )
 
@@ -193,6 +194,7 @@ t_BITWISE_NOT = r'\~'
 t_BITWISE_OR = r'\|'
 t_TERNARY_OPERATION = r'\?'
 t_DOUBLE_POINT = r'\:'
+
 
 #palabras reservadas declaracion de php
 def t_HALT_COMPILER(t): 
@@ -572,12 +574,17 @@ def t_SR(t):
 def t_SR_EQUAL(t):
     r'>>='
     return t
-def t_STRING(t):
-    r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)'
-    return t
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
     return t
+def t_BAD_CARACTER(t):
+    r'([a-zA-Z_\x7f-\xff])+\$[a-zA-Z0-9_\x7f-\xff]*'
+    print ("Lexical error: " + str(t.value))
+    t.lexer.skip(1)
+def t_STRING(t):
+    r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
+    return t
+
 def t_WHITESPACE(t):
     r'\t | \n | \r'
     return t
@@ -602,7 +609,8 @@ def t_DOC_COMMENT(t):
 def t_error(t):
     print ("Lexical error: " + str(t.value[0]))
     t.lexer.skip(1)
-    
+
+
 def test(data, lexer):
 	lexer.input(data)
 	while True:
