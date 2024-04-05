@@ -83,25 +83,9 @@ tokens = (
     '__TRAIT__',
     #symbols de php
     #falta revisar que no falte alguno
-    #?no hay para + o - ni ,¿revisar?
     'AND_EQUAL',
-    'ARRAY_CAST', #!tengo que verla nota
+    'ARRAY_CAST',
     'ATTRIBUTE',
-    #----------------------------------
-    # Tokens que no maneja php de por si
-    'EQUAL',
-    'RIGHT_PARENTHESIS',
-    'LEFT_PARENTHESIS',
-    'SEMICOLON',
-    'COLON',
-    'RIGHT_CBRAC',
-    'LEFT_CBRAC',
-    'RIGHT_SQRBRAC',
-    'LEFT_SQRBRAC',
-    'ASTERISK',
-    'CONCAT',
-    'DIVIDE',
-    'VAR_IN_STRING',
     #----------------------------------
     'BOOLEAN_AND',
     'BOOLEAN_OR',
@@ -121,9 +105,7 @@ tokens = (
     'DOUBLE_CAST', 
     'DOUBLE_COLON', 
     'ELLIPSIS',    
-    'DNUMBER',
-    'ENCAPSED_AND_WHITESPACE', 
-    'END_HEREDOC', 
+    'DNUMBER', 
     'INC', 
     'INLINE_HTML',
     'INT_CAST', 
@@ -138,14 +120,13 @@ tokens = (
     'MOD_EQUAL', 
     'MUL_EQUAL', 
     'NS_SEPARATOR', 
-    'NUM_STRING', 
-    'OBJECT_CAST', #?tengo que verla nota(object no es palabra reservda de php)
+    # 'NUM_STRING', 
+    'OBJECT_CAST', 
     'OBJECT_OPERATOR',
     'NULLSAFE_OBJECT_OPERATOR', 
     'OPEN_TAG', 
     'OPEN_TAG_WITH_ECHO',
     'OR_EQUAL', 
-    'PAAMAYIM_NEKUDOTAYIM', 
     'PLUS_EQUAL', 
     'POW',
     'POW_EQUAL',
@@ -156,11 +137,26 @@ tokens = (
     'SR_EQUAL',
     'START_HEREDOC', 
     'STRING', 
-    'STRING_CAST', 
-    'STRING_VARNAME', 
+    # 'STRING_CAST', 
+    # 'STRING_VARNAME', 
     'VARIABLE',
     'WHITESPACE',
     'XOR_EQUAL', 
+    # Tokens que no maneja php de por si
+    'EQUAL',
+    'RIGHT_PARENTHESIS',
+    'LEFT_PARENTHESIS',
+    'SEMICOLON',
+    'COLON',
+    'RIGHT_CBRAC',
+    'LEFT_CBRAC',
+    'RIGHT_SQRBRAC',
+    'LEFT_SQRBRAC',
+    'ASTERISK',
+    'CONCAT',
+    'DIVIDE',
+    'DQUOTATION_MARK',
+    #----------------------------------
 )
 
 # Reglas de expresiones regulares para tokens simples.
@@ -178,6 +174,7 @@ t_COLON = r'\,'
 t_ASTERISK = r'\*'
 t_CONCAT = r'\.'
 t_DIVIDE = r'/'
+t_DQUOTATION_MARK = r'\"'
 #palabras reservadas declaracion de php
 def t_HALT_COMPILER(t): 
     r'__halt_compiler'
@@ -439,7 +436,10 @@ def t_COALESCE_EQUAL(t):
 def t_CONCAT_EQUAL(t):
     r'\.='
     return t
-def t_CONSTANT_ENCAPSED_STRING(t): #*ver 
+# def t_STRING_VARNAME(t): #nombre de variable dentro de un string
+#     r'\"(. | \b)*?\$\{[a-zA-Z_][a-zA-Z0-9_]*\}'
+#     return t
+def t_CONSTANT_ENCAPSED_STRING(t): #captura strings dentro de comillas simples o dobles 
     r'(\'[^\']*\' | \"[^\"]*\")'
     return t
 def t_CURLY_OPEN(t):
@@ -469,22 +469,13 @@ def t_ELLIPSIS(t):
 def t_DNUMBER(t): #numero decimal
     r'([0-9]*(_[0-9]+)*[\.]{[0-9]+(_[0-9]+)*}) | ({[0-9]+(_[0-9]+)*}[\.][0-9]*(_[0-9]+)*)'
     return t
-# def t_ENCAPSED_AND_WHITESPACE(t):#captura strings dentro de comillas dobles
-#     r'(?<=\")((?:\\\\.|[^"])*(?:(?<!\$)\$[^ ]+)?)(?=\")'
-#     return t}
-def t_ENCAPSED_AND_WHITESPACE(t):#captura strings dentro de comillas dobles
-    r'(".*?")'
-    return t
-def t_END_HEREDOC(t): 
-    r'\?>'
-    return t
 def t_INC(t):
     r'\+\+'
     return t
 def t_INLINE_HTML(t): 
     r'<\?php\s+(.*?)(?:\?>|$)'
     return t
-def t_INT_CAST(t): #*revisar la expresion regular y significado de este token
+def t_INT_CAST(t):
     r'\(int\) | \(integer\)'
     return t
 def t_IS_EQUAL(t):
@@ -505,7 +496,7 @@ def t_IS_NOT_IDENTICAL(t):
 def t_IS_SMALLER_OR_EQUAL(t):
     r'<='
     return t
-def t_LNUMBER(t): #!revisar la expresion regular (es la de la documentacion de php)
+def t_LNUMBER(t): #numero entero
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 def t_MINUS_EQUAL(t):
@@ -517,9 +508,9 @@ def t_MOD_EQUAL(t):
 def t_MUL_EQUAL(t):
     r'\*='
     return t
-def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token
-    r'\[(\?<indices>\d+(?:,\d+)*)\]'
-    return t
+# def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token
+#     r'\[(\?<indices>\d+(?:,\d+)*)\]'
+#     return t
 def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
     r'\(object\)'
     return t
@@ -538,9 +529,6 @@ def t_OPEN_TAG_WITH_ECHO(t):
 def t_OR_EQUAL(t):
     r'\|='
     return t
-def t_PAAMAYIM_NEKUDOTAYIM(t): # todo: esta se repite con T_DOUBLE_COLON revisar
-    r'::'
-    return t
 def t_PLUS_EQUAL(t):
     r'\+='
     return t
@@ -549,6 +537,9 @@ def t_POW(t):
     return t
 def t_POW_EQUAL(t):
     r'\*\*='
+    return t
+def t_START_HEREDOC(t): 
+    r'<<<'
     return t
 def t_SL(t):
     r'<<'
@@ -565,18 +556,14 @@ def t_SR(t):
 def t_SR_EQUAL(t):
     r'>>='
     return t
-def t_START_HEREDOC(t): #todo mor revisar heredoc
-    r'<<<'
-    return t
+
 def t_STRING(t):
     r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)'
     return t
-def t_STRING_CAST(t):
-    r'\(string\)'
-    return t
-def t_STRING_VARNAME(t): #nombre de variable dentro de un string
-    r'"(.*?)\$\{\([a-zA-Z_][a-zA-Z0-9_]*\)\}'
-    return t
+# def t_STRING_CAST(t):
+#     r'\(string\)'
+#     return t
+
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
     return t
