@@ -156,6 +156,15 @@ tokens = (
     'CONCAT',
     'DIVIDE',
     'DQUOTATION_MARK',
+    'AMPERSAND',
+    'NEGATION',
+    'MORE_THAN',
+    'LESS_THAN' ,
+    'BITWISE_XOR',
+    'BITWISE_NOT',
+    'BITWISE_OR',
+    'TERNARY_OPERATION' ,
+    'DOUBLE_POINT' ,
     #----------------------------------
 )
 
@@ -175,6 +184,16 @@ t_ASTERISK = r'\*'
 t_CONCAT = r'\.'
 t_DIVIDE = r'/'
 t_DQUOTATION_MARK = r'\"'
+t_AMPERSAND = r'\&'
+t_NEGATION = r'\!'
+t_MORE_THAN = r'\>'
+t_LESS_THAN = r'\<'
+t_BITWISE_XOR = r'\^'
+t_BITWISE_NOT = r'\~'
+t_BITWISE_OR = r'\|'
+t_TERNARY_OPERATION = r'\?'
+t_DOUBLE_POINT = r'\:'
+
 #palabras reservadas declaracion de php
 def t_HALT_COMPILER(t): 
     r'__halt_compiler'
@@ -239,11 +258,11 @@ def t_EMPTY(t):
 def t_ENDDECLARE(t):
     r'enddeclare'
     return t
-def t_ENDFOR(t):
-    r'endfor'
-    return t
 def t_ENDFOREACH(t):
     r'endforeach'
+    return t
+def t_ENDFOR(t):
+    r'endfor'
     return t
 def t_ENDIF(t):
     r'endif'
@@ -263,11 +282,11 @@ def t_EXIT(t):
 def t_EXTENDS(t):
     r'extends'
     return t
-def t_FINAL(t):
-    r'final'
-    return t
 def t_FINALLY(t):
     r'finally'
+    return t
+def t_FINAL(t):
+    r'final'
     return t
 def t_FN(t):
     r'fn'
@@ -335,11 +354,11 @@ def t_PROTECTED(t):
 def t_PUBLIC(t):
     r'public'
     return t
-def t_REQUIRE(t): 
-    r'require'
-    return t
 def t_REQUIRE_ONCE(t): 
     r'require_once'
+    return t
+def t_REQUIRE(t): 
+    r'require'
     return t
 def t_RETURN(t):
     r'return'
@@ -374,11 +393,11 @@ def t_WHILE(t):
 def t_LOGICAL_XOR(t):
     r'xor'
     return t
-def t_YIELD(t):
-    r'yield'
-    return t
 def t_YIELD_FROM(t):
     r'yield from'
+    return t
+def t_YIELD(t):
+    r'yield'
     return t
 def t_CLASS_C(t):
     r'__CLASS__'
