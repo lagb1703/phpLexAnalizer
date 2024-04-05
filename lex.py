@@ -465,15 +465,16 @@ def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]*'
     return t
 
-def t_BAD_CARACTER(t):
-    #r'([a-zA-Z_\x7f-\xff])+\$[a-zA-Z0-9_\x7f-\xff]*'
-    r'([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*'
-    print ("Lexical error: " + str(t.value))
-    t.lexer.skip(1)
-    
 def t_EXPONENT_DNUMBER(t): #numero decimal con exponente  
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*e[-]?[0-9]+'
     return t
+
+def t_BAD_CARACTER(t):
+    #r'([a-zA-Z_\x7f-\xff])+\$[a-zA-Z0-9_\x7f-\xff]*'
+    r'([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*|([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*e'
+    print ("Lexical error: " + str(t.value))
+    t.lexer.skip(1)
+    
 def t_DNUMBER(t): #numero decimal
     r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*'
     return t
