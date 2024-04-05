@@ -576,7 +576,7 @@ def t_XOR_EQUAL(t):
 
 # # Ignorar espacios y tabs.
 
-t_ignore = r'\t |\r'
+t_ignore = r'\t '
 
 #ignor los comentarios de php
 def t_COMMENT(t):
