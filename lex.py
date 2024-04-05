@@ -293,11 +293,11 @@ def t_IF(t):
 def t_IMPLEMENTS(t):
     r'implements'
     return t
-def t_INCLUDE(t):
-    r'include'
-    return t
 def t_INCLUDE_ONCE(t):
     r'include_once'
+    return t
+def t_INCLUDE(t):
+    r'include'
     return t
 def t_INSTANCEOF(t):
     r'instanceof'
