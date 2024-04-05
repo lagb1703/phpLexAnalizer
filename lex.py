@@ -140,6 +140,39 @@ tokens = (
     'T_XOR_EQUAL', 
     'T_YIELD', 
     'T_YIELD_FROM',
+
+
+    'T_LEFT_PARENT',
+    'T_RIGHT_PARENT',
+    'T_LEFT_BRACKETS',
+    'T_RIGHT_BRACKETS',
+    'T_LEFT_KEY',
+    'T_RIGHT_KEY',
+
+    'T_ADD',
+    'T_SUB',
+    'T_DIV',
+    'T_MULT',
+    'T_MOD',
+
+    'T_DOT',
+    'T_COLON',
+    'T_SEMICOLON',
+
+    'T_EQUAL',
+    'T_AMPERSAND',
+
+    'T_NEGATION',
+    'T_MORE_THAN',
+    'T_LESS_THAN',
+
+
+    'T_BITWISE_XOR',
+    'T_BITWISE_NOT',
+    'T_BITWISE_OR'
+
+    'T_TERNARY_OPERATION',
+    'T_DOUBLE_POINT',
 )
 
 # Reglas de expresiones regulares para tokens simples.
@@ -168,11 +201,11 @@ def t_T_ATTRIBUTE(t):
     return t
 
 def t_T_BOOLEAN_AND(t):
-    r'&&'
+    r'&&|and'
     return t
 
 def t_T_BOOLEAN_OR(t):
-    r'\|\|'
+    r'\|\||or'
     return t
 
 def t_T_BOOL_CAST(t):
@@ -228,7 +261,7 @@ def t_T_CONST(t):
     return t
 
 def t_T_CONSTANT_ENCAPSED_STRING(t):
-    r'\".*?\"|\\\'.*?\\\''
+    r'\".*?\"|\\\'.*?\\\'|\'.*?\''
     return t
 
 def t_T_CONTINUE(t):
@@ -582,7 +615,7 @@ def t_T_STRING_CAST(t):
     return t
 
 def t_T_STRING_VARNAME(t):
-    r'\$\{[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*'
+    r'\$\{[a-zA-Z_][a-zA-Z0-9_]*'
     return t
 
 
@@ -656,7 +689,7 @@ def t_T_STRING(t):
     return t
 
 def t_T_NUM_STRING(t):
-    r'\"\$[a-zA-Z_][a-zA-Z_0-9]*\[\d+\]\"'
+    r'(\"|\')\$[a-zA-Z_][a-zA-Z_0-9]*\[\d+\](\"|\')'
     return t
 
 # Variables (esto es bastante simplificado).
@@ -678,6 +711,88 @@ def t_T_DOC_COMMENT(t):
     r'/\*\*(.|\n)*?\*/'
     pass  # Token is ignored
 
+#mios
+def t_T_LEFT_PARENT(t):
+    r'\('
+    return t
+def t_T_RIGHT_PARENT(t):
+    r'\)'
+    return t
+def t_T_LEFT_BRACKETS(t):
+    r'\['
+    return t
+def t_T_RIGHT_BRACKETS(t):
+    r'\]'
+    return t
+def t_T_LEFT_KEY(t):
+    r'\{'
+    return t
+def t_T_RIGHT_KEY(t):
+    r'\}'
+    return t
+
+def t_T_ADD(t):
+    r'\+'
+    return t
+def t_T_SUB(t):
+    r'\-'
+    return t
+def t_T_DIV(t):
+    r'\/'
+    return t
+def t_T_MULT(t):
+    r'\*'
+    return t
+def t_T_MOD(t):
+    r'\%'
+    return t
+
+def t_T_DOT(t):
+    r'\.'
+    return t
+def t_T_COLON(t):
+    r'\,'
+    return t
+def t_T_SEMICOLON(t):
+    r'\;'
+    return t
+
+def t_T_EQUAL(t):
+    r'\='
+    return t
+def t_T_AMPERSAND(t):
+    r'\&'
+    return t
+
+def t_T_NEGATION(t):
+    r'\!'
+    return t
+def t_T_MORE_THAN(t):
+    r'\>'
+    return t
+def t_T_LESS_THAN(t):
+    r'\<'
+    return t
+
+
+def t_T_BITWISE_XOR(t):
+    r'\^'
+    return t
+def t_T_BITWISE_NOT(t):
+    r'\~'
+    return t
+def t_T_BITWISE_OR(t):
+    r'\|'
+    return t
+
+def t_T_TERNARY_OPERATION(t):
+    r'\?'
+    return t
+
+def t_T_DOUBLE_POINT(t):
+    r'\:'
+    return t
+
 def t_T_INLINE_HTML(t):
     r'.+?(?=<\?php)|.+$'
     pass  # Aquí decides si ignorar el contenido HTML o manejarlo de alguna manera
@@ -698,7 +813,6 @@ def test(data, lexer):
 		print (tok)
 
 # Para probarlo, vamos a alimentarlo con un string de entrada.
-input_string = "<?php for ($i = 0; $i < 10; $i++){} ?>"
 
 if __name__ == '__main__':
 	if (len(sys.argv) > 1):
