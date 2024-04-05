@@ -508,10 +508,10 @@ def t_MOD_EQUAL(t):
 def t_MUL_EQUAL(t):
     r'\*='
     return t
-# def t_NUM_STRING(t): #!revisar la expresion regular y significado de este token
+# def t_NUM_STRING(t): 
 #     r'\[(\?<indices>\d+(?:,\d+)*)\]'
 #     return t
-# def t_OBJECT_CAST(t): #*revisar la expresion regular y significado de este token
+# def t_OBJECT_CAST(t): 
 #     r'\(object\)'
 #     return t
 def t_OBJECT_OPERATOR(t):
@@ -567,7 +567,7 @@ def t_STRING(t):
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
     return t
-def t_WHITESPACE(t): #*revisar la expresion regular (es la de la documentacion de php)
+def t_WHITESPACE(t):
     r'\t | \n | \r'
     return t
 def t_XOR_EQUAL(t):
