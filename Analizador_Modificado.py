@@ -1,5 +1,19 @@
+"""
+
+Analizador léxico
+
+Hecho por : 
+
+- Luis alejandro Giraldo Bolaños
+- Stiven Castro Soto
+- Juan Camilo Galvis Agudelo
+
+"""
+
 import ply.lex as lex
+from ply.lex import TOKEN
 import sys
+
 # Lista de nombres de tokens. Esto es obligatorio.
 tokens = (
     #palabras reservadas de php
@@ -465,21 +479,33 @@ def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]*'
     return t
 
-def t_EXPONENT_DNUMBER(t): #numero decimal con exponente  
-    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*e[-]?[0-9]+'
-    return t
+number = r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
+dnumber = r'(' + number + r'(\. [0-9]*))'   
+exponent_dnumber = r'(' + dnumber + r'(e[-]?[0-9]+))' 
 
+#Para t_BAD_CARACTER ---------------------------------
+
+bad_exponent_dnumber = r'(' + dnumber + r'(e))'
+bad_number = r'(([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*)'
+lex_error = r'(' + bad_exponent_dnumber + r'|' + bad_number + r')'
+
+@TOKEN(lex_error)
 def t_BAD_CARACTER(t):
-    #r'([a-zA-Z_\x7f-\xff])+\$[a-zA-Z0-9_\x7f-\xff]*'
-    r'([a-zA-Z_\x7f-\xff])*\$[a-zA-Z0-9_\x7f-\xff]*|[0-9]+[a-zA-Z_\x7f-\xff]+[0-9]*|([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*e'
     print ("Lexical error: " + str(t.value))
     t.lexer.skip(1)
-    
-def t_DNUMBER(t): #numero decimal
-    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+)) \. [0-9]*'
+
+#----------------------------------------------------
+
+@TOKEN(exponent_dnumber)
+def t_EXPONENT_DNUMBER(t): #numero decimal con exponente  
     return t
+
+@TOKEN(dnumber)
+def t_DNUMBER(t): #numero decimal
+    return t
+
+@TOKEN(number)
 def t_LNUMBER(t): #numero entero
-    r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
     return t
 
 def t_INC(t):
@@ -588,7 +614,7 @@ def t_DOC_COMMENT(t):
     t.lexer.lineno += t.value.count('\n')
 
 # Reglas de expresiones regulares para tokens simples.
-#?hay que encontrarlas
+
 t_NS_SEPARATOR = r'\\'
 t_EQUAL = r'='
 t_LEFT_PARENTHESIS = r'\('
