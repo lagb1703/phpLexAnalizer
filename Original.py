@@ -1,6 +1,6 @@
 """
 
-Analizador léxico
+Analizador léxico (ORIGINAL)
 
 Hecho por : 
 
