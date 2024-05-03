@@ -84,7 +84,7 @@ def p_primary_expression_variable(t):
                            | prefix_decrement_expression
                            | byref_assignment_expression
                            | shell_command_expression
-                           | LPAREN expression RPAREN'''
+                           | LEFT_PARENTHESIS expression RPAREN'''
 
 def p_simple_variable(t):
     '''simple_variable : variable_name
@@ -93,13 +93,13 @@ def p_simple_variable(t):
 
 def p_dereferencable_expression(t):
     '''dereferencable_expression : variable
-                                  | LPAREN expression RPAREN
+                                  | LEFT_PARENTHESIS expression RPAREN
                                   | array_creation_expression
                                   | string_literal'''
 
 def p_callable_expression(t):
     '''callable_expression : callable_variable
-                            | LPAREN expression RPAREN
+                            | LEFT_PARENTHESIS expression RPAREN
                             | array_creation_expression
                             | string_literal'''
 
@@ -130,23 +130,23 @@ def p_intrinsic_empty(t):
                   | isset_intrinsic'''
 
 def p_empty_intrinsic(t):
-    '''empty_intrinsic : EMPTY LPAREN expression RPAREN'''
+    '''empty_intrinsic : EMPTY LEFT_PARENTHESIS expression RPAREN'''
 
 def p_eval_intrinsic(t):
-    '''eval_intrinsic : EVAL LPAREN expression RPAREN'''
+    '''eval_intrinsic : EVAL LEFT_PARENTHESIS expression RPAREN'''
 
 def p_exit_intrinsic(t):
     '''exit_intrinsic : EXIT
-                      | EXIT LPAREN expression_opt RPAREN
+                      | EXIT LEFT_PARENTHESIS expression_opt RPAREN
                       | DIE
-                      | DIE LPAREN expression_opt RPAREN'''
+                      | DIE LEFT_PARENTHESIS expression_opt RPAREN'''
 
 def expression_opt(t):
     '''expression_opt : expression
                     |'''
 
 def p_intrinsic_isset(t):
-    '''intrinsic : ISSET LPAREN variable_list COMMA_opt RPAREN'''
+    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list COMMA_opt RPAREN'''
 
 def p_COMMA_opt(t):
     '''COMMA_opt : COMMA
@@ -159,7 +159,7 @@ def p_variable_list_multiple(t):
     'variable_list : variable_list COMMA variable'
 
 def p_anonymous_function_creation_expression(t):
-    '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LPAREN parameter_declaration_list_opt RPAREN anonymous_function_use_clause_opt return_type_opt compound_statement'''
+    '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement'''
 
 def p_static_opt(t):
     '''static_opt : static
@@ -182,7 +182,7 @@ def p_return_type_opt(t):
                         |'''
 
 def p_anonymous_function_use_clause(t):
-    'anonymous_function_use_clause : USE LPAREN use_variable_name_list RPAREN'
+    'anonymous_function_use_clause : USE LEFT_PARENTHESIS use_variable_name_list RPAREN'
 
 def p_use_variable_name_list_single(t):
     '''use_variable_name_list : AMPERSAND_opt variable_name'''
@@ -191,10 +191,10 @@ def p_use_variable_name_list_multiple(t):
     '''use_variable_name_list : use_variable_name_list COMMA AMPERSAND_opt variable_name'''
 
 def p_object_creation_expression(t):
-    '''object_creation_expression : NEW class_type_designator LPAREN argument_expression_list_opt RPAREN
-                                  | NEW class_type_designator LPAREN argument_expression_list COMMA_opt RPAREN
+    '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RPAREN
+                                  | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COMMA_opt RPAREN
                                   | NEW class_type_designator
-                                  | NEW CLASS LPAREN argument_expression_list_opt RPAREN class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
+                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
                                   | NEW CLASS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE'''
 
 def p_argument_expression_list_opt(t):
@@ -233,7 +233,7 @@ def p_expression_opt(t):
                         |'''
 
 def p_array_creation_expression_array(t):
-    '''array_creation_expression : ARRAY LPAREN array_initializer_opt RPAREN
+    '''array_creation_expression : ARRAY LEFT_PARENTHESIS array_initializer_opt RPAREN
                                   | LBRACKET array_initializer_opt RBRACKET'''
 
 def p_array_initializer_opt(t):
@@ -265,12 +265,12 @@ def p_subscript_expression_deprecated(t):
     '''subscript_expression : dereferencable_expression LBRACE expression RBRACE'''
 
 def p_function_call_expression_qualified_name(t):
-    '''function_call_expression : qualified_name LPAREN argument_expression_list_opt RPAREN
-                                | qualified_name LPAREN argument_expression_list COMMA RPAREN'''
+    '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RPAREN
+                                | qualified_name LEFT_PARENTHESIS argument_expression_list COMMA RPAREN'''
 
 def p_function_call_expression_callable_expression(t):
-    '''function_call_expression : callable_expression LPAREN argument_expression_list_opt RPAREN
-                                | callable_expression LPAREN argument_expression_list COMMA RPAREN'''
+    '''function_call_expression : callable_expression LEFT_PARENTHESIS argument_expression_list_opt RPAREN
+                                | callable_expression LEFT_PARENTHESIS argument_expression_list COMMA RPAREN'''
 
 def p_argument_expression_list_single(t):
     '''argument_expression_list : argument_expression'''
@@ -298,8 +298,8 @@ def p_member_name_expression(t):
     '''member_name : LBRACE expression RBRACE'''
 
 def p_member_call_expression(t):
-    '''member_call_expression : dereferencable_expression ARROW member_name LPAREN argument_expression_list_opt RPAREN
-                              | dereferencable_expression ARROW member_name LPAREN argument_expression_list COMMA RPAREN'''
+    '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RPAREN
+                              | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list COMMA RPAREN'''
 
 def p_postfix_increment_expression(t):
     '''postfix_increment_expression : variable INCREMENT'''
@@ -324,8 +324,8 @@ def p_scoped_property_access_expression(t):
     '''scoped_property_access_expression : scope_resolution_qualifier DOUBLE_COLON simple_variable'''
 
 def p_scoped_call_expression(t):
-    '''scoped_call_expression : scope_resolution_qualifier DOUBLE_COLON member_name LPAREN argument_expression_list_opt RPAREN
-                               | scope_resolution_qualifier DOUBLE_COLON member_name LPAREN argument_expression_list COMMA RPAREN'''
+    '''scoped_call_expression : scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list_opt RPAREN
+                               | scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list COMMA RPAREN'''
 
 def p_class_constant_access_expression(t):
     '''class_constant_access_expression : scope_resolution_qualifier DOUBLE_COLON NAME'''
@@ -380,7 +380,7 @@ def p_error_control_expression(t):
     '''error_control_expression : AT unary_expression'''
 
 def p_cast_expression(t):
-    '''cast_expression : LPAREN cast_type RPAREN unary_expression'''
+    '''cast_expression : LEFT_PARENTHESIS cast_type RIGHT_PARENTHESIS unary_expression'''
 
 def p_cast_type(t):
     '''cast_type : ARRAY
