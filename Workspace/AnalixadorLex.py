@@ -604,9 +604,6 @@ def t_XOR_EQUAL(t):
     r'\^='
     return t
 
-# # Ignorar espacios y tabs.
-
-t_ignore = r'\t '
 
 #ignora los comentarios de php
 
@@ -645,6 +642,10 @@ t_DOUBLE_POINT = r'\:'
 t_PLUS = r'\+'
 t_LESS = r'-'
 t_EQUALS = r'='
+
+# # Ignorar espacios y tabs.
+
+t_ignore = r' \t'
 
 
 # Una regla para manejar errores.

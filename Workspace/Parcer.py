@@ -16,17 +16,20 @@ def p_script_one(t):
 def p_script_two(t):
     'script : script script_section'
 
-def p_script_section(t):
-    'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
+# def p_script_section(t):
+#     'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
 
-def p_text_opt(t):
-    '''text_opt : text 
-                    |'''
+# def p_text_opt(t):
+#     '''text_opt : text 
+#                     |'''
     
-def p_end_tago_opt(t):
-    '''end_tago_opt : end_tago
-                    |'''
+# def p_end_tago_opt(t):
+#     '''end_tago_opt : end_tago
+#                     |'''
     
+def p_statement_list_opt(t):
+    '''statement_list_opt : statement_list
+                                | '''
 def p_statement_list_opt(t):
     '''statement_list_opt : statement_list
                                 | '''
@@ -759,7 +762,7 @@ def p_compound_statement(t):
     '''compound-statement : LEFT_CBRAC statement-list RIGHT_CBRAC
                             | LEFT_CBRAC RIGHT_CBRAC'''
 
-def p_statement_list_single(t):
+def p_statement_list(t):
     'statement-list : statement'
 
 def p_statement_list_multiple(t):
@@ -1143,9 +1146,9 @@ def p_const_declaration(p):
 def p_class_const_declaration(p):
     '''class_const_declaration : visibility_modifieropt CONST const_elements SEMICOLON'''
 
-def p_visibility_modifieropt(p): #opcionales
-    '''visibility_modifieropt : visibility_modifier
-                                |'''
+# def p_visibility_modifieropt(p): #opcionales
+#     '''visibility_modifieropt : visibility_modifier
+#                                 |'''
 
 def p_const_elements(p):
     '''const_elements : const_element
@@ -1309,7 +1312,6 @@ def p_namespace_definition(p):
 def p_namespace_nameopt(p): #opcionales
     '''namespace_nameopt : namespace_name
                             |'''
-
 def p_namespace_use_declaration(p):
     '''namespace_use_declaration : USE namespace_function_or_constopt namespace_use_clauses SEMICOLON
                                   | USE namespace_function_or_const NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
@@ -1371,5 +1373,5 @@ if __name__ == '__main__':
     f = open(fin, 'r')
     data = f.read()
     #print (data)
-    result = parser.parse(s)
+    result = parser.parse(data)
     print(result)
