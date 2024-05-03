@@ -921,7 +921,59 @@ def p_for_expression_group_single(t):
     'for-expression-group : expression'
 
 def p_for_expression_group_multiple(t):
-    'for-expression-group : for-expression-group COMMA expression'
+    'for-expression-group : for-expression-group COLON expression'
+
+#17
+
+def p_foreach_statement(t):
+    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS statement'
+
+def p_foreach_statement_block(t):
+    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOREACH SEMICOLON'
+
+def p_foreach_collection_name(t):
+    'foreach-collection-name : expression'
+
+def p_foreach_key(t):
+    'foreach-key : expression DOUBLE_ARROW'
+
+def p_foreach_value(t):
+    'foreach-value : foreach-value_expression'
+
+def p_foreach_value_amp_expression(t):
+    'foreach-value : AMPERSAND expression'
+
+def p_foreach_value_list_intrinsic(t):
+    'foreach-value : list-intrinsic'
+
+#18
+
+def p_jump_statement_goto(t):
+    'jump-statement : goto-statement'
+
+def p_jump_statement_continue(t):
+    'jump-statement : continue-statement'
+
+def p_jump_statement_break(t):
+    'jump-statement : break-statement'
+
+def p_jump_statement_return(t):
+    'jump-statement : return-statement'
+
+def p_jump_statement_throw(t):
+    'jump-statement : throw-statement'
+
+def p_goto_statement(t):
+    'goto-statement : GOTO name SEMICOLON'
+
+def p_continue_statement(t):
+    'continue-statement : CONTINUE (breakout-level)? SEMICOLON'
+
+def p_breakout_level(t):
+    'breakout-level : INTEGER_LITERAL'
+
+def p_breakout_level_expression(t):
+    'breakout-level : LEFT_PARENTHESIS breakout-level RIGHT_PARENTHESIS'
 
 
 
