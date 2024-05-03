@@ -1329,6 +1329,9 @@ def p_namespace_use_clauses(p):
 def p_namespace_use_clause(p):
     '''namespace_use_clause : qualified_name namespace_aliasing_clauseopt'''
 
+def p_qualified_name(p):
+    '''qualified_name : name'''
+
 def p_namespace_aliasing_clause(p):
     '''namespace_aliasing_clause : AS name'''
 
@@ -1350,6 +1353,9 @@ def p_namespace_use_group_clauses_2(p):
 
 def p_namespace_use_group_clause_2(p):
     '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clauseopt'''
+
+def p_name(p):
+    '''name : STRING'''
 
 def p_error(p):
 	if VERBOSE:
