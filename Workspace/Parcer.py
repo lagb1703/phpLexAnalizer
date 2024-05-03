@@ -60,6 +60,10 @@ def p_static_variable_name_list_multiple(t):
 def p_static_variable_declaration(t):
     'static_variable_declaration : VARIABLE function_static_initializer_opt'
 
+def p_function_static_initializer(t):
+   '''function-static_initializer: EQUAL   constant_expression'''
+
+
 def p_function_static_initializer_opt(t):
     '''function_static_initializer_opt : function_static_initializer
                                          | '''
