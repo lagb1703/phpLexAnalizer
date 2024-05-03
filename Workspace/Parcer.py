@@ -653,13 +653,328 @@ def p_compound_assignment_operator_right_shift(t):
     'compound-assignment-operator : SR_EQUAL'
 
 def p_compound_assignment_operator_bitwise_AND(t):
-    'compound-assignment-operator : XOR_EQUAL'
+    'compound-assignment-operator : AND_EQUAL'
 
 def p_compound_assignment_operator_bitwise_exc_OR(t):
     'compound-assignment-operator : XOR_EQUAL'
 
 def p_compound_assignment_operator_bitwise_inc_OR(t):
-    'compound-assignment-operator : BITWISE_INC_OR_ASSIGN'
+    'compound-assignment-operator : OR_EQUAL'
+
+#7
+
+def p_yield_from_expression(t):
+    'yield-from-expression : YIELD_FROM assignment-expression'
+
+def p_yield_expression_yield_from(t):
+    'yield-expression : yield-from-expression'
+
+def p_yield_expression_yield(t):
+    'yield-expression : YIELD'
+
+def p_yield_expression_yield_yield(t):
+    'yield-expression : YIELD yield-expression'
+
+def p_yield_expression_yield_yield_from_yield(t):
+    'yield-expression : YIELD yield-from-expression DOUBLE_ARROW yield-expression'
+
+def p_print_expression_yield(t):
+    'print-expression : yield-expression'
+
+def p_print_expression_print(t):
+    'print-expression : PRINT print-expression'
+
+def p_logical_AND_expression_2_print(t):
+    'logical-AND-expression-2 : print-expression'
+
+def p_logical_AND_expression_2_and_yield(t):
+    'logical-AND-expression-2 : logical-AND-expression-2 AND yield-expression'
+
+#8
+def p_logical_exc_OR_expression_logical_AND(t):
+    'logical-exc-OR-expression : logical-AND-expression-2'
+
+def p_logical_exc_OR_expression_xor(t):
+    'logical-exc-OR-expression : logical-exc-OR-expression XOR logical-AND-expression-2'
+
+def p_logical_inc_OR_expression_2_logical_exc_OR(t):
+    'logical-inc-OR-expression-2 : logical-exc-OR-expression'
+
+def p_logical_inc_OR_expression_2_or_logical_exc_OR(t):
+    'logical-inc-OR-expression-2 : logical-inc-OR-expression-2 OR logical-exc-OR-expression'
+
+def p_expression_logical_inc_OR(t):
+    'expression : logical-inc-OR-expression-2'
+
+def p_expression_include(t):
+    'expression : include-expression'
+
+def p_expression_include_once_expression(t):
+    'expression : include-once-expression'
+
+def p_expression_require_expression(t):
+    'expression : require-expression'
+
+def p_expression_require_once_expression(t):
+    'expression : require-once-expression'
+
+def p_include_expression(t):
+    'include-expression : INCLUDE expression'
+
+#9
+
+def p_include_once_expression(t):
+    'include-once-expression : INCLUDE_ONCE expression'
+
+def p_require_expression(t):
+    'require-expression : REQUIRE expression'
+
+def p_require_once_expression(t):
+    'require-once-expression : REQUIRE_ONCE expression'
+
+def p_constant_expression(t):
+    'constant-expression : expression'
+
+#10
+
+def p_statement_compound(t):
+    'statement : compound-statement'
+
+def p_statement_named_label(t):
+    'statement : named-label-statement'
+
+def p_statement_expression(t):
+    'statement : expression-statement'
+
+def p_statement_selection(t):
+    'statement : selection-statement'
+
+def p_statement_iteration(t):
+    'statement : iteration-statement'
+
+def p_statement_jump(t):
+    'statement : jump-statement'
+
+def p_statement_try(t):
+    'statement : try-statement'
+
+def p_statement_declare(t):
+    'statement : declare-statement'
+
+def p_statement_echo(t):
+    'statement : echo-statement'
+
+def p_statement_unset(t):
+    'statement : unset-statement'
+
+def p_statement_const_declaration(t):
+    'statement : const-declaration'
+
+def p_statement_function_definition(t):
+    'statement : function-definition'
+
+def p_statement_class_declaration(t):
+    'statement : class-declaration'
+
+def p_statement_interface_declaration(t):
+    'statement : interface-declaration'
+
+def p_statement_trait_declaration(t):
+    'statement : trait-declaration'
+
+def p_statement_namespace_definition(t):
+    'statement : namespace-definition'
+
+def p_statement_namespace_use_declaration(t):
+    'statement : namespace-use-declaration'
+
+def p_statement_global_declaration(t):
+    'statement : global-declaration'
+
+def p_statement_function_static_declaration(t):
+    'statement : function-static-declaration'
+
+#11
+
+def p_compound_statement(t):
+    'compound-statement : LEFT_CBRAC statement-listopt RIGHT_CBRAC'
+
+def p_statement_list_single(t):
+    'statement-list : statement'
+
+def p_statement_list_multiple(t):
+    'statement-list : statement-list statement'
+
+def p_named_label_statement(t):
+    'named-label-statement : name DOUBLE_POINT'
+
+def p_expression_statement(t):
+    'expression-statement : expressionopt SEMICOLON'
+
+def p_selection_statement_if(t):
+    'selection-statement : if-statement'
+
+def p_selection_statement_switch(t):
+    'selection-statement : switch-statement'
+
+#12
+
+def p_if_statement_1(t):
+    'if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement (elseif-clauses-1)? (else-clause-1)?'
+
+def p_if_statement_2(t):
+    'if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list (elseif-clauses-2)? (else-clause-2)? ENDIF SEMICOLON'
+
+def p_elseif_clauses_1_single(t):
+    'elseif-clauses-1 : elseif-clause-1'
+
+def p_elseif_clauses_1_multiple(t):
+    'elseif-clauses-1 : elseif-clauses-1 elseif-clause-1'
+
+def p_elseif_clause_1(t):
+    'elseif-clause-1 : ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'
+
+def p_else_clause_1(t):
+    'else-clause-1 : ELSE statement'
+
+#13
+
+def p_elseif_clauses_2_single(t):
+    'elseif-clauses-2 : elseif-clause-2'
+
+def p_elseif_clauses_2_multiple(t):
+    'elseif-clauses-2 : elseif-clauses-2 elseif-clause-2'
+
+def p_elseif_clause_2(t):
+    'elseif-clause-2 : ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list'
+
+def p_else_clause_2(t):
+    'else-clause-2 : ELSE DOUBLE_POINT statement-list'
+
+def p_switch_statement_1(t):
+    'switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC (case-statements)? RIGHT_CBRAC'
+
+def p_switch_statement_2(t):
+    'switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT (case-statements)? ENDSWITCH SEMICOLON'
+
+#14
+
+def p_case_statements_1(t):
+    'case-statements : case-statement (case-statements)?'
+
+def p_case_statements_2(t):
+    'case-statements : default-statement (case-statements)?'
+
+def p_case_statement(t):
+    'case-statement : CASE expression case-default-label-terminator (statement-list)?'
+
+def p_default_statement(t):
+    'default-statement : DEFAULT case-default-label-terminator (statement-list)?'
+
+def p_case_default_label_terminator_colon(t):
+    'case-default-label-terminator : DOUBLE_POINT'
+
+def p_case_default_label_terminator_semicolon(t):
+    'case-default-label-terminator : SEMICOLON'
+
+#15
+
+def p_iteration_statement_while(t):
+    'iteration-statement : while-statement'
+
+def p_iteration_statement_do(t):
+    'iteration-statement : do-statement'
+
+def p_iteration_statement_for(t):
+    'iteration-statement : for-statement'
+
+def p_iteration_statement_foreach(t):
+    'iteration-statement : foreach-statement'
+
+def p_while_statement(t):
+    'while-statement : WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'
+
+def p_while_statement_block(t):
+    'while-statement : WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDWHILE SEMICOLON'
+
+def p_do_statement(t):
+    'do-statement : DO statement WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS SEMICOLON'
+
+#16
+
+def p_for_statement(t):
+    'for-statement : FOR LEFT_PARENTHESIS (for-initializer)? SEMICOLON (for-control)? SEMICOLON (for-end-of-loop)? RIGHT_PARENTHESIS statement'
+
+def p_for_statement_block(t):
+    'for-statement : FOR LEFT_PARENTHESIS (for-initializer)? SEMICOLON (for-control)? SEMICOLON (for-end-of-loop)? RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON'
+
+def p_for_initializer(t):
+    'for-initializer : for-expression-group'
+
+def p_for_control(t):
+    'for-control : for-expression-group'
+
+def p_for_end_of_loop(t):
+    'for-end-of-loop : for-expression-group'
+
+def p_for_expression_group_single(t):
+    'for-expression-group : expression'
+
+def p_for_expression_group_multiple(t):
+    'for-expression-group : for-expression-group COLON expression'
+
+#17
+
+def p_foreach_statement(t):
+    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS statement'
+
+def p_foreach_statement_block(t):
+    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOREACH SEMICOLON'
+
+def p_foreach_collection_name(t):
+    'foreach-collection-name : expression'
+
+def p_foreach_key(t):
+    'foreach-key : expression DOUBLE_ARROW'
+
+def p_foreach_value(t):
+    'foreach-value : foreach-value_expression'
+
+def p_foreach_value_amp_expression(t):
+    'foreach-value : AMPERSAND expression'
+
+def p_foreach_value_list_intrinsic(t):
+    'foreach-value : list-intrinsic'
+
+#18
+
+def p_jump_statement_goto(t):
+    'jump-statement : goto-statement'
+
+def p_jump_statement_continue(t):
+    'jump-statement : continue-statement'
+
+def p_jump_statement_break(t):
+    'jump-statement : break-statement'
+
+def p_jump_statement_return(t):
+    'jump-statement : return-statement'
+
+def p_jump_statement_throw(t):
+    'jump-statement : throw-statement'
+
+def p_goto_statement(t):
+    'goto-statement : GOTO name SEMICOLON'
+
+def p_continue_statement(t):
+    'continue-statement : CONTINUE (breakout-level)? SEMICOLON'
+
+def p_breakout_level(t):
+    'breakout-level : INTEGER_LITERAL'
+
+def p_breakout_level_expression(t):
+    'breakout-level : LEFT_PARENTHESIS breakout-level RIGHT_PARENTHESIS'
+
 
 
 parser = yacc.yacc()
