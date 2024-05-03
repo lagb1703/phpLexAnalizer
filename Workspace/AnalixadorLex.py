@@ -85,7 +85,7 @@ tokens = (
     'WHILE',
     'XOR',
     'YIELD',
-    'YIELDFROM',
+    'YIELD_FROM',
     #palabras reservadas de constantes en el tiempo de compilacion
     '__CLASS__',
     '__DIR__',
@@ -155,7 +155,8 @@ tokens = (
     # 'STRING_VARNAME', 
     'VARIABLE',
     'WHITESPACE',
-    'XOR_EQUAL', 
+    'XOR_EQUAL',
+    'BACKTICK',
     # Tokens que no maneja php de por si
     'EQUAL', # ==
     'EQUALS', # =
@@ -460,6 +461,9 @@ def t_CURLY_OPEN(t):
     return t
 def t_DEC(t):
     r'--'
+    return t
+def t_BACKTICK(t):
+    r'\`'
     return t
 def t_DIV_EQUAL(t):
     r'/='

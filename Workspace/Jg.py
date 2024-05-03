@@ -4,15 +4,15 @@
 def p_script_one(t):
     'script : script_section'
 
-def p_script_two(t):
-    'script : script script_section'
+# def p_script_two(t):
+#     'script : script script_section'
 
-def p_script_section(t):
-    'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
+# def p_script_section(t):
+#     'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
 
-def p_text_opt(t):
-    '''text_opt : text 
-                    |'''
+# def p_text_opt(t):
+#     '''text_opt : text 
+#                     |'''
     
 def p_end_tago_opt(t):
     '''end_tago_opt : end_tago
@@ -23,13 +23,13 @@ def p_statement_list_opt(t):
                                 | '''
 
 def p_start_tag_php(t):
-    'start_tag : PHP_OPEN'
+    'start_tag : OPEN_TAG'
 
 def p_start_tag_echo(t):
-    'start_tag : ECHO_OPEN'
+    'start_tag : OPEN_TAG_WITH_ECHO'
 
 def p_end_tag(t):
-    'end_tag : PHP_CLOSE'
+    'end_tag : CLOSE_TAG'
 
 def p_end_tag_empty(t):
     'end_tag : '

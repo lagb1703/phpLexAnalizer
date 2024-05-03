@@ -140,6 +140,7 @@ tokens = (
     'T_XOR_EQUAL', 
     'T_YIELD', 
     'T_YIELD_FROM',
+    'T_BACKTICK',
 
 
     'T_LEFT_PARENT',
@@ -412,6 +413,10 @@ def t_T_IMPLEMENTS(t):
 
 def t_T_INC(t):
     r'\+\+'
+    return t
+
+def t_T_BACKTICK(t):
+    r'\`'
     return t
 
 def t_T_INCLUDE(t):
