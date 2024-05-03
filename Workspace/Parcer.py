@@ -566,7 +566,7 @@ def p_conditional_expression_coalesce(t):
     'conditional-expression : coalesce-expression'
 
 def p_conditional_expression_ternary(t):
-    'conditional-expression : conditional-expression TERNARY_OPERATION expressionopt DOUBLE_POINT coalesce-expression'
+    'conditional-expression : conditional-expression TERNARY_OPERATION (expression)? DOUBLE_POINT coalesce-expression'
 
 #4
 
@@ -797,7 +797,7 @@ def p_statement_function_static_declaration(t):
 #11
 
 def p_compound_statement(t):
-    'compound-statement : LEFT_CBRAC statement-listopt RIGHT_CBRAC'
+    'compound-statement : LEFT_CBRAC (statement-list)? RIGHT_CBRAC'
 
 def p_statement_list_single(t):
     'statement-list : statement'
@@ -809,7 +809,7 @@ def p_named_label_statement(t):
     'named-label-statement : name DOUBLE_POINT'
 
 def p_expression_statement(t):
-    'expression-statement : expressionopt SEMICOLON'
+    'expression-statement : (expression)? SEMICOLON'
 
 def p_selection_statement_if(t):
     'selection-statement : if-statement'
