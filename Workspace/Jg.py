@@ -159,7 +159,7 @@ def p_variable_list_multiple(t):
     'variable_list : variable_list COMMA variable'
 
 def p_anonymous_function_creation_expression(t):
-    '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RPAREN anonymous_function_use_clause_opt return_type_opt compound_statement'''
+    '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement'''
 
 def p_static_opt(t):
     '''static_opt : static
@@ -194,7 +194,7 @@ def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RPAREN
                                   | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COMMA_opt RPAREN
                                   | NEW class_type_designator
-                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RPAREN class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
+                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
                                   | NEW CLASS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE'''
 
 def p_argument_expression_list_opt(t):
@@ -380,7 +380,7 @@ def p_error_control_expression(t):
     '''error_control_expression : AT unary_expression'''
 
 def p_cast_expression(t):
-    '''cast_expression : LEFT_PARENTHESIS cast_type RPAREN unary_expression'''
+    '''cast_expression : LEFT_PARENTHESIS cast_type RIGHT_PARENTHESIS unary_expression'''
 
 def p_cast_type(t):
     '''cast_type : ARRAY
