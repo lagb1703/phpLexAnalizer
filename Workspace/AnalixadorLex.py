@@ -116,6 +116,7 @@ tokens = (
     'DOC_COMMENT', 
     'DOLLAR_OPEN_CURLY_BRACES', 
     'DOUBLE_ARROW', 
+    'DOLLAR',
     # 'DOUBLE_CAST', 
     'DOUBLE_COLON', 
     'ELLIPSIS',    
@@ -642,6 +643,7 @@ t_DOUBLE_POINT = r'\:'
 t_PLUS = r'\+'
 t_LESS = r'-'
 t_EQUALS = r'='
+t_DOLLAR = r'\$'
 
 # # Ignorar espacios y tabs.
 
