@@ -13,15 +13,15 @@ VERBOSE = 1
 def p_script_one(t):
     'script : script_section'
 
-# def p_script_two(t):
-#     'script : script script_section'
+def p_script_two(t):
+    'script : script script_section'
 
-# def p_script_section(t):
-#     'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
+def p_script_section(t):
+    'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
 
-# def p_text_opt(t):
-#     '''text_opt : text 
-#                     |'''
+def p_text_opt(t):
+    '''text_opt : text 
+                    |'''
     
 def p_end_tago_opt(t):
     '''end_tago_opt : end_tago
@@ -558,7 +558,8 @@ def p_unkeyed_list_expression_list_comma(t):
     'unkeyed-list-expression-list : COLON'
 
 def p_unkeyed_list_expression_list_multiple(t):
-    'unkeyed-list-expression-list : unkeyed-list-expression-list COMMA list-or-variable (COLON)?'
+    '''unkeyed-list-expression-list : unkeyed-list-expression-list COLON list-or-variable COLON
+                                        | unkeyed-list-expression-list COLON list-or-variable'''
 
 def p_keyed_list_expression_list_single(t):
     'keyed-list-expression-list : expression DOUBLE_ARROW list-or-variable'
@@ -572,7 +573,8 @@ def p_list_or_variable_list_intrinsic(t):
     'list-or-variable : list-intrinsic'
 
 def p_list_or_variable_variable(t):
-    'list-or-variable : (AMPERSAND)? variable'
+    '''list-or-variable : AMPERSAND variable
+                            | variable'''
 
 def p_byref_assignment_expression(t):
     'byref-assignment-expression : variable EQUAL AMPERSAND variable'
@@ -754,7 +756,8 @@ def p_statement_function_static_declaration(t):
 #11
 
 def p_compound_statement(t):
-    'compound-statement : LEFT_CBRAC (statement-list)? RIGHT_CBRAC'
+    '''compound-statement : LEFT_CBRAC statement-list RIGHT_CBRAC
+                            | LEFT_CBRAC RIGHT_CBRAC'''
 
 def p_statement_list_single(t):
     'statement-list : statement'
@@ -766,7 +769,8 @@ def p_named_label_statement(t):
     'named-label-statement : name DOUBLE_POINT'
 
 def p_expression_statement(t):
-    'expression-statement : (expression)? SEMICOLON'
+    '''expression-statement : expression SEMICOLON
+                            | SEMICOLON'''
 
 def p_selection_statement_if(t):
     'selection-statement : if-statement'
@@ -777,10 +781,15 @@ def p_selection_statement_switch(t):
 #12
 
 def p_if_statement_1(t):
-    'if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement (elseif-clauses-1)? (else-clause-1)?'
+    '''if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif-clauses-1 else-clause-1
+                        | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif-clauses-1
+                        | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement else-clause-1
+                        | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'''
 
 def p_if_statement_2(t):
-    'if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list (elseif-clauses-2)? (else-clause-2)? ENDIF SEMICOLON'
+    '''if-statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list elseif-clauses-2 else-clause-2 ENDIF SEMICOLON
+                        | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list elseif-clauses-2 ENDIF SEMICOLON
+                        | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement-list else-clause-2 ENDIF SEMICOLON'''
 
 def p_elseif_clauses_1_single(t):
     'elseif-clauses-1 : elseif-clause-1'
@@ -809,24 +818,30 @@ def p_else_clause_2(t):
     'else-clause-2 : ELSE DOUBLE_POINT statement-list'
 
 def p_switch_statement_1(t):
-    'switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC (case-statements)? RIGHT_CBRAC'
+    '''switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC case-statements RIGHT_CBRAC
+                            | SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC RIGHT_CBRAC'''
 
 def p_switch_statement_2(t):
-    'switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT (case-statements)? ENDSWITCH SEMICOLON'
+    '''switch-statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT case-statements ENDSWITCH SEMICOLON
+                            | SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT ENDSWITCH SEMICOLON'''
 
 #14
 
 def p_case_statements_1(t):
-    'case-statements : case-statement (case-statements)?'
+    '''case-statements : case-statement case-statements
+                        | case-statement'''
 
 def p_case_statements_2(t):
-    'case-statements : default-statement (case-statements)?'
+    '''case-statements : default-statement case-statements
+                        | default-statement'''
 
 def p_case_statement(t):
-    'case-statement : CASE expression case-default-label-terminator (statement-list)?'
+    '''case-statement : CASE expression case-default-label-terminator statement-list
+                        | CASE expression case-default-label-terminator'''
 
 def p_default_statement(t):
-    'default-statement : DEFAULT case-default-label-terminator (statement-list)?'
+    '''default-statement : DEFAULT case-default-label-terminator statement-list
+                        | DEFAULT case-default-label-terminator'''
 
 def p_case_default_label_terminator_colon(t):
     'case-default-label-terminator : DOUBLE_POINT'
@@ -860,10 +875,24 @@ def p_do_statement(t):
 #16
 
 def p_for_statement(t):
-    'for-statement : FOR LEFT_PARENTHESIS (for-initializer)? SEMICOLON (for-control)? SEMICOLON (for-end-of-loop)? RIGHT_PARENTHESIS statement'
+    '''for-statement : FOR LEFT_PARENTHESIS for-initializer SEMICOLON for-control SEMICOLON for-end-of-loop RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON for-control SEMICOLON RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON SEMICOLON for-end-of-loop RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS SEMICOLON for-control SEMICOLON for-end-of-loop RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS SEMICOLON for-control SEMICOLON RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for-end-of-loop RIGHT_PARENTHESIS statement
+                        | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement'''
 
 def p_for_statement_block(t):
-    'for-statement : FOR LEFT_PARENTHESIS (for-initializer)? SEMICOLON (for-control)? SEMICOLON (for-end-of-loop)? RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON'
+    '''for-statement : FOR LEFT_PARENTHESIS for-initializer SEMICOLON for-control SEMICOLON for-end-of-loop RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON for-control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON SEMICOLON for-end-of-loop RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS for-initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS SEMICOLON for-control SEMICOLON for-end-of-loop RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS SEMICOLON for-control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for-end-of-loop RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON
+                        | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOR SEMICOLON'''
 
 def p_for_initializer(t):
     'for-initializer : for-expression-group'
@@ -883,10 +912,12 @@ def p_for_expression_group_multiple(t):
 #17
 
 def p_foreach_statement(t):
-    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS statement'
+    '''foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS foreach-key foreach-value RIGHT_PARENTHESIS statement
+                            | FOREACH LEFT_PARENTHESIS foreach-collection-name AS foreach-value RIGHT_PARENTHESIS statement'''
 
 def p_foreach_statement_block(t):
-    'foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS (foreach-key)? foreach-value RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOREACH SEMICOLON'
+    '''foreach-statement : FOREACH LEFT_PARENTHESIS foreach-collection-name AS foreach-key foreach-value RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOREACH SEMICOLON
+                            | FOREACH LEFT_PARENTHESIS foreach-collection-name AS foreach-value RIGHT_PARENTHESIS DOUBLE_POINT statement-list ENDFOREACH SEMICOLON'''
 
 def p_foreach_collection_name(t):
     'foreach-collection-name : expression'
@@ -924,7 +955,8 @@ def p_goto_statement(t):
     'goto-statement : GOTO name SEMICOLON'
 
 def p_continue_statement(t):
-    'continue-statement : CONTINUE (breakout-level)? SEMICOLON'
+    '''continue-statement : CONTINUE breakout-level SEMICOLON
+                        | CONTINUE SEMICOLON'''
 
 def p_breakout_level(t):
     'breakout-level : INTEGER_LITERAL'
@@ -967,10 +999,10 @@ def p_catch_clauses(p):
 def p_catch_clause(p):
     '''catch_clause : CATCH LEFT_PARENTHESIS catch_name_list VARIABLE RIGHT_PARENTHESIS compound_statement'''
 
+#ojo correcccion
 def p_catch_name_list(p): #! ojo aca con el | del centro
     '''catch_name_list : qualified_name
-                       | catch_name_list 
-                       | qualified_name'''
+                       | catch_name_list'''
 
 def p_finally_clause(p):
     '''finally_clause : FINALLY compound_statement'''
@@ -1134,6 +1166,9 @@ def p_static_modifieropt(p): #opcionales
     '''static_modifieropt : static_modifier
                             |'''
 
+# def p_visibility_modifieropt_1(p): #opcionales
+#     '''visibility_modifieropt : visibility_modifier
+#                                 |'''
 
 def p_visibility_modifier(p):
     '''visibility_modifier : PUBLIC
@@ -1259,6 +1294,10 @@ def p_trait_alias_as_clause(p):
     '''trait_alias_as_clause : name AS visibility_modifieropt name
                               | name AS visibility_modifier nameopt'''
 
+def p_visibility_modifieropt_2(p): #opcionales
+    '''visibility_modifieropt : visibility_modifier
+                                |'''
+
 def p_nameopt(p): #opcionales
     '''nameopt : name
                 |'''
@@ -1313,9 +1352,6 @@ def p_namespace_use_group_clauses_2(p):
 def p_namespace_use_group_clause_2(p):
     '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clauseopt'''
 
-def p_namespace_aliasing_clauseopt_1(p): #opcionales
-    '''namespace_aliasing_clauseopt : namespace_aliasing_clause
-                                    |'''
 def p_error(p):
 	if VERBOSE:
 		if p is not None:
