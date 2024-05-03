@@ -43,8 +43,8 @@ def p_end_tag(t):
 def p_end_tag_empty(t):
     'end_tag : '
 
-def p_text(t):
-    'text : ARBITRARY_TEXT'
+# def p_text(t):
+#     'text : ARBITRARY_TEXT'
 
 #variables
 
