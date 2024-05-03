@@ -653,10 +653,10 @@ def p_compound_assignment_operator_right_shift(t):
     'compound-assignment-operator : SR_EQUAL'
 
 def p_compound_assignment_operator_bitwise_AND(t):
-    'compound-assignment-operator : BITWISE_AND_ASSIGN'
+    'compound-assignment-operator : XOR_EQUAL'
 
 def p_compound_assignment_operator_bitwise_exc_OR(t):
-    'compound-assignment-operator : BITWISE_EXC_OR_ASSIGN'
+    'compound-assignment-operator : XOR_EQUAL'
 
 def p_compound_assignment_operator_bitwise_inc_OR(t):
     'compound-assignment-operator : BITWISE_INC_OR_ASSIGN'

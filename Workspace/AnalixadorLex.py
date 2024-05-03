@@ -183,7 +183,8 @@ tokens = (
     'EXPONENT_DNUMBER',
     #----------------------------------
     'PLUS',
-    'LESS'
+    'LESS',
+    'AND_EQUAL',
 )
 
 #palabras reservadas declaracion de php
@@ -563,6 +564,9 @@ def t_OPEN_TAG_WITH_ECHO(t):
     return t
 def t_OR_EQUAL(t):
     r'\|='
+    return t
+def t_AND_EQUAL(t):
+    r'\&='
     return t
 def t_PLUS_EQUAL(t):
     r'\+='
