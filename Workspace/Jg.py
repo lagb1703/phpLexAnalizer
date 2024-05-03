@@ -158,19 +158,39 @@ def p_variable_list_single(t):
 def p_variable_list_multiple(t):
     'variable_list : variable_list COMMA variable'
 
-#Hasta aqui voy 
-
 def p_anonymous_function_creation_expression(t):
-    '''anonymous_function_creation_expression : staticopt FUNCTION AMPERSAND? LPAREN parameter_declaration_list? RPAREN anonymous_function_use_clause? return_type? compound_statement'''
+    '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LPAREN parameter_declaration_list_opt RPAREN anonymous_function_use_clause_opt return_type_opt compound_statement'''
+
+def p_static_opt(t):
+    '''static_opt : static
+                    |'''
+
+def p_AMPERSAND_opt(t):
+    '''AMPERSAND_opt : AMPERSAND
+                    |'''
+
+def p_parameter_declaration_list_opt(t):
+    '''parameter_declaration_list_opt : parameter_declaration_list
+                                        |'''
+
+def p_anonymous_function_use_clause_opt(t):
+    '''anonymous_function_use_clause_opt : anonymous_function_use_clause
+                                        |'''
+
+def p_return_type_opt(t):
+    '''return_type_opt : return_type
+                        |'''
 
 def p_anonymous_function_use_clause(t):
     'anonymous_function_use_clause : USE LPAREN use_variable_name_list RPAREN'
 
 def p_use_variable_name_list_single(t):
-    '''use_variable_name_list : AMPERSANDopt variable_name'''
+    '''use_variable_name_list : AMPERSAND_opt variable_name'''
 
 def p_use_variable_name_list_multiple(t):
-    '''use_variable_name_list : use_variable_name_list COMMA AMPERSAND? variable_name'''
+    '''use_variable_name_list : use_variable_name_list COMMA AMPERSAND_opt variable_name'''
+
+#Aqui voy 
 
 def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LPAREN argument_expression_listopt RPAREN
