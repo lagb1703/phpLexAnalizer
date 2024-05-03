@@ -1,11 +1,3 @@
-import ply.yacc as yacc
-
-# Definición de tokens (asumidos ya definidos por el lexer)
-tokens = (
-    'BREAK', 'RETURN', 'THROW', 'TRY', 'CATCH', 'FINALLY',
-    'ID', 'SEMICOLON', 'LPAREN', 'RPAREN', 'COMMA', 'VERTICAL',
-)
-
 # Construcción de la gramática
 def p_break_statement(p):
     '''break_statement : BREAK breakout_levelopt SEMICOLON'''
@@ -37,19 +29,19 @@ def p_catch_clauses(p):
                      | catch_clauses catch_clause'''
 
 def p_catch_clause(p):
-    '''catch_clause : CATCH LPAREN catch_name_list VARIABLE RPAREN compound_statement'''
+    '''catch_clause : CATCH LEFT_PARENTHESIS catch_name_list VARIABLE RIGHT_PARENTHESIS compound_statement'''
 
-def p_catch_name_list(p):
+def p_catch_name_list(p): #! ojo aca con el | del centro
     '''catch_name_list : qualified_name
-                       | catch_name_list PIPE qualified_name'''
+                       | catch_name_list | qualified_name'''
 
 def p_finally_clause(p):
     '''finally_clause : FINALLY compound_statement'''
 
 def p_declare_statement(p):
-    '''declare_statement : DECLARE LPAREN declare_directive RPAREN statement
-                         | DECLARE LPAREN declare_directive RPAREN COLON statement_list ENDDECLARE SEMICOLON
-                         | DECLARE LPAREN declare_directive RPAREN SEMICOLON'''
+    '''declare_statement : DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS statement
+                         | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS COLON statement_list ENDDECLARE SEMICOLON
+                         | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS SEMICOLON'''
 
 def p_declare_directive(p):
     '''declare_directive : TICKS EQUALS literal
@@ -64,7 +56,7 @@ def p_expression_list(p):
                        | expression_list COMMA expression'''
 
 def p_unset_statement(p):
-    '''unset_statement : UNSET LPAREN variable_list commaopt RPAREN SEMICOLON'''
+    '''unset_statement : UNSET LEFT_PARENTHESIS variable_list commaopt RIGHT_PARENTHESIS SEMICOLON'''
 
 def p_commopt(p): #opcionales
     '''commaopt : COMMA
@@ -74,7 +66,7 @@ def p_function_definition(p):
     '''function_definition : function_definition_header compound_statement'''
 
 def p_function_definition_header(p):
-    '''function_definition_header : FUNCTION ampersandopt name LPAREN parameter_declaration_listopt RPAREN return_typeopt'''
+    '''function_definition_header : FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_typeopt'''
 
 def p_ampersandopt(p): #opcionales
     '''ampersandopt : AMPERSAND
@@ -403,19 +395,3 @@ def p_namespace_aliasing_clauseopt(p): #opcionales
     '''namespace_aliasing_clauseopt : namespace_aliasing_clause
                                     |'''
 
-# Manejo de errores de sintaxis
-def p_error(p):
-    if p:
-        print("Error de sintaxis en '%s'" % p.value)
-    else:
-        print("Error de sintaxis al final de la entrada")
-
-# Construcción del parser
-parser = yacc.yacc()
-
-# Ejemplo de uso
-input_str = """
-try compound-statement catch ( qualified-name variable-name ) compound-statement finally compound-statement
-"""
-result = parser.parse(input_str)
-print(result)
