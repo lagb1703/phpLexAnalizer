@@ -100,7 +100,10 @@ tokens = (
     'AND_EQUAL',
     # 'ARRAY_CAST',
     'ATTRIBUTE',
+    'FLOAT',
+    'INT',
     #----------------------------------
+    'BOOL',
     'BOOLEAN_AND',
     'BOOLEAN_OR',
     # 'BOOL_CAST',
@@ -201,6 +204,15 @@ def t_LOGICAL_AND(t):
     return t
 def t_ARRAY(t):
     r'array'
+    return t
+def t_BOOL(t):
+    r'bool'
+    return t
+def t_FLOAT(t):
+    r'float'
+    return t
+def t_INT(t):
+    r'int'
     return t
 def t_AS(t):
     r'as'
