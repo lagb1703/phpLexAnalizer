@@ -190,14 +190,26 @@ def p_use_variable_name_list_single(t):
 def p_use_variable_name_list_multiple(t):
     '''use_variable_name_list : use_variable_name_list COMMA AMPERSAND_opt variable_name'''
 
-#Aqui voy 
-
 def p_object_creation_expression(t):
-    '''object_creation_expression : NEW class_type_designator LPAREN argument_expression_listopt RPAREN
-                                  | NEW class_type_designator LPAREN argument_expression_list COMMAopt RPAREN
+    '''object_creation_expression : NEW class_type_designator LPAREN argument_expression_list_opt RPAREN
+                                  | NEW class_type_designator LPAREN argument_expression_list COMMA_opt RPAREN
                                   | NEW class_type_designator
-                                  | NEW CLASS LPAREN argument_expression_list? RPAREN class_base_clause? class_interface_clause? LBRACE class_member_declarations? RBRACE
-                                  | NEW CLASS class_base_clause? class_interface_clause? LBRACE class_member_declarations? RBRACE'''
+                                  | NEW CLASS LPAREN argument_expression_list_opt RPAREN class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
+                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE'''
+
+def p_argument_expression_list_opt(t):
+    '''argument_expression_list_opt : argument_expression_list
+                                    |'''
+def p_class_base_clause_opt(t):
+    '''class_base_clause_opt : class_base_clause
+                            |'''
+
+def p_class_interface_clause_opt(t):
+    '''class_interface_clause_opt : class_interface_clause
+                            |'''
+def p_class_member_declarations_opt(t):
+    '''class_member_declarations_opt : class_member_declarations
+                                    |'''
 
 def p_class_type_designator_qualified_name(t):
     'class_type_designator : qualified_name'
@@ -209,33 +221,36 @@ def p_new_variable_simple_variable(t):
     'new_variable : simple_variable'
 
 def p_new_variable_array_access(t):
-    '''new_variable : new_variable LBRACKET expression? RBRACKET
+    '''new_variable : new_variable LBRACKET expression_opt RBRACKET
                     | new_variable LBRACE expression RBRACE
                     | new_variable ARROW member_name
                     | qualified_name DOUBLE_COLON simple_variable
                     | relative_scope DOUBLE_COLON simple_variable
                     | new_variable DOUBLE_COLON simple_variable'''
 
-def p_array_creation_expression_array(t):
-    'array-creation-expression : ARRAY LEFT_PAREN array-initializeropt RIGHT_PAREN'
+def p_expression_opt(t):
+    '''expression_opt : expression
+                        |'''
 
-def p_array_creation_expression_bracket(t):
-    'array-creation-expression : LEFT_BRACKET array-initializeropt RIGHT_BRACKET'
+def p_array_creation_expression_array(t):
+    '''array_creation_expression : ARRAY LPAREN array_initializer_opt RPAREN
+                                  | LBRACKET array_initializer_opt RBRACKET'''
+
+def p_array_initializer_opt(t):
+    '''array_initializer_opt : array_initializer
+                              | '''
 
 def p_array_initializer(t):
-    'array-initializer : array-initializer-list COMMAopt'
+    '''array_initializer : array_initializer_list COMMA_opt'''
 
-def p_array_initializer_list_single(t):
-    'array-initializer-list : array-element-initializer'
+def p_array_initializer_list(t):
+    '''array_initializer_list : array_element_initializer COMMA_opt'''
 
-def p_array_initializer_list_multiple(t):
-    'array-initializer-list : array-element-initializer COMMA array-initializer-list'
-
-def p_array_element_initializer_value(t):
-    'array-element-initializer : AMPERSANDopt element-value'
+def p_array_element_initializer_single(t):
+    '''array_element_initializer : AMPERSAND_opt element_value'''
 
 def p_array_element_initializer_key_value(t):
-    'array-element-initializer : element-key DOUBLE_ARROW AMPERSANDopt element-value'
+    '''array_element_initializer : element_key ARROW  AMPERSAND_opt element_value'''
 
 def p_element_key(t):
     '''element_key : expression'''
@@ -244,17 +259,17 @@ def p_element_value(t):
     '''element_value : expression'''
 
 def p_subscript_expression_brackets(t):
-    '''subscript_expression : dereferencable_expression LBRACKET expression? RBRACKET'''
+    '''subscript_expression : dereferencable_expression LBRACKET expression_opt RBRACKET'''
 
-def p_subscript_expression_braces(t):
+def p_subscript_expression_deprecated(t):
     '''subscript_expression : dereferencable_expression LBRACE expression RBRACE'''
 
 def p_function_call_expression_qualified_name(t):
-    '''function_call_expression : qualified_name LPAREN argument_expression_listopt RPAREN
+    '''function_call_expression : qualified_name LPAREN argument_expression_list_opt RPAREN
                                 | qualified_name LPAREN argument_expression_list COMMA RPAREN'''
 
 def p_function_call_expression_callable_expression(t):
-    '''function_call_expression : callable_expression LPAREN argument_expression_listopt RPAREN
+    '''function_call_expression : callable_expression LPAREN argument_expression_list_opt RPAREN
                                 | callable_expression LPAREN argument_expression_list COMMA RPAREN'''
 
 def p_argument_expression_list_single(t):
@@ -262,3 +277,138 @@ def p_argument_expression_list_single(t):
 
 def p_argument_expression_list_multiple(t):
     '''argument_expression_list : argument_expression_list COMMA argument_expression'''
+
+def p_argument_expression(t):
+    '''argument_expression : variadic_unpacking
+                           | expression'''
+
+def p_variadic_unpacking(t):
+    '''variadic_unpacking : ELLIPSIS expression'''
+
+def p_member_access_expression(t):
+    '''member_access_expression : dereferencable_expression ARROW member_name'''
+
+def p_member_name_name(t):
+    '''member_name : NAME'''
+
+def p_member_name_simple_variable(t):
+    '''member_name : simple_variable'''
+
+def p_member_name_expression(t):
+    '''member_name : LBRACE expression RBRACE'''
+
+def p_member_call_expression(t):
+    '''member_call_expression : dereferencable_expression ARROW member_name LPAREN argument_expression_list_opt RPAREN
+                              | dereferencable_expression ARROW member_name LPAREN argument_expression_list COMMA RPAREN'''
+
+def p_postfix_increment_expression(t):
+    '''postfix_increment_expression : variable INCREMENT'''
+
+def p_postfix_decrement_expression(t):
+    '''postfix_decrement_expression : variable DECREMENT'''
+
+def p_prefix_increment_expression(t):
+    '''prefix_increment_expression : INCREMENT variable'''
+
+def p_prefix_decrement_expression(t):
+    '''prefix_decrement_expression : DECREMENT variable'''
+
+def p_shell_command_expression(t):
+    '''shell_command_expression : BACKTICK dq_char_sequence_opt BACKTICK'''
+
+def p_dq_char_sequence_opt(t):
+    '''dq_char_sequence_opt : dq_char_sequence
+                            |'''
+
+def p_scoped_property_access_expression(t):
+    '''scoped_property_access_expression : scope_resolution_qualifier DOUBLE_COLON simple_variable'''
+
+def p_scoped_call_expression(t):
+    '''scoped_call_expression : scope_resolution_qualifier DOUBLE_COLON member_name LPAREN argument_expression_list_opt RPAREN
+                               | scope_resolution_qualifier DOUBLE_COLON member_name LPAREN argument_expression_list COMMA RPAREN'''
+
+def p_class_constant_access_expression(t):
+    '''class_constant_access_expression : scope_resolution_qualifier DOUBLE_COLON NAME'''
+
+def p_scope_resolution_qualifier_relative_scope(t):
+    '''scope_resolution_qualifier : relative_scope'''
+
+def p_scope_resolution_qualifier_qualified_name(t):
+    '''scope_resolution_qualifier : qualified_name'''
+
+def p_scope_resolution_qualifier_dereferencable_expression(t):
+    '''scope_resolution_qualifier : dereferencable_expression'''
+
+def p_relative_scope_self(t):
+    '''relative_scope : SELF'''
+
+def p_relative_scope_parent(t):
+    '''relative_scope : PARENT'''
+
+def p_relative_scope_static(t):
+    '''relative_scope : STATIC'''
+
+def p_clone_expression_primary_expression(t):
+    '''clone_expression : primary_expression'''
+
+def p_clone_expression_clone_primary_expression(t):
+    '''clone_expression : CLONE primary_expression'''
+
+def p_exponentiation_expression(t):
+    '''exponentiation_expression : clone_expression
+                                  | clone_expression EXPONENTIATION exponentiation_expression'''
+
+def p_unary_expression(t):
+    '''unary_expression : exponentiation_expression
+                        | unary_op_expression
+                        | error_control_expression
+                        | cast_expression'''
+
+def p_unary_op_expression(t):
+    '''unary_op_expression : unary_operator unary_expression'''
+
+def p_unary_operator_plus(t):
+    '''unary_operator : PLUS'''
+
+def p_unary_operator_minus(t):
+    '''unary_operator : MINUS'''
+
+def p_unary_operator_tilde(t):
+    '''unary_operator : TILDE'''
+
+def p_error_control_expression(t):
+    '''error_control_expression : AT unary_expression'''
+
+def p_cast_expression(t):
+    '''cast_expression : LPAREN cast_type RPAREN unary_expression'''
+
+def p_cast_type(t):
+    '''cast_type : ARRAY
+                 | BINARY
+                 | BOOL
+                 | BOOLEAN
+                 | DOUBLE
+                 | INT
+                 | INTEGER
+                 | FLOAT
+                 | OBJECT
+                 | REAL
+                 | STRING
+                 | UNSET'''
+
+def p_instanceof_expression(t):
+    '''instanceof_expression : unary_expression
+                             | instanceof_subj instanceof class_type_designator'''
+
+def p_instanceof_subj(t):
+    '''instanceof_subj : instanceof_expression'''
+
+def p_logical_not_expression(t):
+    '''logical_not_expression : instanceof_expression
+                               | NOT instanceof_expression'''
+
+def p_multiplicative_expression(t):
+    '''multiplicative_expression : logical_not_expression
+                                  | multiplicative_expression TIMES logical_not_expression
+                                  | multiplicative_expression DIVIDE logical_not_expression
+                                  | multiplicative_expression MODULO logical_not_expression'''
