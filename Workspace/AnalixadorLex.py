@@ -182,6 +182,8 @@ tokens = (
     'BAD_CARACTER',
     'EXPONENT_DNUMBER',
     #----------------------------------
+    'PLUS',
+    'LESS'
 )
 
 #palabras reservadas declaracion de php
@@ -638,6 +640,8 @@ t_BITWISE_NOT = r'\~'
 t_BITWISE_OR = r'\|'
 t_TERNARY_OPERATION = r'\?'
 t_DOUBLE_POINT = r'\:'
+t_PLUS = r'\+'
+t_LESS = r'-'
 
 
 # Una regla para manejar errores.
