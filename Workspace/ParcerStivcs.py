@@ -40,7 +40,7 @@ def p_finally_clause(p):
 
 def p_declare_statement(p):
     '''declare_statement : DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS statement
-                         | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS COLON statement_list ENDDECLARE SEMICOLON
+                         | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDDECLARE SEMICOLON
                          | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS SEMICOLON'''
 
 def p_declare_directive(p):
@@ -91,18 +91,18 @@ def p_variadic_parameter(p):
     '''variadic_parameter : type_declarationopt ampersandopt ELLIPSIS variable_name'''
 
 def p_return_type(p):
-    '''return_type : COLON type_declaration
-                   | COLON VOID'''
+    '''return_type : DOUBLE_POINT type_declaration
+                   | DOUBLE_POINT VOID'''
 #------------------------------------------------------------
 def p_type_declarationopt(p): #opcionales
     '''type_declarationopt : type_declaration
                            |'''
 
 def p_type_declaration(p):
-    '''type_declaration : QUESTION_MARK QUESTION_MARKopt base_type_declaration'''
+    '''type_declaration : TERNARY_OPERATIONopt base_type_declaration'''
 
-def p_question_markopt(p): #opcionales
-    '''QUESTION_MARKopt : QUESTION_MARK
+def p_TERNARY_OPERATIONopt(p): #opcionales
+    '''TERNARY_OPERATIONopt : TERNARY_OPERATION
                         |'''
 
 def p_base_type_declaration(p):
@@ -241,14 +241,10 @@ def p_method_modifier(p):
                        | class_modifier'''
 
 def p_constructor_declaration(p):
-    '''constructor_declaration : method_modifiers FUNCTION name ANDopt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
+    '''constructor_declaration : method_modifiers FUNCTION name AMPERSANDopt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
 
 def p_destructor_declaration(p):
-    '''destructor_declaration : method_modifiers FUNCTION name ANDopt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
-
-def p_ANDopt(p): #opcionales
-    '''ANDopt : AND
-              |'''
+    '''destructor_declaration : method_modifiers FUNCTION name AMPERSANDopt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
 
 def p_parameter_declaration_listopt(p): #opcionales
     '''parameter_declaration_listopt : parameter_declaration_list
@@ -347,15 +343,15 @@ def p_namespace_nameopt(p): #opcionales
 
 def p_namespace_use_declaration(p):
     '''namespace_use_declaration : USE namespace_function_or_constopt namespace_use_clauses SEMICOLON
-                                  | USE namespace_function_or_const BACKSLASHopt namespace_name BACKSLASH LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
-                                  | USE BACKSLASHopt namespace_name BACKSLASH LEFT_CBRAC namespace_use_group_clauses_2 RIGHT_CBRAC SEMICOLON'''
+                                  | USE namespace_function_or_const NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
+                                  | USE NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_2 RIGHT_CBRAC SEMICOLON'''
 
 def p_namespace_function_or_constopt(p): #opcionales
     '''namespace_function_or_constopt : namespace_function_or_const
                                       |'''
 
-def p_BACKSLASHopt(p): #opcionales
-    '''BACKSLASHopt : BACKSLASH
+def p_NS_SEPARATORopt(p): #opcionales
+    '''NS_SEPARATORopt : NS_SEPARATOR
                     |'''
 
 def p_namespace_use_clauses(p):

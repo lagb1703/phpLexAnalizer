@@ -157,7 +157,8 @@ tokens = (
     'WHITESPACE',
     'XOR_EQUAL', 
     # Tokens que no maneja php de por si
-    'EQUAL',
+    'EQUAL', # ==
+    'EQUALS', # =
     'RIGHT_PARENTHESIS',
     'LEFT_PARENTHESIS',
     'SEMICOLON',
@@ -646,6 +647,7 @@ t_TERNARY_OPERATION = r'\?'
 t_DOUBLE_POINT = r'\:'
 t_PLUS = r'\+'
 t_LESS = r'-'
+t_EQUALS = r'='
 
 
 # Una regla para manejar errores.
