@@ -110,7 +110,7 @@ def p_callable_variable(t):
                          | scoped_call_expression
                          | function_call_expression'''
 
-def p_variable_callable_variable(t):
+def p_variable(t):
     '''variable : callable_variable
                 | scoped_property_access_expression
                 | member_access_expression'''
@@ -119,13 +119,9 @@ def p_constant_access_expression(t):
     'constant_access_expression : qualified_name'
 
 def p_literal_integer(t):
-    'literal : integer_literal'
-
-def p_literal_floating(t):
-    'literal : floating_literal'
-
-def p_literal_string(t):
-    'literal : string_literal'
+    '''literal : integer_literal
+                |floating_literal
+                |string_literal'''
 
 def p_intrinsic_empty(t):
     '''intrinsic : empty_intrinsic
@@ -141,18 +137,28 @@ def p_eval_intrinsic(t):
 
 def p_exit_intrinsic(t):
     '''exit_intrinsic : EXIT
-                      | EXIT LPAREN expression? RPAREN
+                      | EXIT LPAREN expression_opt RPAREN
                       | DIE
-                      | DIE LPAREN expression? RPAREN'''
+                      | DIE LPAREN expression_opt RPAREN'''
+
+def expression_opt(t):
+    '''expression_opt : expression
+                    |'''
 
 def p_intrinsic_isset(t):
-    '''intrinsic : ISSET LPAREN variable_list COMMA? RPAREN'''
+    '''intrinsic : ISSET LPAREN variable_list COMMA_opt RPAREN'''
+
+def p_COMMA_opt(t):
+    '''COMMA_opt : COMMA
+                |'''
 
 def p_variable_list_single(t):
     'variable_list : variable'
 
 def p_variable_list_multiple(t):
     'variable_list : variable_list COMMA variable'
+
+#Hasta aqui voy 
 
 def p_anonymous_function_creation_expression(t):
     '''anonymous_function_creation_expression : staticopt FUNCTION AMPERSAND? LPAREN parameter_declaration_list? RPAREN anonymous_function_use_clause? return_type? compound_statement'''
