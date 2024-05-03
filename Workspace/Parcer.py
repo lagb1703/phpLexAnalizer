@@ -136,6 +136,9 @@ def p_literal_integer(t):
                 | floating_literal
                 | string_literal'''
 
+def p_string_literal(p):
+    '''string_literal : STRING'''
+
 def p_intrinsic_empty(t):
     '''intrinsic : empty_intrinsic
                   | eval_intrinsic
@@ -1363,7 +1366,7 @@ if __name__ == '__main__':
     if (len(sys.argv) > 1):
         fin = sys.argv[1]
     else:
-        fin = './test.txt'
+        fin = 'test.txt'
     f = open(fin, 'r')
     data = f.read()
     #print (data)
