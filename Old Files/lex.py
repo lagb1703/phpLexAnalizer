@@ -140,7 +140,7 @@ tokens = (
     'T_XOR_EQUAL', 
     'T_YIELD', 
     'T_YIELD_FROM',
-    'T_BACKTICK'
+    'T_BACKTICK',
 
 
     'T_LEFT_PARENT',
