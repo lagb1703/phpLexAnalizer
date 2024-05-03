@@ -202,8 +202,8 @@ def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                                   | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list _opt RIGHT_PARENTHESIS
                                   | NEW class_type_designator
-                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RBRACE
-                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RBRACE'''
+                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt t_RIGHT_PARENTHESIS
+                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt t_RIGHT_PARENTHESIS'''
 
 def p_argument_expression_list_opt(t):
     '''argument_expression_list_opt : argument_expression_list
@@ -230,7 +230,7 @@ def p_new_variable_simple_variable(t):
 
 def p_new_variable_array_access(t):
     '''new_variable : new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
-                    | new_variable LEFT_CBRAC expression RBRACE
+                    | new_variable LEFT_CBRAC expression t_RIGHT_PARENTHESIS
                     | new_variable ARROW member_name
                     | qualified_name DOUBLE_COLON simple_variable
                     | relative_scope DOUBLE_COLON simple_variable
@@ -270,7 +270,7 @@ def p_subscript_expression_brackets(t):
     '''subscript_expression : dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC'''
 
 def p_subscript_expression_deprecated(t):
-    '''subscript_expression : dereferencable_expression LEFT_CBRAC expression RBRACE'''
+    '''subscript_expression : dereferencable_expression LEFT_CBRAC expression t_RIGHT_PARENTHESIS'''
 
 def p_function_call_expression_qualified_name(t):
     '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
@@ -303,7 +303,7 @@ def p_member_name_simple_variable(t):
     '''member_name : simple_variable'''
 
 def p_member_name_expression(t):
-    '''member_name : LEFT_CBRAC expression RBRACE'''
+    '''member_name : LEFT_CBRAC expression t_RIGHT_PARENTHESIS'''
 
 def p_member_call_expression(t):
     '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
