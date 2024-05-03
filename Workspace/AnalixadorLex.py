@@ -182,6 +182,9 @@ tokens = (
     'BAD_CARACTER',
     'EXPONENT_DNUMBER',
     #----------------------------------
+    'PLUS',
+    'LESS',
+    'AND_EQUAL',
 )
 
 #palabras reservadas declaracion de php
@@ -562,6 +565,9 @@ def t_OPEN_TAG_WITH_ECHO(t):
 def t_OR_EQUAL(t):
     r'\|='
     return t
+def t_AND_EQUAL(t):
+    r'\&='
+    return t
 def t_PLUS_EQUAL(t):
     r'\+='
     return t
@@ -638,6 +644,8 @@ t_BITWISE_NOT = r'\~'
 t_BITWISE_OR = r'\|'
 t_TERNARY_OPERATION = r'\?'
 t_DOUBLE_POINT = r'\:'
+t_PLUS = r'\+'
+t_LESS = r'-'
 
 
 # Una regla para manejar errores.

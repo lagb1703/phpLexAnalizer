@@ -465,6 +465,203 @@ VERBOSE = 1
 # def p_sq_char_sequence_multiple(t):
 #     'sq-char-sequence : sq-char-sequence sq-char'
 
+#1
+
+def p_additive_expression_multiplicative(t):
+    'additive-expression : multiplicative-expression'
+
+def p_additive_expression_addition(t):
+    'additive-expression : additive-expression PLUS multiplicative-expression'
+
+def p_additive_expression_subtraction(t):
+    'additive-expression : additive-expression LESS multiplicative-expression'
+
+def p_additive_expression_concatenation(t):
+    'additive-expression : additive-expression CONCAT multiplicative-expression'
+
+def p_shift_expression_additive(t):
+    'shift-expression : additive-expression'
+
+def p_shift_expression_left_shift(t):
+    'shift-expression : shift-expression SL additive-expression'
+
+def p_shift_expression_right_shift(t):
+    'shift-expression : shift-expression SR additive-expression'
+
+def p_relational_expression_shift(t):
+    'relational-expression : shift-expression'
+
+def p_relational_expression_less_than(t):
+    'relational-expression : relational-expression LESS_THAN shift-expression'
+
+def p_relational_expression_greater_than(t):
+    'relational-expression : relational-expression IS_SMALLER_OR_EQUAL shift-expression'
+
+def p_relational_expression_less_than_or_equal(t):
+    'relational-expression : relational-expression IS_GREATER_OR_EQUAL shift-expression'
+
+def p_relational_expression_greater_than_or_equal(t):
+    'relational-expression : relational-expression GREATER_THAN_OR_EQUAL shift-expression'
+
+def p_relational_expression_spaceship(t):
+    'relational-expression : relational-expression SPACESHIP shift-expression'
+
+
+#2
+
+def p_equality_expression_relational(t):
+    'equality-expression : relational-expression'
+
+def p_equality_expression_equal(t):
+    'equality-expression : equality-expression EQUAL relational-expression'
+
+def p_equality_expression_not_equal(t):
+    'equality-expression : equality-expression IS_NOT_EQUAL relational-expression'
+
+def p_equality_expression_identical(t):
+    'equality-expression : equality-expression IS_IDENTICAL relational-expression'
+
+def p_equality_expression_not_identical(t):
+    'equality-expression : equality-expression IS_NOT_IDENTICAL relational-expression'
+
+def p_bitwise_AND_expression_equality(t):
+    'bitwise-AND-expression : equality-expression'
+
+def p_bitwise_AND_expression_AND(t):
+    'bitwise-AND-expression : bitwise-AND-expression AMPERSAND equality-expression'
+
+def p_bitwise_exc_OR_expression_AND(t):
+    'bitwise-exc-OR-expression : bitwise-AND-expression'
+
+def p_bitwise_exc_OR_expression_exc_OR(t):
+    'bitwise-exc-OR-expression : bitwise-exc-OR-expression BITWISE_XOR bitwise-AND-expression'
+
+def p_bitwise_inc_OR_expression_exc_OR(t):
+    'bitwise-inc-OR-expression : bitwise-exc-OR-expression'
+
+def p_bitwise_inc_OR_expression_inc_OR(t):
+    'bitwise-inc-OR-expression : bitwise-inc-OR-expression BITWISE_OR bitwise-exc-OR-expression'
+
+#3
+
+def p_logical_AND_expression_1_bitwise_inc_OR(t):
+    'logical-AND-expression-1 : bitwise-inc-OR-expression'
+
+def p_logical_AND_expression_1_AND(t):
+    'logical-AND-expression-1 : logical-AND-expression-1 AMPERSAND AMPERSAND bitwise-inc-OR-expression'
+
+def p_logical_inc_OR_expression_1_logical_AND(t):
+    'logical-inc-OR-expression-1 : logical-AND-expression-1'
+
+def p_logical_inc_OR_expression_1_OR(t):
+    'logical-inc-OR-expression-1 : logical-inc-OR-expression-1 BITWISE_OR BITWISE_OR logical-AND-expression-1'
+
+def p_coalesce_expression_logical_inc_OR(t):
+    'coalesce-expression : logical-inc-OR-expression-1'
+
+def p_coalesce_expression_coalesce(t):
+    'coalesce-expression : logical-inc-OR-expression-1 COALESCE coalesce-expression'
+
+def p_conditional_expression_coalesce(t):
+    'conditional-expression : coalesce-expression'
+
+def p_conditional_expression_ternary(t):
+    'conditional-expression : conditional-expression TERNARY_OPERATION expressionopt DOUBLE_POINT coalesce-expression'
+
+#4
+
+def p_assignment_expression_conditional(t):
+    'assignment-expression : conditional-expression'
+
+def p_assignment_expression_simple(t):
+    'assignment-expression : simple-assignment-expression'
+
+def p_assignment_expression_compound(t):
+    'assignment-expression : compound-assignment-expression'
+
+def p_simple_assignment_expression_variable(t):
+    'simple-assignment-expression : variable EQUAL assignment-expression'
+
+def p_simple_assignment_expression_list_intrinsic(t):
+    'simple-assignment-expression : list-intrinsic EQUAL assignment-expression'
+
+def p_list_intrinsic(t):
+    'list-intrinsic : LIST LEFT_PARENTHESIS list-expression-list RIGHT_PARENTHESIS'
+
+def p_list_expression_list_unkeyed(t):
+    'list-expression-list : unkeyed-list-expression-list'
+
+def p_list_expression_list_keyed(t):
+    'list-expression-list : keyed-list-expression-list (COLON)?'
+
+def p_unkeyed_list_expression_list_single(t):
+    'unkeyed-list-expression-list : list-or-variable'
+
+def p_unkeyed_list_expression_list_comma(t):
+    'unkeyed-list-expression-list : COLON'
+
+def p_unkeyed_list_expression_list_multiple(t):
+    'unkeyed-list-expression-list : unkeyed-list-expression-list COMMA list-or-variable (COLON)?'
+
+def p_keyed_list_expression_list_single(t):
+    'keyed-list-expression-list : expression DOUBLE_ARROW list-or-variable'
+
+def p_keyed_list_expression_list_multiple(t):
+    'keyed-list-expression-list : keyed-list-expression-list COLON expression DOUBLE_ARROW list-or-variable'
+
+#5
+
+def p_list_or_variable_list_intrinsic(t):
+    'list-or-variable : list-intrinsic'
+
+def p_list_or_variable_variable(t):
+    'list-or-variable : (AMPERSAND)? variable'
+
+def p_byref_assignment_expression(t):
+    'byref-assignment-expression : variable EQUAL AMPERSAND variable'
+
+def p_compound_assignment_expression(t):
+    'compound-assignment-expression : variable compound-assignment-operator assignment-expression'
+
+#6
+
+def p_compound_assignment_operator_power(t):
+    'compound-assignment-operator : POW_EQUAL'
+
+def p_compound_assignment_operator_multiply(t):
+    'compound-assignment-operator : MUL_EQUAL'
+
+def p_compound_assignment_operator_divide(t):
+    'compound-assignment-operator : DIV_EQUAL'
+
+def p_compound_assignment_operator_modulus(t):
+    'compound-assignment-operator : MOD_EQUAL'
+
+def p_compound_assignment_operator_add(t):
+    'compound-assignment-operator : PLUS_EQUAL'
+
+def p_compound_assignment_operator_subtract(t):
+    'compound-assignment-operator : MINUS_EQUAL'
+
+def p_compound_assignment_operator_concatenate(t):
+    'compound-assignment-operator : CONCAT_EQUAL'
+
+def p_compound_assignment_operator_left_shift(t):
+    'compound-assignment-operator : SL_EQUAL'
+
+def p_compound_assignment_operator_right_shift(t):
+    'compound-assignment-operator : SR_EQUAL'
+
+def p_compound_assignment_operator_bitwise_AND(t):
+    'compound-assignment-operator : XOR_EQUAL'
+
+def p_compound_assignment_operator_bitwise_exc_OR(t):
+    'compound-assignment-operator : XOR_EQUAL'
+
+def p_compound_assignment_operator_bitwise_inc_OR(t):
+    'compound-assignment-operator : BITWISE_INC_OR_ASSIGN'
+
+
 parser = yacc.yacc()
 
 while True:
