@@ -1021,11 +1021,8 @@ def p_expression_list(p):
                        | expression_list  expression'''
 
 def p_unset_statement(p):
-    '''unset_statement : UNSET LEFT_PARENTHESIS variable_list commaopt RIGHT_PARENTHESIS SEMICOLON'''
-
-def p_commopt(p): #opcionales
-    '''commaopt : 
-                |'''
+    '''unset_statement : UNSET LEFT_PARENTHESIS variable_list COLON RIGHT_PARENTHESIS SEMICOLON
+                        | UNSET LEFT_PARENTHESIS variable_list RIGHT_PARENTHESIS SEMICOLON'''
 
 def p_function_definition(p):
     '''function_definition : function_definition_header compound_statement'''
