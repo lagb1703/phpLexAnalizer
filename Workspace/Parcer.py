@@ -1297,9 +1297,9 @@ def p_trait_alias_as_clause(p):
     '''trait_alias_as_clause : name AS visibility_modifieropt name
                               | name AS visibility_modifier nameopt'''
 
-def p_visibility_modifieropt_2(p): #opcionales
-    '''visibility_modifieropt : visibility_modifier
-                                |'''
+# def p_visibility_modifieropt_2(p): #opcionales
+#     '''visibility_modifieropt : visibility_modifier
+#                                 |'''
 
 def p_nameopt(p): #opcionales
     '''nameopt : name
