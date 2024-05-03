@@ -151,11 +151,7 @@ def p_exit_intrinsic(t):
                       | DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS'''
 
 def p_intrinsic_isset(t):
-    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list _opt RIGHT_PARENTHESIS'''
-
-def p__opt(t):
-    '''_opt : 
-                |'''
+    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS'''
 
 def p_variable_list_single(t):
     'variable_list : variable'
