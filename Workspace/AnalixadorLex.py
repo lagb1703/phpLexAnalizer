@@ -85,7 +85,7 @@ tokens = (
     'WHILE',
     'XOR',
     'YIELD',
-    'YIELDFROM',
+    'YIELD_FROM',
     #palabras reservadas de constantes en el tiempo de compilacion
     '__CLASS__',
     '__DIR__',
