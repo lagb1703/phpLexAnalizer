@@ -186,7 +186,6 @@ tokens = (
     #----------------------------------
     'PLUS',
     'LESS',
-    'AND_EQUAL',
 )
 
 #palabras reservadas declaracion de php
@@ -420,9 +419,6 @@ def t_TRAIT_C(t):
     return t
 #hasta qui las palabras reservadas de php
 #simbolos no simples de php
-def t_AND_EQUAL(t):
-    r'&='
-    return t
 # def t_ARRAY_CAST(t):
 #     r'\(array\)'
 #     return t

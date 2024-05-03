@@ -1595,9 +1595,6 @@ def p_static_modifieropt(p): #opcionales
     '''static_modifieropt : static_modifier
                             |'''
 
-def p_visibility_modifieropt(p): #opcionales
-    '''visibility_modifieropt : visibility_modifier
-                                |'''
 
 def p_visibility_modifier(p):
     '''visibility_modifier : PUBLIC
@@ -1723,10 +1720,6 @@ def p_trait_alias_as_clause(p):
     '''trait_alias_as_clause : name AS visibility_modifieropt name
                               | name AS visibility_modifier nameopt'''
 
-def p_visibility_modifieropt(p): #opcionales
-    '''visibility_modifieropt : visibility_modifier
-                                |'''
-
 def p_nameopt(p): #opcionales
     '''nameopt : name
                 |'''
@@ -1758,10 +1751,6 @@ def p_namespace_use_clauses(p):
 
 def p_namespace_use_clause(p):
     '''namespace_use_clause : qualified_name namespace_aliasing_clauseopt'''
-
-def p_namespace_aliasing_clauseopt(p): #opcionales
-    '''namespace_aliasing_clauseopt : namespace_aliasing_clause
-                                    |'''
 
 def p_namespace_aliasing_clause(p):
     '''namespace_aliasing_clause : AS name'''
