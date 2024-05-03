@@ -1788,6 +1788,14 @@ def p_namespace_use_group_clause_2(p):
 def p_namespace_aliasing_clauseopt(p): #opcionales
     '''namespace_aliasing_clauseopt : namespace_aliasing_clause
                                     |'''
+def p_error(p):
+	if VERBOSE:
+		if p is not None:
+			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL Token  " + str(p.value))
+		else:
+			print ("ERROR SINTACTICO EN LA LINEA: " + str(AnalixadorLex.lexer.lineno))
+	else:
+		raise Exception('syntax', 'error')
 
 parser = yacc.yacc()
 
