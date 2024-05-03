@@ -55,7 +55,7 @@ Rule 6     end_tag -> <empty>
 Rule 7     function_static_declaration -> STATIC static_variable_name_list SEMICOLON
 Rule 8     static_variable_name_list -> static_variable_declaration
 Rule 9     static_variable_name_list -> static_variable_name_list static_variable_declaration
-Rule 10    static_variable_declaration -> variable_name function_static_initializer_opt
+Rule 10    static_variable_declaration -> VARIABLE function_static_initializer_opt
 Rule 11    function_static_initializer_opt -> function_static_initializer
 Rule 12    function_static_initializer_opt -> <empty>
 Rule 13    function_static_initializer_opt -> EQUAL constant_expression
@@ -77,7 +77,7 @@ Rule 28    primary_expression -> prefix_decrement_expression
 Rule 29    primary_expression -> byref_assignment_expression
 Rule 30    primary_expression -> shell_command_expression
 Rule 31    primary_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 32    simple_variable -> variable_name
+Rule 32    simple_variable -> VARIABLE
 Rule 33    simple_variable -> DOLLAR simple_variable
 Rule 34    simple_variable -> DOLLAR LBRACE expression RIGHT_PARENTHESIS
 Rule 35    dereferencable_expression -> variable
@@ -125,8 +125,8 @@ Rule 76    anonymous_function_use_clause_opt -> <empty>
 Rule 77    return_type_opt -> return_type
 Rule 78    return_type_opt -> <empty>
 Rule 79    anonymous_function_use_clause -> USE LEFT_PARENTHESIS use_variable_name_list RIGHT_PARENTHESIS
-Rule 80    use_variable_name_list -> AMPERSAND_opt variable_name
-Rule 81    use_variable_name_list -> use_variable_name_list AMPERSAND_opt variable_name
+Rule 80    use_variable_name_list -> AMPERSAND_opt VARIABLE
+Rule 81    use_variable_name_list -> use_variable_name_list AMPERSAND_opt VARIABLE
 Rule 82    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
 Rule 83    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list _opt RIGHT_PARENTHESIS
 Rule 84    object_creation_expression -> NEW class_type_designator
@@ -460,8 +460,8 @@ Rule 411   simple_parameter_declaration_list -> parameter_declaration
 Rule 412   simple_parameter_declaration_list -> parameter_declaration_list parameter_declaration
 Rule 413   variadic_declaration_list -> simple_parameter_declaration_list variadic_parameter
 Rule 414   variadic_declaration_list -> variadic_parameter
-Rule 415   parameter_declaration -> type_declarationopt ampersandopt variable_name default_argument_specifieropt
-Rule 416   variadic_parameter -> type_declarationopt ampersandopt ELLIPSIS variable_name
+Rule 415   parameter_declaration -> type_declarationopt ampersandopt VARIABLE default_argument_specifieropt
+Rule 416   variadic_parameter -> type_declarationopt ampersandopt ELLIPSIS VARIABLE
 Rule 417   return_type -> DOUBLE_POINT type_declaration
 Rule 418   return_type -> DOUBLE_POINT VOID
 Rule 419   type_declarationopt -> type_declaration
@@ -520,7 +520,7 @@ Rule 471   visibility_modifier -> PRIVATE
 Rule 472   static_modifier -> STATIC
 Rule 473   property_elements -> property_element
 Rule 474   property_elements -> property_elements property_element
-Rule 475   property_element -> variable_name property_initializeropt SEMICOLON
+Rule 475   property_element -> VARIABLE property_initializeropt SEMICOLON
 Rule 476   property_initializeropt -> property_initializer
 Rule 477   property_initializeropt -> <empty>
 Rule 478   property_initializer -> EQUAL constant_expression
@@ -643,6 +643,7 @@ DIV_EQUAL            : 240
 DNUMBER              : 
 DO                   : 336
 DOC_COMMENT          : 
+DOLLAR               : 33 34
 DOLLAR_OPEN_CURLY_BRACES : 
 DOUBLE_ARROW         : 231 232 254 363
 DOUBLE_COLON         : 101 102 103 140 141 142 143 526
@@ -740,7 +741,7 @@ TRY                  : 385 386 387
 UNSET                : 175 403 404
 USE                  : 79 515 535 536 537
 VAR                  : 464
-VARIABLE             : 390
+VARIABLE             : 10 32 80 81 390 415 416 475
 WHILE                : 334 335 336
 WHITESPACE           : 
 XOR                  : 260
@@ -768,7 +769,6 @@ BINARY               : 165
 BOOL                 : 166 429
 BOOLEAN              : 167
 DECREMENT            : 134 136
-DOLLAR               : 33 34
 DOUBLE               : 168
 ENCODING             : 398
 EXPONENTIATION       : 153
@@ -1044,7 +1044,6 @@ use_variable_name_list : 79 81
 variable             : 17 35 66 67 133 134 135 136 221 234 235 236 236 237
 variable_list        : 67 403 404
 variable_list_opt    : 65
-variable_name        : 10 32 80 81 415 416 475
 variable_name_list   : 14 16
 variadic_declaration_list : 410
 variadic_parameter   : 413 414

@@ -58,7 +58,7 @@ def p_static_variable_name_list_multiple(t):
     'static_variable_name_list : static_variable_name_list  static_variable_declaration'
 
 def p_static_variable_declaration(t):
-    'static_variable_declaration : variable_name function_static_initializer_opt'
+    'static_variable_declaration : VARIABLE function_static_initializer_opt'
 
 def p_function_static_initializer_opt(t):
     '''function_static_initializer_opt : function_static_initializer
@@ -96,9 +96,9 @@ def p_primary_expression_variable(t):
                            | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS'''
 
 def p_simple_variable(t):
-    '''simple_variable : variable_name
+    '''simple_variable : VARIABLE
                        | DOLLAR simple_variable
-                       | DOLLAR LBRACE expression RIGHT_PARENTHESIS'''
+                       | DOLLAR LEFT_PARENTHESIS expression RIGHT_PARENTHESIS'''
 
 def p_dereferencable_expression(t):
     '''dereferencable_expression : variable
@@ -186,17 +186,17 @@ def p_anonymous_function_use_clause(t):
     'anonymous_function_use_clause : USE LEFT_PARENTHESIS use_variable_name_list RIGHT_PARENTHESIS'
 
 def p_use_variable_name_list_single(t):
-    '''use_variable_name_list : AMPERSAND_opt variable_name'''
+    '''use_variable_name_list : AMPERSAND_opt VARIABLE'''
 
 def p_use_variable_name_list_multiple(t):
-    '''use_variable_name_list : use_variable_name_list  AMPERSAND_opt variable_name'''
+    '''use_variable_name_list : use_variable_name_list  AMPERSAND_opt VARIABLE'''
 
 def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                                   | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list _opt RIGHT_PARENTHESIS
                                   | NEW class_type_designator
-                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
-                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE'''
+                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_PARENTHESIS class_member_declarations_opt RBRACE
+                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_PARENTHESIS class_member_declarations_opt RBRACE'''
 
 def p_argument_expression_list_opt(t):
     '''argument_expression_list_opt : argument_expression_list
@@ -223,7 +223,7 @@ def p_new_variable_simple_variable(t):
 
 def p_new_variable_array_access(t):
     '''new_variable : new_variable LBRACKET expression_opt RBRACKET
-                    | new_variable LBRACE expression RBRACE
+                    | new_variable LEFT_PARENTHESIS expression RBRACE
                     | new_variable ARROW member_name
                     | qualified_name DOUBLE_COLON simple_variable
                     | relative_scope DOUBLE_COLON simple_variable
@@ -263,7 +263,7 @@ def p_subscript_expression_brackets(t):
     '''subscript_expression : dereferencable_expression LBRACKET expression_opt RBRACKET'''
 
 def p_subscript_expression_deprecated(t):
-    '''subscript_expression : dereferencable_expression LBRACE expression RBRACE'''
+    '''subscript_expression : dereferencable_expression LEFT_PARENTHESIS expression RBRACE'''
 
 def p_function_call_expression_qualified_name(t):
     '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
@@ -296,7 +296,7 @@ def p_member_name_simple_variable(t):
     '''member_name : simple_variable'''
 
 def p_member_name_expression(t):
-    '''member_name : LBRACE expression RBRACE'''
+    '''member_name : LEFT_PARENTHESIS expression RBRACE'''
 
 def p_member_call_expression(t):
     '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
@@ -1047,10 +1047,10 @@ def p_variadic_declaration_list(p):
                                   | variadic_parameter'''
 #_____________________________________________________________
 def p_parameter_declaration(p):
-    '''parameter_declaration : type_declarationopt ampersandopt variable_name default_argument_specifieropt'''
+    '''parameter_declaration : type_declarationopt ampersandopt VARIABLE default_argument_specifieropt'''
 
 def p_variadic_parameter(p):
-    '''variadic_parameter : type_declarationopt ampersandopt ELLIPSIS variable_name'''
+    '''variadic_parameter : type_declarationopt ampersandopt ELLIPSIS VARIABLE'''
 
 def p_return_type(p):
     '''return_type : DOUBLE_POINT type_declaration
@@ -1176,7 +1176,7 @@ def p_property_elements(p):
                           | property_elements property_element'''
 
 def p_property_element(p):
-    '''property_element : variable_name property_initializeropt SEMICOLON'''
+    '''property_element : VARIABLE property_initializeropt SEMICOLON'''
 
 def p_property_initializeropt(p): #opcionales
     '''property_initializeropt : property_initializer
@@ -1359,7 +1359,7 @@ if __name__ == '__main__':
     if (len(sys.argv) > 1):
         fin = sys.argv[1]
     else:
-        fin = 'test.txt'
+        fin = './test.txt'
     f = open(fin, 'r')
     data = f.read()
     #print (data)
