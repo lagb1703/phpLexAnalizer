@@ -30,9 +30,6 @@ def p_script_two(t):
 def p_statement_list_opt(t):
     '''statement_list_opt : statement_list
                                 | '''
-def p_statement_list_opt(t):
-    '''statement_list_opt : statement_list
-                                | '''
 
 def p_start_tag_php(t):
     'start_tag : OPEN_TAG'
