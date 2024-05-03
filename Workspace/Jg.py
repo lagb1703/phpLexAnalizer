@@ -8,7 +8,19 @@ def p_script_two(t):
     'script : script script_section'
 
 def p_script_section(t):
-    'script_section : textopt start_tag statement_list? end_tago? text?'
+    'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
+
+def p_text_opt(t):
+    '''text_opt : text 
+                    |'''
+    
+def p_end_tago_opt(t):
+    '''end_tago_opt : end_tago
+                    |'''
+    
+def p_statement_list_opt(t):
+    '''statement_list_opt : statement_list
+                                | '''
 
 def p_start_tag_php(t):
     'start_tag : PHP_OPEN'
@@ -37,7 +49,11 @@ def p_static_variable_name_list_multiple(t):
     'static_variable_name_list : static_variable_name_list COMMA static_variable_declaration'
 
 def p_static_variable_declaration(t):
-    'static_variable_declaration : variable_name function_static_initializer?'
+    'static_variable_declaration : variable_name function_static_initializer_opt'
+
+def p_function_static_initializer_opt(t):
+    '''function_static_initializer_opt : function_static_initializer
+                                         | '''
 
 def p_function_static_initializer_opt(t):
     '''function_static_initializer_opt : EQUAL constant_expression'''
@@ -174,3 +190,49 @@ def p_new_variable_array_access(t):
                     | relative_scope DOUBLE_COLON simple_variable
                     | new_variable DOUBLE_COLON simple_variable'''
 
+def p_array_creation_expression_array(t):
+    'array-creation-expression : ARRAY LEFT_PAREN array-initializeropt RIGHT_PAREN'
+
+def p_array_creation_expression_bracket(t):
+    'array-creation-expression : LEFT_BRACKET array-initializeropt RIGHT_BRACKET'
+
+def p_array_initializer(t):
+    'array-initializer : array-initializer-list COMMAopt'
+
+def p_array_initializer_list_single(t):
+    'array-initializer-list : array-element-initializer'
+
+def p_array_initializer_list_multiple(t):
+    'array-initializer-list : array-element-initializer COMMA array-initializer-list'
+
+def p_array_element_initializer_value(t):
+    'array-element-initializer : AMPERSANDopt element-value'
+
+def p_array_element_initializer_key_value(t):
+    'array-element-initializer : element-key DOUBLE_ARROW AMPERSANDopt element-value'
+
+def p_element_key(t):
+    '''element_key : expression'''
+
+def p_element_value(t):
+    '''element_value : expression'''
+
+def p_subscript_expression_brackets(t):
+    '''subscript_expression : dereferencable_expression LBRACKET expression? RBRACKET'''
+
+def p_subscript_expression_braces(t):
+    '''subscript_expression : dereferencable_expression LBRACE expression RBRACE'''
+
+def p_function_call_expression_qualified_name(t):
+    '''function_call_expression : qualified_name LPAREN argument_expression_listopt RPAREN
+                                | qualified_name LPAREN argument_expression_list COMMA RPAREN'''
+
+def p_function_call_expression_callable_expression(t):
+    '''function_call_expression : callable_expression LPAREN argument_expression_listopt RPAREN
+                                | callable_expression LPAREN argument_expression_list COMMA RPAREN'''
+
+def p_argument_expression_list_single(t):
+    '''argument_expression_list : argument_expression'''
+
+def p_argument_expression_list_multiple(t):
+    '''argument_expression_list : argument_expression_list COMMA argument_expression'''
