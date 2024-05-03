@@ -58,7 +58,7 @@ def p_static_variable_name_list_single(t):
     'static_variable_name_list : static_variable_declaration'
 
 def p_static_variable_name_list_multiple(t):
-    'static_variable_name_list : static_variable_name_list COMMA static_variable_declaration'
+    'static_variable_name_list : static_variable_name_list  static_variable_declaration'
 
 def p_static_variable_declaration(t):
     'static_variable_declaration : variable_name function_static_initializer_opt'
@@ -77,7 +77,7 @@ def p_variable_name_list_single(t):
     'variable_name_list : simple_variable'
 
 def p_variable_name_list_multiple(t):
-    'variable_name_list : variable_name_list COMMA simple_variable'
+    'variable_name_list : variable_name_list  simple_variable'
 
 #Expressions
 
@@ -154,17 +154,17 @@ def p_exit_intrinsic(t):
                       | DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS'''
 
 def p_intrinsic_isset(t):
-    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list COMMA_opt RIGHT_PARENTHESIS'''
+    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list _opt RIGHT_PARENTHESIS'''
 
-def p_COMMA_opt(t):
-    '''COMMA_opt : COMMA
+def p__opt(t):
+    '''_opt : 
                 |'''
 
 def p_variable_list_single(t):
     'variable_list : variable'
 
 def p_variable_list_multiple(t):
-    'variable_list : variable_list COMMA variable'
+    'variable_list : variable_list  variable'
 
 def p_anonymous_function_creation_expression(t):
     '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement'''
@@ -196,11 +196,11 @@ def p_use_variable_name_list_single(t):
     '''use_variable_name_list : AMPERSAND_opt variable_name'''
 
 def p_use_variable_name_list_multiple(t):
-    '''use_variable_name_list : use_variable_name_list COMMA AMPERSAND_opt variable_name'''
+    '''use_variable_name_list : use_variable_name_list  AMPERSAND_opt variable_name'''
 
 def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                                  | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COMMA_opt RIGHT_PARENTHESIS
+                                  | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list _opt RIGHT_PARENTHESIS
                                   | NEW class_type_designator
                                   | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE
                                   | NEW CLASS class_base_clause_opt class_interface_clause_opt LBRACE class_member_declarations_opt RBRACE'''
@@ -249,10 +249,10 @@ def p_array_initializer_opt(t):
                               | '''
 
 def p_array_initializer(t):
-    '''array_initializer : array_initializer_list COMMA_opt'''
+    '''array_initializer : array_initializer_list _opt'''
 
 def p_array_initializer_list(t):
-    '''array_initializer_list : array_element_initializer COMMA_opt'''
+    '''array_initializer_list : array_element_initializer _opt'''
 
 def p_array_element_initializer_single(t):
     '''array_element_initializer : AMPERSAND_opt element_value'''
@@ -274,17 +274,17 @@ def p_subscript_expression_deprecated(t):
 
 def p_function_call_expression_qualified_name(t):
     '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                                | qualified_name LEFT_PARENTHESIS argument_expression_list COMMA RIGHT_PARENTHESIS'''
+                                | qualified_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_function_call_expression_callable_expression(t):
     '''function_call_expression : callable_expression LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                                | callable_expression LEFT_PARENTHESIS argument_expression_list COMMA RIGHT_PARENTHESIS'''
+                                | callable_expression LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_argument_expression_list_single(t):
     '''argument_expression_list : argument_expression'''
 
 def p_argument_expression_list_multiple(t):
-    '''argument_expression_list : argument_expression_list COMMA argument_expression'''
+    '''argument_expression_list : argument_expression_list  argument_expression'''
 
 def p_argument_expression(t):
     '''argument_expression : variadic_unpacking
@@ -307,7 +307,7 @@ def p_member_name_expression(t):
 
 def p_member_call_expression(t):
     '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                              | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list COMMA RIGHT_PARENTHESIS'''
+                              | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_postfix_increment_expression(t):
     '''postfix_increment_expression : variable INCREMENT'''
@@ -333,7 +333,7 @@ def p_scoped_property_access_expression(t):
 
 def p_scoped_call_expression(t):
     '''scoped_call_expression : scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                               | scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list COMMA RIGHT_PARENTHESIS'''
+                               | scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_class_constant_access_expression(t):
     '''class_constant_access_expression : scope_resolution_qualifier DOUBLE_COLON NAME'''
@@ -1025,13 +1025,13 @@ def p_echo_statement(p):
 
 def p_expression_list(p):
     '''expression_list : expression
-                       | expression_list COMMA expression'''
+                       | expression_list  expression'''
 
 def p_unset_statement(p):
     '''unset_statement : UNSET LEFT_PARENTHESIS variable_list commaopt RIGHT_PARENTHESIS SEMICOLON'''
 
 def p_commopt(p): #opcionales
-    '''commaopt : COMMA
+    '''commaopt : 
                 |'''
 
 def p_function_definition(p):
@@ -1050,10 +1050,10 @@ def p_parameter_declaration_list(p):
 
 def p_simple_parameter_declaration_list(p):
     '''simple_parameter_declaration_list : parameter_declaration
-                                          | parameter_declaration_list COMMA parameter_declaration'''
+                                          | parameter_declaration_list  parameter_declaration'''
 
 def p_variadic_declaration_list(p):
-    '''variadic_declaration_list : simple_parameter_declaration_list COMMA variadic_parameter
+    '''variadic_declaration_list : simple_parameter_declaration_list  variadic_parameter
                                   | variadic_parameter'''
 #-------------------------------------------------------------
 def p_parameter_declaration(p):
@@ -1126,7 +1126,7 @@ def p_class_base_clause(p):
 
 def p_class_interface_clause(p):
     '''class_interface_clause : IMPLEMENTS qualified_name
-                               | class_interface_clause COMMA qualified_name'''
+                               | class_interface_clause  qualified_name'''
 
 def p_class_member_declarations(p):
     '''class_member_declarations : class_member_declaration
@@ -1152,7 +1152,7 @@ def p_class_const_declaration(p):
 
 def p_const_elements(p):
     '''const_elements : const_element
-                      | const_elements COMMA const_element'''
+                      | const_elements  const_element'''
 
 def p_const_element(p):
     '''const_element : name EQUAL constant_expression'''
@@ -1235,7 +1235,7 @@ def p_interface_member_declarationsopt(p): #opcionales
 
 def p_interface_base_clause(p):
     '''interface_base_clause : EXTENDS qualified_name
-                             | interface_base_clause COMMA qualified_name'''
+                             | interface_base_clause  qualified_name'''
 
 def p_interface_member_declarations(p):
     '''interface_member_declarations : interface_member_declaration
@@ -1272,7 +1272,7 @@ def p_trait_use_clause(p):
 
 def p_trait_name_list(p):
     '''trait_name_list : qualified_name
-                       | trait_name_list COMMA qualified_name'''
+                       | trait_name_list  qualified_name'''
 
 def p_trait_use_specification(p):
     '''trait_use_specification : SEMICOLON
@@ -1327,7 +1327,7 @@ def p_NS_SEPARATORopt(p): #opcionales
 
 def p_namespace_use_clauses(p):
     '''namespace_use_clauses : namespace_use_clause
-                              | namespace_use_clauses COMMA namespace_use_clause'''
+                              | namespace_use_clauses  namespace_use_clause'''
 
 def p_namespace_use_clause(p):
     '''namespace_use_clause : qualified_name namespace_aliasing_clauseopt'''
@@ -1341,7 +1341,7 @@ def p_namespace_function_or_const(p):
 
 def p_namespace_use_group_clauses_1(p):
     '''namespace_use_group_clauses_1 : namespace_use_group_clause_1
-                                      | namespace_use_group_clauses_1 COMMA namespace_use_group_clause_1'''
+                                      | namespace_use_group_clauses_1  namespace_use_group_clause_1'''
 
 def p_namespace_use_group_clause_1(p):
     '''namespace_use_group_clause_1 : namespace_name namespace_aliasing_clauseopt'''
@@ -1349,7 +1349,7 @@ def p_namespace_use_group_clause_1(p):
 
 def p_namespace_use_group_clauses_2(p):
     '''namespace_use_group_clauses_2 : namespace_use_group_clause_2
-                                      | namespace_use_group_clauses_2 COMMA namespace_use_group_clause_2'''
+                                      | namespace_use_group_clauses_2  namespace_use_group_clause_2'''
 
 def p_namespace_use_group_clause_2(p):
     '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clauseopt'''
