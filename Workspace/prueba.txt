@@ -1,0 +1,274 @@
+break-statement:
+   break   breakout-levelopt   ;
+
+return-statement:
+   return   expressionopt   ;
+
+throw-statement:
+   throw   expression   ;
+
+try-statement:
+   try   compound-statement   catch-clauses
+   try   compound-statement   finally-clause
+   try   compound-statement   catch-clauses   finally-clause
+
+catch-clauses:
+   catch-clause
+   catch-clauses   catch-clause
+
+catch-clause:
+   catch   (   catch-name-list   variable-name   )   compound-statement
+
+catch-name-list:
+   qualified-name
+   catch-name-list   |   qualified-name
+
+finally-clause:
+   finally   compound-statement
+
+declare-statement:
+   declare   (   declare-directive   )   statement
+   declare   (   declare-directive   )   :   statement-list   enddeclare   ;
+   declare   (   declare-directive   )   ;
+
+declare-directive:
+   ticks   =   literal
+   encoding   =   literal
+   strict_types   =   literal
+
+echo-statement:
+   echo   expression-list   ;
+
+expression-list:
+   expression
+   expression-list   ,   expression
+
+unset-statement:
+   unset   (   variable-list   ,opt   )   ;
+
+function-definition:
+   function-definition-header   compound-statement
+
+function-definition-header:
+   function   &opt   name   (   parameter-declaration-listopt   )   return-typeopt
+
+parameter-declaration-list:
+   simple-parameter-declaration-list
+   variadic-declaration-list
+
+simple-parameter-declaration-list:
+   parameter-declaration
+   parameter-declaration-list   ,   parameter-declaration
+
+variadic-declaration-list:
+   simple-parameter-declaration-list   ,   variadic-parameter
+   variadic-parameter
+
+parameter-declaration:
+   type-declarationopt   &opt   variable-name   default-argument-specifieropt
+
+variadic-parameter:
+   type-declarationopt   &opt   ...   variable-name
+
+return-type:
+   :   type-declaration
+   :   void
+-------------------------------------------
+type-declaration:
+   ?opt   base-type-declaration
+
+base-type-declaration:
+   array
+   callable
+   iterable
+   scalar-type
+   qualified-name
+
+scalar-type:
+   bool
+   float
+   int
+   string
+
+default-argument-specifier:
+   =   constant-expression
+
+class-declaration:
+   class-modifieropt   class   name   class-base-clauseopt   class-interface-clauseopt   {   class-member-declarationsopt   }
+-------------------------------------------------------------------------------
+class-modifier:
+   abstract
+   final
+
+class-base-clause:
+   extends   qualified-name
+
+class-interface-clause:
+   implements   qualified-name
+   class-interface-clause   ,   qualified-name
+
+class-member-declarations:
+   class-member-declaration
+   class-member-declarations   class-member-declaration
+
+class-member-declaration:
+   class-const-declaration
+   property-declaration
+   method-declaration
+   constructor-declaration
+   destructor-declaration
+   trait-use-clause
+
+const-declaration:
+   const   const-elements   ;
+----------------------------------------------------------------
+class-const-declaration:
+   visibility-modifieropt   const   const-elements   ;
+
+const-elements:
+   const-element
+   const-elements   ,   const-element
+
+const-element:
+   name   =   constant-expression
+
+property-declaration:
+   property-modifier   property-elements   ;
+
+property-modifier:
+   var
+   visibility-modifier   static-modifieropt
+   static-modifier   visibility-modifieropt
+
+visibility-modifier:
+   public
+   protected
+   private
+
+static-modifier:
+   static
+------------------------------------------------------------------
+property-elements:
+   property-element
+   property-elements   property-element
+
+property-element:
+   variable-name   property-initializeropt   ;
+
+property-initializer:
+   =   constant-expression
+
+method-declaration:
+   method-modifiersopt   function-definition
+   method-modifiers   function-definition-header   ;
+
+method-modifiers:
+   method-modifier
+   method-modifiers   method-modifier
+
+method-modifier:
+   visibility-modifier
+   static-modifier
+   class-modifier
+
+constructor-declaration:
+   method-modifiers   function   &opt   __construct   (   parameter-declaration-listopt   )   compound-statement
+
+destructor-declaration:
+   method-modifiers   function   &opt   __destruct   (   )   compound-statement
+
+interface-declaration:
+   interface   name   interface-base-clauseopt   {   interface-member-declarationsopt   }
+
+interface-base-clause:
+   extends   qualified-name
+   interface-base-clause   ,   qualified-name
+
+interface-member-declarations:
+   interface-member-declaration
+   interface-member-declarations   interface-member-declaration
+
+interface-member-declaration:
+   class-const-declaration
+   method-declaration
+Traits
+trait-declaration:
+   trait   name   {   trait-member-declarationsopt   }
+
+trait-member-declarations:
+   trait-member-declaration
+   trait-member-declarations   trait-member-declaration
+--------------------------------------------------------
+trait-member-declaration:
+   property-declaration
+   method-declaration
+   constructor-declaration
+   destructor-declaration
+   trait-use-clauses
+
+trait-use-clauses:
+   trait-use-clause
+   trait-use-clauses   trait-use-clause
+
+trait-use-clause:
+   use   trait-name-list   trait-use-specification
+
+trait-name-list:
+   qualified-name
+   trait-name-list   ,   qualified-name
+
+trait-use-specification:
+   ;
+   {   trait-select-and-alias-clausesopt   }
+
+trait-select-and-alias-clauses:
+   trait-select-and-alias-clause
+   trait-select-and-alias-clauses   trait-select-and-alias-clause
+
+trait-select-and-alias-clause:
+   trait-select-insteadof-clause   ;
+   trait-alias-as-clause   ;
+
+trait-select-insteadof-clause:
+   qualified-name   ::   name   insteadof   trait-name-list
+------------------------------------------------------------------
+trait-alias-as-clause:
+   name   as   visibility-modifieropt   name
+   name   as   visibility-modifier   nameopt
+
+namespace-definition:
+   namespace   namespace-name   ;
+   namespace   namespace-nameopt   compound-statement
+
+namespace-use-declaration:
+   use   namespace-function-or-constopt   namespace-use-clauses   ;
+   use   namespace-function-or-const   \opt   namespace-name   \   {   namespace-use-group-clauses-1   }   ;
+   use   \opt   namespace-name   \   {   namespace-use-group-clauses-2   }   ;
+
+namespace-use-clauses:
+   namespace-use-clause
+   namespace-use-clauses   ,   namespace-use-clause
+
+namespace-use-clause:
+   qualified-name   namespace-aliasing-clauseopt
+
+namespace-aliasing-clause:
+   as   name
+
+namespace-function-or-const:
+   function
+   const
+
+namespace-use-group-clauses-1:
+   namespace-use-group-clause-1
+   namespace-use-group-clauses-1   ,   namespace-use-group-clause-1
+
+namespace-use-group-clause-1:
+   namespace-name   namespace-aliasing-clauseopt
+
+namespace-use-group-clauses-2:
+   namespace-use-group-clause-2
+   namespace-use-group-clauses-2   ,   namespace-use-group-clause-2
+
+namespace-use-group-clause-2:
+   namespace-function-or-constopt   namespace-name   namespace-aliasing-clauseopt
