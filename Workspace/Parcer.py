@@ -222,7 +222,7 @@ def p_new_variable_simple_variable(t):
     'new_variable : simple_variable'
 
 def p_new_variable_array_access(t):
-    '''new_variable : new_variable LBRACKET expression_opt RBRACKET
+    '''new_variable : new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
                     | new_variable LEFT_CBRAC expression RBRACE
                     | new_variable ARROW member_name
                     | qualified_name DOUBLE_COLON simple_variable
@@ -235,7 +235,7 @@ def p_expression_opt_1(t):
 
 def p_array_creation_expression_array(t):
     '''array_creation_expression : ARRAY LEFT_PARENTHESIS array_initializer_opt RIGHT_PARENTHESIS
-                                  | LBRACKET array_initializer_opt RBRACKET'''
+                                  | LEFT_CBRAC array_initializer_opt RIGHT_CBRAC'''
 
 def p_array_initializer_opt(t):
     '''array_initializer_opt : array_initializer
@@ -260,7 +260,7 @@ def p_element_value(t):
     '''element_value : expression'''
 
 def p_subscript_expression_brackets(t):
-    '''subscript_expression : dereferencable_expression LBRACKET expression_opt RBRACKET'''
+    '''subscript_expression : dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC'''
 
 def p_subscript_expression_deprecated(t):
     '''subscript_expression : dereferencable_expression LEFT_CBRAC expression RBRACE'''

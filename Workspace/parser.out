@@ -603,6 +603,7 @@ BAD_CARACTER         :
 BITWISE_NOT          : 
 BITWISE_OR           : 196 200 200
 BITWISE_XOR          : 194
+BOOL                 : 417
 BOOLEAN_AND          : 
 BOOLEAN_OR           : 
 BREAK                : 365
@@ -656,6 +657,7 @@ EXPONENT_DNUMBER     :
 EXTENDS              : 435 485
 FINAL                : 434
 FINALLY              : 381
+FLOAT                : 418
 FN                   : 
 FOR                  : 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340
 FOREACH              : 346 347 348 349
@@ -669,6 +671,7 @@ INCLUDE              : 256
 INCLUDE_ONCE         : 257
 INSTANCEOF           : 
 INSTEADOF            : 514
+INT                  : 419
 INTERFACE            : 480
 ISSET                : 65
 IS_EQUAL             : 
@@ -753,14 +756,11 @@ AMPERSAND_opt        : 68 80 81 112 113
 AMPERSANDopt         : 476 477
 ARROW                : 100 113 127 131 132
 AT                   : 162
-BOOL                 : 417
 DECREMENT            : 134 136
 ENCODING             : 386
 EXPONENTIATION       : 153
-FLOAT                : 418
 GREATER_THAN_OR_EQUAL : 184
 INCREMENT            : 133 135
-INT                  : 419
 INTEGER_LITERAL      : 363
 LBRACKET             : 98 107 116
 MINUS                : 160
