@@ -381,21 +381,21 @@ def p_error_control_expression(t):
     '''error_control_expression : AT unary_expression'''
 
 def p_cast_expression(t):
-    '''cast_expression : LEFT_PARENTHESIS cast_type RIGHT_PARENTHESIS unary_expression'''
+    '''cast_expression : LEFT_PARENTHESIS RIGHT_PARENTHESIS unary_expression'''
 
-def p_cast_type(t):
-    '''cast_type : ARRAY
-                 | BINARY
-                 | BOOL
-                 | BOOLEAN
-                 | DOUBLE
-                 | INT
-                 | INTEGER
-                 | FLOAT
-                 | OBJECT
-                 | REAL
-                 | STRING
-                 | UNSET'''
+# def p_cast_type(t):
+#     '''cast_type : ARRAY
+#                  | BINARY
+#                  | BOOL
+#                  | BOOLEAN
+#                  | DOUBLE
+#                  | INT
+#                  | INTEGER
+#                  | FLOAT
+#                  | OBJECT
+#                  | REAL
+#                  | STRING
+#                  | UNSET'''
 
 def p_instanceof_expression(t):
     '''instanceof_expression : unary_expression
