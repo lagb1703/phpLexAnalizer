@@ -598,10 +598,16 @@ def p_literal_integer(t):
                 | floating_literal
                 | string_literal'''
 
+def p_integer_literal(t):
+    'integer_literal : LNUMBER'
+
+def p_floating_literal(t):
+    'floating_literal : DNUMBER'
+
 def p_string_literal(p):
     '''string_literal : STRING'''
 
-def p_intrinsic_empty(t):
+def p_intrinsic(t):
     '''intrinsic : empty_intrinsic
                   | eval_intrinsic
                   | exit_intrinsic
@@ -1114,7 +1120,7 @@ def p_logical_AND_expression_2_print(t):
 def p_logical_AND_expression_2_and_yield(t):
     'logical_AND_expression_2 : logical_AND_expression_2 AND yield_expression'
 
-#8
+#! 8 hay que revisar estas expresiones esta muy rara
 def p_logical_exc_OR_expression_logical_AND(t):
     'logical_exc_OR_expression : logical_AND_expression_2'
 
