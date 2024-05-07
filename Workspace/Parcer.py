@@ -798,7 +798,7 @@ def p_shell_command_expression(t):
     '''shell_command_expression : BACKTICK dq_char_sequence_opt BACKTICK'''
 
 def p_dq_char_sequence_opt(t):
-    '''dq_char_sequence_opt : dq_char_sequence
+    '''dq_char_sequence_opt : DQ_CHAR_SEQUENCE
                             |'''
 
 def p_scoped_property_access_expression(t):
@@ -879,18 +879,18 @@ def p_cast_expression(t):
 
 def p_instanceof_expression(t):
     '''instanceof_expression : unary_expression
-                             | instanceof_subj instanceof class_type_designator'''
+                             | instanceof_subj INSTANCEOF class_type_designator'''
 
 def p_instanceof_subj(t):
     '''instanceof_subj : instanceof_expression'''
 
 def p_logical_not_expression(t):
     '''logical_not_expression : instanceof_expression
-                               | NOT instanceof_expression'''
+                               | NEGATION instanceof_expression'''
 
 def p_multiplicative_expression(t):
     '''multiplicative_expression : logical_not_expression
-                                  | multiplicative_expression TIMES logical_not_expression
+                                  | multiplicative_expression ASTERISK logical_not_expression
                                   | multiplicative_expression DIVIDE logical_not_expression
                                   | multiplicative_expression MODULO logical_not_expression'''
 
@@ -1402,7 +1402,7 @@ def p_foreach_key(t):
     'foreach_key : expression DOUBLE_ARROW'
 
 def p_foreach_value(t):
-    'foreach_value : foreach_value_expression'
+    'foreach_value : AMPERSAND_opt expression'
 
 def p_foreach_value_amp_expression(t):
     'foreach_value : AMPERSAND expression'
@@ -1508,7 +1508,7 @@ def p_function_definition(p):
     '''function_definition : function_definition_header compound_statement'''
 
 def p_function_definition_header(p):
-    '''function_definition_header : FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_typeopt'''
+    '''function_definition_header : FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_type_opt'''
 
 def p_ampersandopt(p): #opcionales
     '''ampersandopt : AMPERSAND
@@ -1548,9 +1548,9 @@ def p_TERNARY_OPERATIONopt(p): #opcionales
                         |'''
 
 def p_base_type_declaration(p):
-    '''base_type_declaration : array
-                             | callable
-                             | iterable
+    '''base_type_declaration : ARRAY
+                             | CALLABLE
+                             | ITERABLE
                              | scalar_type
                              | qualified_name'''
 
@@ -1683,10 +1683,10 @@ def p_method_modifier(p):
                        | class_modifier'''
 
 def p_constructor_declaration(p):
-    '''constructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
+    '''constructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt CONSTRUCT LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
 
 def p_destructor_declaration(p):
-    '''destructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
+    '''destructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt DESTRUCT LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
 
 def p_parameter_declaration_listopt(p): #opcionales
     '''parameter_declaration_listopt : parameter_declaration_list

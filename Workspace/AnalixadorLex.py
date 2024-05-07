@@ -198,11 +198,43 @@ tokens = (
     'DOUBLELESS',
     'DOUBLEASTERISK',
     'AT',
+    'MODULO',
+    'GREATER_THAN_OR_EQUAL',
+    'TICKS',
+    'ENCODING',
+    'STRICT_TYPES',
+    'VOID',
+    'CONSTRUCT',
+    'DESTRUCT',
+    'ITERABLE',
+    'INTEGER_LITERAL',
+    'DQ_CHAR_SEQUENCE',
 )
 
 #palabras reservadas declaracion de php
 def t_HALT_COMPILER(t): 
     r'__halt_compiler'
+    return t
+def t_ITERABLE(t): 
+    r'iterable'
+    return t
+def t_TICKS(t): 
+    r'ticks'
+    return t
+def t_VOID(t): 
+    r'void'
+    return t
+def t_CONSTRUCT(t): 
+    r'__construct'
+    return t
+def t_DESTRUCT(t): 
+    r'__destruct'
+    return t
+def t_ENCODING(t): 
+    r'encoding'
+    return t
+def t_STRICT_TYPES(t): 
+    r'strict_types'
     return t
 def t_ABSTRACT(t):
     r'abstract'
@@ -518,6 +550,8 @@ def t_VARIABLE(t):
 number = r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
 dnumber = r'(' + number + r'(\. [0-9]*))'   
 exponent_dnumber = r'(' + dnumber + r'(e[-]?[0-9]+))' 
+integer_literal = r'(' + dnumber + r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]))'
+dq_char_sq = r'(\")' ############################################################################################### ARREGLAR ESTO POR FAVOR
 
 #Para t_BAD_CARACTER ---------------------------------
 
@@ -543,6 +577,15 @@ def t_DNUMBER(t): #numero decimal
 @TOKEN(number)
 def t_LNUMBER(t): #numero entero
     return t
+
+@TOKEN(integer_literal)
+def t_INTEGER_LITERAL(t): #numero decimal
+    return t
+
+@TOKEN(dq_char_sq)
+def t_DQ_CHAR_SEQUENCE(t): #numero decimal
+    return t
+
 
 def t_INC(t):
     r'\+\+'
@@ -680,6 +723,8 @@ t_DOUBLEPLUS = r'\+\+'
 t_DOUBLELESS = r'\-\-'
 t_DOUBLEASTERISK = r'\*\*'
 t_AT = r'\@'
+t_MODULO = r'\%'
+t_GREATER_THAN_OR_EQUAL = r'\<\=\>'
 
 # # Ignorar espacios y tabs.
 
