@@ -190,6 +190,7 @@ tokens = (
     #----------------------------------
     'PLUS',
     'LESS',
+    'ARROW',
 )
 
 #palabras reservadas declaracion de php
@@ -656,6 +657,7 @@ t_PLUS = r'\+'
 t_LESS = r'-'
 t_EQUALS = r'='
 t_DOLLAR = r'\$'
+t_ARROW = r'->'
 
 # # Ignorar espacios y tabs.
 
