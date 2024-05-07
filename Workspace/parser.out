@@ -50,705 +50,709 @@ Rule 3     start_tag -> OPEN_TAG
 Rule 4     start_tag -> OPEN_TAG_WITH_ECHO
 Rule 5     end_tag -> CLOSE_TAG
 Rule 6     end_tag -> <empty>
-Rule 7     function_static_declaration -> STATIC static_variable_name_list SEMICOLON
-Rule 8     static_variable_name_list -> static_variable_declaration
-Rule 9     static_variable_name_list -> static_variable_name_list static_variable_declaration
-Rule 10    static_variable_declaration -> VARIABLE function_static_initializer_opt
-Rule 11    function_static_initializer -> EQUAL constant_expression
-Rule 12    function_static_initializer_opt -> function_static_initializer
-Rule 13    function_static_initializer_opt -> <empty>
-Rule 14    function_static_initializer_opt -> EQUAL constant_expression
-Rule 15    global_declaration -> GLOBAL variable_name_list SEMICOLON
-Rule 16    variable_name_list -> simple_variable
-Rule 17    variable_name_list -> variable_name_list simple_variable
-Rule 18    primary_expression -> variable
-Rule 19    primary_expression -> class_constant_access_expression
-Rule 20    primary_expression -> constant_access_expression
-Rule 21    primary_expression -> literal
-Rule 22    primary_expression -> array_creation_expression
-Rule 23    primary_expression -> intrinsic
-Rule 24    primary_expression -> anonymous_function_creation_expression
-Rule 25    primary_expression -> object_creation_expression
-Rule 26    primary_expression -> postfix_increment_expression
-Rule 27    primary_expression -> postfix_decrement_expression
-Rule 28    primary_expression -> prefix_increment_expression
-Rule 29    primary_expression -> prefix_decrement_expression
-Rule 30    primary_expression -> byref_assignment_expression
-Rule 31    primary_expression -> shell_command_expression
-Rule 32    primary_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 33    simple_variable -> VARIABLE
-Rule 34    simple_variable -> DOLLAR simple_variable
-Rule 35    simple_variable -> DOLLAR LEFT_CBRAC expression RIGHT_CBRAC
-Rule 36    dereferencable_expression -> variable
-Rule 37    dereferencable_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 38    dereferencable_expression -> array_creation_expression
-Rule 39    dereferencable_expression -> string_literal
-Rule 40    callable_expression -> callable_variable
-Rule 41    callable_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 42    callable_expression -> array_creation_expression
-Rule 43    callable_expression -> string_literal
-Rule 44    callable_variable -> simple_variable
-Rule 45    callable_variable -> subscript_expression
-Rule 46    callable_variable -> member_call_expression
-Rule 47    callable_variable -> scoped_call_expression
-Rule 48    callable_variable -> function_call_expression
-Rule 49    variable -> callable_variable
-Rule 50    variable -> scoped_property_access_expression
-Rule 51    variable -> member_access_expression
-Rule 52    constant_access_expression -> qualified_name
-Rule 53    literal -> integer_literal
-Rule 54    literal -> floating_literal
-Rule 55    literal -> string_literal
-Rule 56    integer_literal -> LNUMBER
-Rule 57    floating_literal -> DNUMBER
-Rule 58    string_literal -> STRING
-Rule 59    intrinsic -> empty_intrinsic
-Rule 60    intrinsic -> eval_intrinsic
-Rule 61    intrinsic -> exit_intrinsic
-Rule 62    intrinsic -> isset_intrinsic
-Rule 63    empty_intrinsic -> EMPTY LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 64    eval_intrinsic -> EVAL LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-Rule 65    exit_intrinsic -> EXIT
-Rule 66    exit_intrinsic -> EXIT LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS
-Rule 67    exit_intrinsic -> DIE
-Rule 68    exit_intrinsic -> DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS
-Rule 69    isset_intrinsic -> ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS
-Rule 70    variable_list_opt -> variable_list
-Rule 71    variable_list -> variable
-Rule 72    variable_list -> variable_list variable
-Rule 73    anonymous_function_creation_expression -> static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement
-Rule 74    static_opt -> STATIC
-Rule 75    static_opt -> <empty>
-Rule 76    AMPERSAND_opt -> AMPERSAND
-Rule 77    AMPERSAND_opt -> <empty>
-Rule 78    parameter_declaration_list_opt -> parameter_declaration_list
-Rule 79    parameter_declaration_list_opt -> <empty>
-Rule 80    anonymous_function_use_clause_opt -> anonymous_function_use_clause
-Rule 81    anonymous_function_use_clause_opt -> <empty>
-Rule 82    return_type_opt -> return_type
-Rule 83    return_type_opt -> <empty>
-Rule 84    anonymous_function_use_clause -> USE LEFT_PARENTHESIS use_variable_name_list RIGHT_PARENTHESIS
-Rule 85    use_variable_name_list -> AMPERSAND_opt VARIABLE
-Rule 86    use_variable_name_list -> use_variable_name_list AMPERSAND_opt VARIABLE
-Rule 87    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-Rule 88    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COLON RIGHT_PARENTHESIS
-Rule 89    object_creation_expression -> NEW class_type_designator
-Rule 90    object_creation_expression -> NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
-Rule 91    object_creation_expression -> NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
-Rule 92    argument_expression_list_opt -> argument_expression_list
-Rule 93    argument_expression_list_opt -> <empty>
-Rule 94    class_base_clause_opt -> class_base_clause
-Rule 95    class_base_clause_opt -> <empty>
-Rule 96    class_interface_clause_opt -> class_interface_clause
-Rule 97    class_interface_clause_opt -> <empty>
-Rule 98    class_member_declarations_opt -> class_member_declarations
-Rule 99    class_member_declarations_opt -> <empty>
-Rule 100   class_type_designator -> qualified_name
-Rule 101   class_type_designator -> new_variable
-Rule 102   new_variable -> simple_variable
-Rule 103   new_variable -> new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
-Rule 104   new_variable -> new_variable LEFT_CBRAC expression RIGHT_PARENTHESIS
-Rule 105   new_variable -> new_variable ARROW member_name
-Rule 106   new_variable -> qualified_name DOUBLE_COLON simple_variable
-Rule 107   new_variable -> relative_scope DOUBLE_COLON simple_variable
-Rule 108   new_variable -> new_variable DOUBLE_COLON simple_variable
-Rule 109   expression_opt -> expression
-Rule 110   expression_opt -> <empty>
-Rule 111   array_creation_expression -> ARRAY LEFT_PARENTHESIS array_initializer_opt RIGHT_PARENTHESIS
-Rule 112   array_creation_expression -> LEFT_CBRAC array_initializer_opt RIGHT_CBRAC
-Rule 113   array_initializer_opt -> array_initializer
-Rule 114   array_initializer_opt -> <empty>
-Rule 115   array_initializer -> array_initializer_list
-Rule 116   array_initializer -> array_initializer_list COLON
-Rule 117   array_initializer_list -> array_element_initializer
-Rule 118   array_initializer_list -> array_element_initializer COLON array_element_initializer
-Rule 119   array_element_initializer -> AMPERSAND_opt element_value
-Rule 120   array_element_initializer -> element_key ARROW AMPERSAND_opt element_value
-Rule 121   element_key -> expression
-Rule 122   element_value -> expression
-Rule 123   subscript_expression -> dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC
-Rule 124   subscript_expression -> dereferencable_expression LEFT_CBRAC expression RIGHT_PARENTHESIS
-Rule 125   function_call_expression -> qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-Rule 126   function_call_expression -> qualified_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
-Rule 127   function_call_expression -> callable_expression LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-Rule 128   function_call_expression -> callable_expression LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
-Rule 129   argument_expression_list -> argument_expression
-Rule 130   argument_expression_list -> argument_expression_list argument_expression
-Rule 131   argument_expression -> variadic_unpacking
-Rule 132   argument_expression -> expression
-Rule 133   variadic_unpacking -> ELLIPSIS expression
-Rule 134   member_access_expression -> dereferencable_expression ARROW member_name
-Rule 135   member_name -> NAME
-Rule 136   member_name -> simple_variable
-Rule 137   member_name -> LEFT_CBRAC expression RIGHT_PARENTHESIS
-Rule 138   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-Rule 139   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
-Rule 140   postfix_increment_expression -> variable PLUS PLUS
-Rule 141   postfix_decrement_expression -> variable LESS LESS
-Rule 142   prefix_increment_expression -> PLUS PLUS variable
-Rule 143   prefix_decrement_expression -> LESS LESS variable
-Rule 144   shell_command_expression -> BACKTICK dq_char_sequence_opt BACKTICK
-Rule 145   dq_char_sequence_opt -> dq_char_sequence
-Rule 146   dq_char_sequence_opt -> <empty>
-Rule 147   scoped_property_access_expression -> scope_resolution_qualifier DOUBLE_COLON simple_variable
-Rule 148   scoped_call_expression -> scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-Rule 149   scoped_call_expression -> scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
-Rule 150   class_constant_access_expression -> scope_resolution_qualifier DOUBLE_COLON NAME
-Rule 151   scope_resolution_qualifier -> relative_scope
-Rule 152   scope_resolution_qualifier -> qualified_name
-Rule 153   scope_resolution_qualifier -> dereferencable_expression
-Rule 154   relative_scope -> SELF
-Rule 155   relative_scope -> PARENT
-Rule 156   relative_scope -> STATIC
-Rule 157   clone_expression -> primary_expression
-Rule 158   clone_expression -> CLONE primary_expression
-Rule 159   exponentiation_expression -> clone_expression
-Rule 160   exponentiation_expression -> clone_expression EXPONENTIATION exponentiation_expression
-Rule 161   unary_expression -> exponentiation_expression
-Rule 162   unary_expression -> unary_op_expression
-Rule 163   unary_expression -> error_control_expression
-Rule 164   unary_expression -> cast_expression
-Rule 165   unary_op_expression -> unary_operator unary_expression
-Rule 166   unary_operator -> PLUS
-Rule 167   unary_operator -> MINUS
-Rule 168   unary_operator -> TILDE
-Rule 169   error_control_expression -> AT unary_expression
-Rule 170   cast_expression -> LEFT_PARENTHESIS RIGHT_PARENTHESIS unary_expression
-Rule 171   instanceof_expression -> unary_expression
-Rule 172   instanceof_expression -> instanceof_subj instanceof class_type_designator
-Rule 173   instanceof_subj -> instanceof_expression
-Rule 174   logical_not_expression -> instanceof_expression
-Rule 175   logical_not_expression -> NOT instanceof_expression
-Rule 176   multiplicative_expression -> logical_not_expression
-Rule 177   multiplicative_expression -> multiplicative_expression TIMES logical_not_expression
-Rule 178   multiplicative_expression -> multiplicative_expression DIVIDE logical_not_expression
-Rule 179   multiplicative_expression -> multiplicative_expression MODULO logical_not_expression
-Rule 180   additive_expression -> multiplicative_expression
-Rule 181   additive_expression -> additive_expression PLUS multiplicative_expression
-Rule 182   additive_expression -> additive_expression LESS multiplicative_expression
-Rule 183   additive_expression -> additive_expression CONCAT multiplicative_expression
-Rule 184   shift_expression -> additive_expression
-Rule 185   shift_expression -> shift_expression SL additive_expression
-Rule 186   shift_expression -> shift_expression SR additive_expression
-Rule 187   relational_expression -> shift_expression
-Rule 188   relational_expression -> relational_expression LESS_THAN shift_expression
-Rule 189   relational_expression -> relational_expression IS_SMALLER_OR_EQUAL shift_expression
-Rule 190   relational_expression -> relational_expression IS_GREATER_OR_EQUAL shift_expression
-Rule 191   relational_expression -> relational_expression GREATER_THAN_OR_EQUAL shift_expression
-Rule 192   relational_expression -> relational_expression SPACESHIP shift_expression
-Rule 193   equality_expression -> relational_expression
-Rule 194   equality_expression -> equality_expression EQUAL relational_expression
-Rule 195   equality_expression -> equality_expression IS_NOT_EQUAL relational_expression
-Rule 196   equality_expression -> equality_expression IS_IDENTICAL relational_expression
-Rule 197   equality_expression -> equality_expression IS_NOT_IDENTICAL relational_expression
-Rule 198   bitwise_AND_expression -> equality_expression
-Rule 199   bitwise_AND_expression -> bitwise_AND_expression AMPERSAND equality_expression
-Rule 200   bitwise_exc_OR_expression -> bitwise_AND_expression
-Rule 201   bitwise_exc_OR_expression -> bitwise_exc_OR_expression BITWISE_XOR bitwise_AND_expression
-Rule 202   bitwise_inc_OR_expression -> bitwise_exc_OR_expression
-Rule 203   bitwise_inc_OR_expression -> bitwise_inc_OR_expression BITWISE_OR bitwise_exc_OR_expression
-Rule 204   logical_AND_expression_1 -> bitwise_inc_OR_expression
-Rule 205   logical_AND_expression_1 -> logical_AND_expression_1 AMPERSAND AMPERSAND bitwise_inc_OR_expression
-Rule 206   logical_inc_OR_expression_1 -> logical_AND_expression_1
-Rule 207   logical_inc_OR_expression_1 -> logical_inc_OR_expression_1 BITWISE_OR BITWISE_OR logical_AND_expression_1
-Rule 208   coalesce_expression -> logical_inc_OR_expression_1
-Rule 209   coalesce_expression -> logical_inc_OR_expression_1 COALESCE coalesce_expression
-Rule 210   conditional_expression -> coalesce_expression
-Rule 211   conditional_expression -> conditional_expression TERNARY_OPERATION expression DOUBLE_POINT coalesce_expression
-Rule 212   conditional_expression -> conditional_expression TERNARY_OPERATION DOUBLE_POINT coalesce_expression
-Rule 213   assignment_expression -> conditional_expression
-Rule 214   assignment_expression -> simple_assignment_expression
-Rule 215   assignment_expression -> compound_assignment_expression
-Rule 216   simple_assignment_expression -> variable EQUAL assignment_expression
-Rule 217   simple_assignment_expression -> list_intrinsic EQUAL assignment_expression
-Rule 218   list_intrinsic -> LIST LEFT_PARENTHESIS list_expression_list RIGHT_PARENTHESIS
-Rule 219   list_expression_list -> unkeyed_list_expression_list
-Rule 220   list_expression_list -> keyed_list_expression_list COLON
-Rule 221   list_expression_list -> keyed_list_expression_list
-Rule 222   unkeyed_list_expression_list -> list_or_variable
-Rule 223   unkeyed_list_expression_list -> COLON
-Rule 224   unkeyed_list_expression_list -> unkeyed_list_expression_list COLON list_or_variable COLON
-Rule 225   unkeyed_list_expression_list -> unkeyed_list_expression_list COLON list_or_variable
-Rule 226   keyed_list_expression_list -> expression DOUBLE_ARROW list_or_variable
-Rule 227   keyed_list_expression_list -> keyed_list_expression_list COLON expression DOUBLE_ARROW list_or_variable
-Rule 228   list_or_variable -> list_intrinsic
-Rule 229   list_or_variable -> AMPERSAND variable
-Rule 230   list_or_variable -> variable
-Rule 231   byref_assignment_expression -> variable EQUAL AMPERSAND variable
-Rule 232   compound_assignment_expression -> variable compound_assignment_operator assignment_expression
-Rule 233   compound_assignment_operator -> POW_EQUAL
-Rule 234   compound_assignment_operator -> MUL_EQUAL
-Rule 235   compound_assignment_operator -> DIV_EQUAL
-Rule 236   compound_assignment_operator -> MOD_EQUAL
-Rule 237   compound_assignment_operator -> PLUS_EQUAL
-Rule 238   compound_assignment_operator -> MINUS_EQUAL
-Rule 239   compound_assignment_operator -> CONCAT_EQUAL
-Rule 240   compound_assignment_operator -> SL_EQUAL
-Rule 241   compound_assignment_operator -> SR_EQUAL
-Rule 242   compound_assignment_operator -> AND_EQUAL
-Rule 243   compound_assignment_operator -> XOR_EQUAL
-Rule 244   compound_assignment_operator -> OR_EQUAL
-Rule 245   yield_from_expression -> YIELD_FROM assignment_expression
-Rule 246   yield_expression -> yield_from_expression
-Rule 247   yield_expression -> YIELD
-Rule 248   yield_expression -> YIELD yield_expression
-Rule 249   yield_expression -> YIELD yield_from_expression DOUBLE_ARROW yield_expression
-Rule 250   print_expression -> yield_expression
-Rule 251   print_expression -> PRINT print_expression
-Rule 252   logical_AND_expression_2 -> print_expression
-Rule 253   logical_AND_expression_2 -> logical_AND_expression_2 AND yield_expression
-Rule 254   logical_exc_OR_expression -> logical_AND_expression_2
-Rule 255   logical_exc_OR_expression -> logical_exc_OR_expression XOR logical_AND_expression_2
-Rule 256   logical_inc_OR_expression_2 -> logical_exc_OR_expression
-Rule 257   logical_inc_OR_expression_2 -> logical_inc_OR_expression_2 OR logical_exc_OR_expression
-Rule 258   expression -> logical_inc_OR_expression_2
-Rule 259   expression -> include_expression
-Rule 260   expression -> include_once_expression
-Rule 261   expression -> require_expression
-Rule 262   expression -> require_once_expression
-Rule 263   include_expression -> INCLUDE expression
-Rule 264   include_once_expression -> INCLUDE_ONCE expression
-Rule 265   require_expression -> REQUIRE expression
-Rule 266   require_once_expression -> REQUIRE_ONCE expression
-Rule 267   constant_expression -> expression
-Rule 268   statement -> compound_statement
-Rule 269   statement -> named_label_statement
-Rule 270   statement -> expression_statement
-Rule 271   statement -> selection_statement
-Rule 272   statement -> iteration_statement
-Rule 273   statement -> jump_statement
-Rule 274   statement -> try_statement
-Rule 275   statement -> declare_statement
-Rule 276   statement -> echo_statement
-Rule 277   statement -> unset_statement
-Rule 278   statement -> const_declaration
-Rule 279   statement -> function_definition
-Rule 280   statement -> class_declaration
-Rule 281   statement -> interface_declaration
-Rule 282   statement -> trait_declaration
-Rule 283   statement -> namespace_definition
-Rule 284   statement -> namespace_use_declaration
-Rule 285   statement -> global_declaration
-Rule 286   statement -> function_static_declaration
-Rule 287   compound_statement -> LEFT_CBRAC statement_list RIGHT_CBRAC
-Rule 288   compound_statement -> LEFT_CBRAC RIGHT_CBRAC
-Rule 289   statement_list -> statement
-Rule 290   statement_list -> statement_list statement
-Rule 291   named_label_statement -> name DOUBLE_POINT
-Rule 292   expression_statement -> expression SEMICOLON
-Rule 293   expression_statement -> SEMICOLON
-Rule 294   selection_statement -> if_statement
-Rule 295   selection_statement -> switch_statement
-Rule 296   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif_clauses_1 else_clause_1
-Rule 297   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif_clauses_1
-Rule 298   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement else_clause_1
-Rule 299   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
-Rule 300   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 else_clause_2 ENDIF SEMICOLON
-Rule 301   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 ENDIF SEMICOLON
-Rule 302   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list else_clause_2 ENDIF SEMICOLON
-Rule 303   elseif_clauses_1 -> elseif_clause_1
-Rule 304   elseif_clauses_1 -> elseif_clauses_1 elseif_clause_1
-Rule 305   elseif_clause_1 -> ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
-Rule 306   else_clause_1 -> ELSE statement
-Rule 307   elseif_clauses_2 -> elseif_clause_2
-Rule 308   elseif_clauses_2 -> elseif_clauses_2 elseif_clause_2
-Rule 309   elseif_clause_2 -> ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list
-Rule 310   else_clause_2 -> ELSE DOUBLE_POINT statement_list
-Rule 311   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC case_statements RIGHT_CBRAC
-Rule 312   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC RIGHT_CBRAC
-Rule 313   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT case_statements ENDSWITCH SEMICOLON
-Rule 314   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT ENDSWITCH SEMICOLON
-Rule 315   case_statements -> case_statement case_statements
-Rule 316   case_statements -> case_statement
-Rule 317   case_statements -> default_statement case_statements
-Rule 318   case_statements -> default_statement
-Rule 319   case_statement -> CASE expression case_default_label_terminator statement_list
-Rule 320   case_statement -> CASE expression case_default_label_terminator
-Rule 321   default_statement -> DEFAULT case_default_label_terminator statement_list
-Rule 322   default_statement -> DEFAULT case_default_label_terminator
-Rule 323   case_default_label_terminator -> DOUBLE_POINT
-Rule 324   case_default_label_terminator -> SEMICOLON
-Rule 325   iteration_statement -> while_statement
-Rule 326   iteration_statement -> do_statement
-Rule 327   iteration_statement -> for_statement
-Rule 328   iteration_statement -> foreach_statement
-Rule 329   while_statement -> WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
-Rule 330   while_statement -> WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDWHILE SEMICOLON
-Rule 331   do_statement -> DO statement WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS SEMICOLON
-Rule 332   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
-Rule 333   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS statement
-Rule 334   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
-Rule 335   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement
-Rule 336   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
-Rule 337   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS statement
-Rule 338   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
-Rule 339   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement
-Rule 340   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 341   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 342   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 343   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 344   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 345   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 346   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 347   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
-Rule 348   for_initializer -> for_expression_group
-Rule 349   for_control -> for_expression_group
-Rule 350   for_end_of_loop -> for_expression_group
-Rule 351   for_expression_group -> expression
-Rule 352   for_expression_group -> for_expression_group COLON expression
-Rule 353   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS statement
-Rule 354   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS statement
-Rule 355   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON
-Rule 356   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON
-Rule 357   foreach_collection_name -> expression
-Rule 358   foreach_key -> expression DOUBLE_ARROW
-Rule 359   foreach_value -> foreach_value_expression
-Rule 360   foreach_value -> AMPERSAND expression
-Rule 361   foreach_value -> list_intrinsic
-Rule 362   jump_statement -> goto_statement
-Rule 363   jump_statement -> continue_statement
-Rule 364   jump_statement -> break_statement
-Rule 365   jump_statement -> return_statement
-Rule 366   jump_statement -> throw_statement
-Rule 367   goto_statement -> GOTO name SEMICOLON
-Rule 368   continue_statement -> CONTINUE breakout_level SEMICOLON
-Rule 369   continue_statement -> CONTINUE SEMICOLON
-Rule 370   breakout_level -> INTEGER_LITERAL
-Rule 371   breakout_level -> LEFT_PARENTHESIS breakout_level RIGHT_PARENTHESIS
-Rule 372   break_statement -> BREAK breakout_levelopt SEMICOLON
-Rule 373   breakout_levelopt -> breakout_level
-Rule 374   breakout_levelopt -> <empty>
-Rule 375   breakout_level -> expression
-Rule 376   return_statement -> RETURN expressionopt SEMICOLON
-Rule 377   expressionopt -> expression
-Rule 378   expressionopt -> <empty>
-Rule 379   throw_statement -> THROW expression SEMICOLON
-Rule 380   try_statement -> TRY compound_statement catch_clauses
-Rule 381   try_statement -> TRY compound_statement finally_clause
-Rule 382   try_statement -> TRY compound_statement catch_clauses finally_clause
-Rule 383   catch_clauses -> catch_clause
-Rule 384   catch_clauses -> catch_clauses catch_clause
-Rule 385   catch_clause -> CATCH LEFT_PARENTHESIS catch_name_list VARIABLE RIGHT_PARENTHESIS compound_statement
-Rule 386   catch_name_list -> qualified_name
-Rule 387   catch_name_list -> catch_name_list
-Rule 388   finally_clause -> FINALLY compound_statement
-Rule 389   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS statement
-Rule 390   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDDECLARE SEMICOLON
-Rule 391   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS SEMICOLON
-Rule 392   declare_directive -> TICKS EQUALS literal
-Rule 393   declare_directive -> ENCODING EQUALS literal
-Rule 394   declare_directive -> STRICT_TYPES EQUALS literal
-Rule 395   echo_statement -> ECHO expression_list SEMICOLON
-Rule 396   expression_list -> expression
-Rule 397   expression_list -> expression_list expression
-Rule 398   unset_statement -> UNSET LEFT_PARENTHESIS variable_list COLON RIGHT_PARENTHESIS SEMICOLON
-Rule 399   unset_statement -> UNSET LEFT_PARENTHESIS variable_list RIGHT_PARENTHESIS SEMICOLON
-Rule 400   function_definition -> function_definition_header compound_statement
-Rule 401   function_definition_header -> FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_typeopt
-Rule 402   ampersandopt -> AMPERSAND
-Rule 403   ampersandopt -> <empty>
-Rule 404   parameter_declaration_list -> simple_parameter_declaration_list
-Rule 405   parameter_declaration_list -> variadic_declaration_list
-Rule 406   simple_parameter_declaration_list -> parameter_declaration
-Rule 407   simple_parameter_declaration_list -> parameter_declaration_list parameter_declaration
-Rule 408   variadic_declaration_list -> simple_parameter_declaration_list variadic_parameter
-Rule 409   variadic_declaration_list -> variadic_parameter
-Rule 410   parameter_declaration -> type_declarationopt ampersandopt VARIABLE default_argument_specifieropt
-Rule 411   variadic_parameter -> type_declarationopt ampersandopt ELLIPSIS VARIABLE
-Rule 412   return_type -> DOUBLE_POINT type_declaration
-Rule 413   return_type -> DOUBLE_POINT VOID
-Rule 414   type_declarationopt -> type_declaration
-Rule 415   type_declarationopt -> <empty>
-Rule 416   type_declaration -> TERNARY_OPERATIONopt base_type_declaration
-Rule 417   TERNARY_OPERATIONopt -> TERNARY_OPERATION
-Rule 418   TERNARY_OPERATIONopt -> <empty>
-Rule 419   base_type_declaration -> array
-Rule 420   base_type_declaration -> callable
-Rule 421   base_type_declaration -> iterable
-Rule 422   base_type_declaration -> scalar_type
-Rule 423   base_type_declaration -> qualified_name
-Rule 424   scalar_type -> BOOL
-Rule 425   scalar_type -> FLOAT
-Rule 426   scalar_type -> INT
-Rule 427   scalar_type -> STRING
-Rule 428   default_argument_specifieropt -> default_argument_specifier
-Rule 429   default_argument_specifieropt -> <empty>
-Rule 430   default_argument_specifier -> EQUAL constant_expression
-Rule 431   class_declaration -> class_modifieropt CLASS name class_base_clauseopt class_interface_clauseopt LEFT_CBRAC class_member_declarationsopt RIGHT_CBRAC
-Rule 432   class_modifieropt -> class_modifier
-Rule 433   class_modifieropt -> <empty>
-Rule 434   class_base_clauseopt -> class_base_clause
-Rule 435   class_base_clauseopt -> <empty>
-Rule 436   class_interface_clauseopt -> class_interface_clause
-Rule 437   class_interface_clauseopt -> <empty>
-Rule 438   class_member_declarationsopt -> class_member_declarations
-Rule 439   class_member_declarationsopt -> <empty>
-Rule 440   class_modifier -> ABSTRACT
-Rule 441   class_modifier -> FINAL
-Rule 442   class_base_clause -> EXTENDS qualified_name
-Rule 443   class_interface_clause -> IMPLEMENTS qualified_name
-Rule 444   class_interface_clause -> class_interface_clause qualified_name
-Rule 445   class_member_declarations -> class_member_declaration
-Rule 446   class_member_declarations -> class_member_declarations class_member_declaration
-Rule 447   class_member_declaration -> class_const_declaration
-Rule 448   class_member_declaration -> property_declaration
-Rule 449   class_member_declaration -> method_declaration
-Rule 450   class_member_declaration -> constructor_declaration
-Rule 451   class_member_declaration -> destructor_declaration
-Rule 452   class_member_declaration -> trait_use_clause
-Rule 453   const_declaration -> CONST const_elements SEMICOLON
-Rule 454   class_const_declaration -> visibility_modifier_opt CONST const_elements SEMICOLON
-Rule 455   const_elements -> const_element
-Rule 456   const_elements -> const_elements const_element
-Rule 457   const_element -> name EQUAL constant_expression
-Rule 458   property_declaration -> property_modifier property_elements SEMICOLON
-Rule 459   property_modifier -> VAR
-Rule 460   property_modifier -> visibility_modifier static_modifieropt
-Rule 461   property_modifier -> static_modifier visibility_modifier_opt
-Rule 462   static_modifieropt -> static_modifier
-Rule 463   static_modifieropt -> <empty>
-Rule 464   visibility_modifier -> PUBLIC
-Rule 465   visibility_modifier -> PROTECTED
-Rule 466   visibility_modifier -> PRIVATE
-Rule 467   static_modifier -> STATIC
-Rule 468   property_elements -> property_element
-Rule 469   property_elements -> property_elements property_element
-Rule 470   property_element -> VARIABLE property_initializeropt SEMICOLON
-Rule 471   property_initializeropt -> property_initializer
-Rule 472   property_initializeropt -> <empty>
-Rule 473   property_initializer -> EQUAL constant_expression
-Rule 474   method_declaration -> method_modifiersopt function_definition
-Rule 475   method_declaration -> method_modifiers function_definition_header SEMICOLON
-Rule 476   method_modifiersopt -> method_modifiers
-Rule 477   method_modifiersopt -> <empty>
-Rule 478   method_modifiers -> method_modifier
-Rule 479   method_modifiers -> method_modifiers method_modifier
-Rule 480   method_modifier -> visibility_modifier
-Rule 481   method_modifier -> static_modifier
-Rule 482   method_modifier -> class_modifier
-Rule 483   constructor_declaration -> method_modifiers FUNCTION name AMPERSAND_opt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement
-Rule 484   destructor_declaration -> method_modifiers FUNCTION name AMPERSAND_opt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement
-Rule 485   parameter_declaration_listopt -> parameter_declaration_list
-Rule 486   parameter_declaration_listopt -> <empty>
-Rule 487   interface_declaration -> INTERFACE name interface_base_clauseopt LEFT_CBRAC interface_member_declarationsopt RIGHT_CBRAC
-Rule 488   interface_base_clauseopt -> interface_base_clause
-Rule 489   interface_base_clauseopt -> <empty>
-Rule 490   interface_member_declarationsopt -> interface_member_declarations
-Rule 491   interface_member_declarationsopt -> <empty>
-Rule 492   interface_base_clause -> EXTENDS qualified_name
-Rule 493   interface_base_clause -> interface_base_clause qualified_name
-Rule 494   interface_member_declarations -> interface_member_declaration
-Rule 495   interface_member_declarations -> interface_member_declarations interface_member_declaration
-Rule 496   interface_member_declaration -> class_const_declaration
-Rule 497   interface_member_declaration -> method_declaration
-Rule 498   trait_declaration -> TRAIT name LEFT_CBRAC trait_member_declarationsopt RIGHT_CBRAC
-Rule 499   trait_member_declarationsopt -> trait_member_declarations
-Rule 500   trait_member_declarationsopt -> <empty>
-Rule 501   trait_member_declarations -> trait_member_declaration
-Rule 502   trait_member_declarations -> trait_member_declarations trait_member_declaration
-Rule 503   trait_member_declaration -> property_declaration
-Rule 504   trait_member_declaration -> method_declaration
-Rule 505   trait_member_declaration -> constructor_declaration
-Rule 506   trait_member_declaration -> destructor_declaration
-Rule 507   trait_member_declaration -> trait_use_clauses
-Rule 508   trait_use_clauses -> trait_use_clause
-Rule 509   trait_use_clauses -> trait_use_clauses trait_use_clause
-Rule 510   trait_use_clause -> USE trait_name_list trait_use_specification
-Rule 511   trait_name_list -> qualified_name
-Rule 512   trait_name_list -> trait_name_list qualified_name
-Rule 513   trait_use_specification -> SEMICOLON
-Rule 514   trait_use_specification -> LEFT_CBRAC trait_select_and_alias_clausesopt RIGHT_CBRAC
-Rule 515   trait_select_and_alias_clausesopt -> trait_select_and_alias_clauses
-Rule 516   trait_select_and_alias_clausesopt -> <empty>
-Rule 517   trait_select_and_alias_clauses -> trait_select_and_alias_clause
-Rule 518   trait_select_and_alias_clauses -> trait_select_and_alias_clauses trait_select_and_alias_clause
-Rule 519   trait_select_and_alias_clause -> trait_select_insteadof_clause SEMICOLON
-Rule 520   trait_select_and_alias_clause -> trait_alias_as_clause SEMICOLON
-Rule 521   trait_select_insteadof_clause -> qualified_name DOUBLE_COLON name INSTEADOF trait_name_list
-Rule 522   trait_alias_as_clause -> name AS visibility_modifier_opt name
-Rule 523   trait_alias_as_clause -> name AS visibility_modifier nameopt
-Rule 524   visibility_modifier_opt -> visibility_modifier
-Rule 525   visibility_modifier_opt -> <empty>
-Rule 526   nameopt -> name
-Rule 527   nameopt -> <empty>
-Rule 528   namespace_definition -> NAMESPACE namespace_name SEMICOLON
-Rule 529   namespace_definition -> NAMESPACE namespace_nameopt compound_statement
-Rule 530   namespace_nameopt -> namespace_name
-Rule 531   namespace_nameopt -> <empty>
-Rule 532   namespace_use_declaration -> USE namespace_function_or_constopt namespace_use_clauses SEMICOLON
-Rule 533   namespace_use_declaration -> USE namespace_function_or_const NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
-Rule 534   namespace_use_declaration -> USE NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_2 RIGHT_CBRAC SEMICOLON
-Rule 535   namespace_function_or_constopt -> namespace_function_or_const
-Rule 536   namespace_function_or_constopt -> <empty>
-Rule 537   NS_SEPARATORopt -> NS_SEPARATOR
-Rule 538   NS_SEPARATORopt -> <empty>
-Rule 539   namespace_use_clauses -> namespace_use_clause
-Rule 540   namespace_use_clauses -> namespace_use_clauses namespace_use_clause
-Rule 541   namespace_use_clause -> qualified_name namespace_aliasing_clauseopt
-Rule 542   qualified_name -> name
-Rule 543   namespace_aliasing_clause -> AS name
-Rule 544   namespace_function_or_const -> FUNCTION
-Rule 545   namespace_function_or_const -> CONST
-Rule 546   namespace_use_group_clauses_1 -> namespace_use_group_clause_1
-Rule 547   namespace_use_group_clauses_1 -> namespace_use_group_clauses_1 namespace_use_group_clause_1
-Rule 548   namespace_use_group_clause_1 -> namespace_name namespace_aliasing_clauseopt
-Rule 549   namespace_use_group_clauses_2 -> namespace_use_group_clause_2
-Rule 550   namespace_use_group_clauses_2 -> namespace_use_group_clauses_2 namespace_use_group_clause_2
-Rule 551   namespace_use_group_clause_2 -> namespace_function_or_constopt namespace_name namespace_aliasing_clauseopt
-Rule 552   name -> STRING
+Rule 7     namespace_name -> NAME
+Rule 8     namespace_name -> namespace_name NS_SEPARATOR NAME
+Rule 9     function_static_declaration -> STATIC static_variable_name_list SEMICOLON
+Rule 10    static_variable_name_list -> static_variable_declaration
+Rule 11    static_variable_name_list -> static_variable_name_list static_variable_declaration
+Rule 12    static_variable_declaration -> VARIABLE function_static_initializer_opt
+Rule 13    function_static_initializer -> EQUAL constant_expression
+Rule 14    function_static_initializer_opt -> function_static_initializer
+Rule 15    function_static_initializer_opt -> <empty>
+Rule 16    function_static_initializer_opt -> EQUAL constant_expression
+Rule 17    global_declaration -> GLOBAL variable_name_list SEMICOLON
+Rule 18    variable_name_list -> simple_variable
+Rule 19    variable_name_list -> variable_name_list simple_variable
+Rule 20    primary_expression -> variable
+Rule 21    primary_expression -> class_constant_access_expression
+Rule 22    primary_expression -> constant_access_expression
+Rule 23    primary_expression -> literal
+Rule 24    primary_expression -> array_creation_expression
+Rule 25    primary_expression -> intrinsic
+Rule 26    primary_expression -> anonymous_function_creation_expression
+Rule 27    primary_expression -> object_creation_expression
+Rule 28    primary_expression -> postfix_increment_expression
+Rule 29    primary_expression -> postfix_decrement_expression
+Rule 30    primary_expression -> prefix_increment_expression
+Rule 31    primary_expression -> prefix_decrement_expression
+Rule 32    primary_expression -> byref_assignment_expression
+Rule 33    primary_expression -> shell_command_expression
+Rule 34    primary_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+Rule 35    simple_variable -> VARIABLE
+Rule 36    simple_variable -> DOLLAR simple_variable
+Rule 37    simple_variable -> DOLLAR LEFT_CBRAC expression RIGHT_CBRAC
+Rule 38    dereferencable_expression -> variable
+Rule 39    dereferencable_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+Rule 40    dereferencable_expression -> array_creation_expression
+Rule 41    dereferencable_expression -> string_literal
+Rule 42    callable_expression -> callable_variable
+Rule 43    callable_expression -> LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+Rule 44    callable_expression -> array_creation_expression
+Rule 45    callable_expression -> string_literal
+Rule 46    callable_variable -> simple_variable
+Rule 47    callable_variable -> subscript_expression
+Rule 48    callable_variable -> member_call_expression
+Rule 49    callable_variable -> scoped_call_expression
+Rule 50    callable_variable -> function_call_expression
+Rule 51    variable -> callable_variable
+Rule 52    variable -> scoped_property_access_expression
+Rule 53    variable -> member_access_expression
+Rule 54    constant_access_expression -> qualified_name
+Rule 55    literal -> integer_literal
+Rule 56    literal -> floating_literal
+Rule 57    literal -> string_literal
+Rule 58    integer_literal -> LNUMBER
+Rule 59    floating_literal -> DNUMBER
+Rule 60    string_literal -> STRING
+Rule 61    intrinsic -> empty_intrinsic
+Rule 62    intrinsic -> eval_intrinsic
+Rule 63    intrinsic -> exit_intrinsic
+Rule 64    intrinsic -> isset_intrinsic
+Rule 65    empty_intrinsic -> EMPTY LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+Rule 66    eval_intrinsic -> EVAL LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+Rule 67    exit_intrinsic -> EXIT
+Rule 68    exit_intrinsic -> EXIT LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS
+Rule 69    exit_intrinsic -> DIE
+Rule 70    exit_intrinsic -> DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS
+Rule 71    isset_intrinsic -> ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS
+Rule 72    variable_list_opt -> variable_list
+Rule 73    variable_list -> variable
+Rule 74    variable_list -> variable_list variable
+Rule 75    anonymous_function_creation_expression -> static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement
+Rule 76    static_opt -> STATIC
+Rule 77    static_opt -> <empty>
+Rule 78    AMPERSAND_opt -> AMPERSAND
+Rule 79    AMPERSAND_opt -> <empty>
+Rule 80    parameter_declaration_list_opt -> parameter_declaration_list
+Rule 81    parameter_declaration_list_opt -> <empty>
+Rule 82    anonymous_function_use_clause_opt -> anonymous_function_use_clause
+Rule 83    anonymous_function_use_clause_opt -> <empty>
+Rule 84    return_type_opt -> return_type
+Rule 85    return_type_opt -> <empty>
+Rule 86    anonymous_function_use_clause -> USE LEFT_PARENTHESIS use_variable_name_list RIGHT_PARENTHESIS
+Rule 87    use_variable_name_list -> AMPERSAND_opt VARIABLE
+Rule 88    use_variable_name_list -> use_variable_name_list AMPERSAND_opt VARIABLE
+Rule 89    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
+Rule 90    object_creation_expression -> NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COLON RIGHT_PARENTHESIS
+Rule 91    object_creation_expression -> NEW class_type_designator
+Rule 92    object_creation_expression -> NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
+Rule 93    object_creation_expression -> NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
+Rule 94    argument_expression_list_opt -> argument_expression_list
+Rule 95    argument_expression_list_opt -> <empty>
+Rule 96    class_base_clause_opt -> class_base_clause
+Rule 97    class_base_clause_opt -> <empty>
+Rule 98    class_interface_clause_opt -> class_interface_clause
+Rule 99    class_interface_clause_opt -> <empty>
+Rule 100   class_member_declarations_opt -> class_member_declarations
+Rule 101   class_member_declarations_opt -> <empty>
+Rule 102   class_type_designator -> qualified_name
+Rule 103   class_type_designator -> new_variable
+Rule 104   new_variable -> simple_variable
+Rule 105   new_variable -> new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
+Rule 106   new_variable -> new_variable LEFT_CBRAC expression RIGHT_PARENTHESIS
+Rule 107   new_variable -> new_variable ARROW member_name
+Rule 108   new_variable -> qualified_name DOUBLE_COLON simple_variable
+Rule 109   new_variable -> relative_scope DOUBLE_COLON simple_variable
+Rule 110   new_variable -> new_variable DOUBLE_COLON simple_variable
+Rule 111   expression_opt -> expression
+Rule 112   expression_opt -> <empty>
+Rule 113   array_creation_expression -> ARRAY LEFT_PARENTHESIS array_initializer_opt RIGHT_PARENTHESIS
+Rule 114   array_creation_expression -> LEFT_CBRAC array_initializer_opt RIGHT_CBRAC
+Rule 115   array_initializer_opt -> array_initializer
+Rule 116   array_initializer_opt -> <empty>
+Rule 117   array_initializer -> array_initializer_list
+Rule 118   array_initializer -> array_initializer_list COLON
+Rule 119   array_initializer_list -> array_element_initializer
+Rule 120   array_initializer_list -> array_element_initializer COLON array_element_initializer
+Rule 121   array_element_initializer -> AMPERSAND_opt element_value
+Rule 122   array_element_initializer -> element_key ARROW AMPERSAND_opt element_value
+Rule 123   element_key -> expression
+Rule 124   element_value -> expression
+Rule 125   subscript_expression -> dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC
+Rule 126   subscript_expression -> dereferencable_expression LEFT_CBRAC expression RIGHT_PARENTHESIS
+Rule 127   function_call_expression -> qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
+Rule 128   function_call_expression -> qualified_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
+Rule 129   function_call_expression -> callable_expression LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
+Rule 130   function_call_expression -> callable_expression LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
+Rule 131   argument_expression_list -> argument_expression
+Rule 132   argument_expression_list -> argument_expression_list argument_expression
+Rule 133   argument_expression -> variadic_unpacking
+Rule 134   argument_expression -> expression
+Rule 135   variadic_unpacking -> ELLIPSIS expression
+Rule 136   member_access_expression -> dereferencable_expression ARROW member_name
+Rule 137   member_name -> NAME
+Rule 138   member_name -> simple_variable
+Rule 139   member_name -> LEFT_CBRAC expression RIGHT_PARENTHESIS
+Rule 140   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
+Rule 141   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
+Rule 142   postfix_increment_expression -> variable PLUS PLUS
+Rule 143   postfix_decrement_expression -> variable LESS LESS
+Rule 144   prefix_increment_expression -> PLUS PLUS variable
+Rule 145   prefix_decrement_expression -> LESS LESS variable
+Rule 146   shell_command_expression -> BACKTICK dq_char_sequence_opt BACKTICK
+Rule 147   dq_char_sequence_opt -> dq_char_sequence
+Rule 148   dq_char_sequence_opt -> <empty>
+Rule 149   scoped_property_access_expression -> scope_resolution_qualifier DOUBLE_COLON simple_variable
+Rule 150   scoped_call_expression -> scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
+Rule 151   scoped_call_expression -> scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
+Rule 152   class_constant_access_expression -> scope_resolution_qualifier DOUBLE_COLON NAME
+Rule 153   scope_resolution_qualifier -> relative_scope
+Rule 154   scope_resolution_qualifier -> qualified_name
+Rule 155   scope_resolution_qualifier -> dereferencable_expression
+Rule 156   relative_scope -> SELF
+Rule 157   relative_scope -> PARENT
+Rule 158   relative_scope -> STATIC
+Rule 159   clone_expression -> primary_expression
+Rule 160   clone_expression -> CLONE primary_expression
+Rule 161   exponentiation_expression -> clone_expression
+Rule 162   exponentiation_expression -> clone_expression EXPONENTIATION exponentiation_expression
+Rule 163   unary_expression -> exponentiation_expression
+Rule 164   unary_expression -> unary_op_expression
+Rule 165   unary_expression -> error_control_expression
+Rule 166   unary_expression -> cast_expression
+Rule 167   unary_op_expression -> unary_operator unary_expression
+Rule 168   unary_operator -> PLUS
+Rule 169   unary_operator -> MINUS
+Rule 170   unary_operator -> TILDE
+Rule 171   error_control_expression -> AT unary_expression
+Rule 172   cast_expression -> LEFT_PARENTHESIS RIGHT_PARENTHESIS unary_expression
+Rule 173   instanceof_expression -> unary_expression
+Rule 174   instanceof_expression -> instanceof_subj instanceof class_type_designator
+Rule 175   instanceof_subj -> instanceof_expression
+Rule 176   logical_not_expression -> instanceof_expression
+Rule 177   logical_not_expression -> NOT instanceof_expression
+Rule 178   multiplicative_expression -> logical_not_expression
+Rule 179   multiplicative_expression -> multiplicative_expression TIMES logical_not_expression
+Rule 180   multiplicative_expression -> multiplicative_expression DIVIDE logical_not_expression
+Rule 181   multiplicative_expression -> multiplicative_expression MODULO logical_not_expression
+Rule 182   additive_expression -> multiplicative_expression
+Rule 183   additive_expression -> additive_expression PLUS multiplicative_expression
+Rule 184   additive_expression -> additive_expression LESS multiplicative_expression
+Rule 185   additive_expression -> additive_expression CONCAT multiplicative_expression
+Rule 186   shift_expression -> additive_expression
+Rule 187   shift_expression -> shift_expression SL additive_expression
+Rule 188   shift_expression -> shift_expression SR additive_expression
+Rule 189   relational_expression -> shift_expression
+Rule 190   relational_expression -> relational_expression LESS_THAN shift_expression
+Rule 191   relational_expression -> relational_expression IS_SMALLER_OR_EQUAL shift_expression
+Rule 192   relational_expression -> relational_expression IS_GREATER_OR_EQUAL shift_expression
+Rule 193   relational_expression -> relational_expression GREATER_THAN_OR_EQUAL shift_expression
+Rule 194   relational_expression -> relational_expression SPACESHIP shift_expression
+Rule 195   equality_expression -> relational_expression
+Rule 196   equality_expression -> equality_expression EQUAL relational_expression
+Rule 197   equality_expression -> equality_expression IS_NOT_EQUAL relational_expression
+Rule 198   equality_expression -> equality_expression IS_IDENTICAL relational_expression
+Rule 199   equality_expression -> equality_expression IS_NOT_IDENTICAL relational_expression
+Rule 200   bitwise_AND_expression -> equality_expression
+Rule 201   bitwise_AND_expression -> bitwise_AND_expression AMPERSAND equality_expression
+Rule 202   bitwise_exc_OR_expression -> bitwise_AND_expression
+Rule 203   bitwise_exc_OR_expression -> bitwise_exc_OR_expression BITWISE_XOR bitwise_AND_expression
+Rule 204   bitwise_inc_OR_expression -> bitwise_exc_OR_expression
+Rule 205   bitwise_inc_OR_expression -> bitwise_inc_OR_expression BITWISE_OR bitwise_exc_OR_expression
+Rule 206   logical_AND_expression_1 -> bitwise_inc_OR_expression
+Rule 207   logical_AND_expression_1 -> logical_AND_expression_1 AMPERSAND AMPERSAND bitwise_inc_OR_expression
+Rule 208   logical_inc_OR_expression_1 -> logical_AND_expression_1
+Rule 209   logical_inc_OR_expression_1 -> logical_inc_OR_expression_1 BITWISE_OR BITWISE_OR logical_AND_expression_1
+Rule 210   coalesce_expression -> logical_inc_OR_expression_1
+Rule 211   coalesce_expression -> logical_inc_OR_expression_1 COALESCE coalesce_expression
+Rule 212   conditional_expression -> coalesce_expression
+Rule 213   conditional_expression -> conditional_expression TERNARY_OPERATION expression DOUBLE_POINT coalesce_expression
+Rule 214   conditional_expression -> conditional_expression TERNARY_OPERATION DOUBLE_POINT coalesce_expression
+Rule 215   assignment_expression -> conditional_expression
+Rule 216   assignment_expression -> simple_assignment_expression
+Rule 217   assignment_expression -> compound_assignment_expression
+Rule 218   simple_assignment_expression -> variable EQUAL assignment_expression
+Rule 219   simple_assignment_expression -> list_intrinsic EQUAL assignment_expression
+Rule 220   list_intrinsic -> LIST LEFT_PARENTHESIS list_expression_list RIGHT_PARENTHESIS
+Rule 221   list_expression_list -> unkeyed_list_expression_list
+Rule 222   list_expression_list -> keyed_list_expression_list COLON
+Rule 223   list_expression_list -> keyed_list_expression_list
+Rule 224   unkeyed_list_expression_list -> list_or_variable
+Rule 225   unkeyed_list_expression_list -> COLON
+Rule 226   unkeyed_list_expression_list -> unkeyed_list_expression_list COLON list_or_variable COLON
+Rule 227   unkeyed_list_expression_list -> unkeyed_list_expression_list COLON list_or_variable
+Rule 228   keyed_list_expression_list -> expression DOUBLE_ARROW list_or_variable
+Rule 229   keyed_list_expression_list -> keyed_list_expression_list COLON expression DOUBLE_ARROW list_or_variable
+Rule 230   list_or_variable -> list_intrinsic
+Rule 231   list_or_variable -> AMPERSAND variable
+Rule 232   list_or_variable -> variable
+Rule 233   byref_assignment_expression -> variable EQUAL AMPERSAND variable
+Rule 234   compound_assignment_expression -> variable compound_assignment_operator assignment_expression
+Rule 235   compound_assignment_operator -> POW_EQUAL
+Rule 236   compound_assignment_operator -> MUL_EQUAL
+Rule 237   compound_assignment_operator -> DIV_EQUAL
+Rule 238   compound_assignment_operator -> MOD_EQUAL
+Rule 239   compound_assignment_operator -> PLUS_EQUAL
+Rule 240   compound_assignment_operator -> MINUS_EQUAL
+Rule 241   compound_assignment_operator -> CONCAT_EQUAL
+Rule 242   compound_assignment_operator -> SL_EQUAL
+Rule 243   compound_assignment_operator -> SR_EQUAL
+Rule 244   compound_assignment_operator -> AND_EQUAL
+Rule 245   compound_assignment_operator -> XOR_EQUAL
+Rule 246   compound_assignment_operator -> OR_EQUAL
+Rule 247   yield_from_expression -> YIELD_FROM assignment_expression
+Rule 248   yield_expression -> yield_from_expression
+Rule 249   yield_expression -> YIELD
+Rule 250   yield_expression -> YIELD yield_expression
+Rule 251   yield_expression -> YIELD yield_from_expression DOUBLE_ARROW yield_expression
+Rule 252   print_expression -> yield_expression
+Rule 253   print_expression -> PRINT print_expression
+Rule 254   logical_AND_expression_2 -> print_expression
+Rule 255   logical_AND_expression_2 -> logical_AND_expression_2 AND yield_expression
+Rule 256   logical_exc_OR_expression -> logical_AND_expression_2
+Rule 257   logical_exc_OR_expression -> logical_exc_OR_expression XOR logical_AND_expression_2
+Rule 258   logical_inc_OR_expression_2 -> logical_exc_OR_expression
+Rule 259   logical_inc_OR_expression_2 -> logical_inc_OR_expression_2 OR logical_exc_OR_expression
+Rule 260   expression -> logical_inc_OR_expression_2
+Rule 261   expression -> include_expression
+Rule 262   expression -> include_once_expression
+Rule 263   expression -> require_expression
+Rule 264   expression -> require_once_expression
+Rule 265   include_expression -> INCLUDE expression
+Rule 266   include_once_expression -> INCLUDE_ONCE expression
+Rule 267   require_expression -> REQUIRE expression
+Rule 268   require_once_expression -> REQUIRE_ONCE expression
+Rule 269   constant_expression -> expression
+Rule 270   statement -> compound_statement
+Rule 271   statement -> named_label_statement
+Rule 272   statement -> expression_statement
+Rule 273   statement -> selection_statement
+Rule 274   statement -> iteration_statement
+Rule 275   statement -> jump_statement
+Rule 276   statement -> try_statement
+Rule 277   statement -> declare_statement
+Rule 278   statement -> echo_statement
+Rule 279   statement -> unset_statement
+Rule 280   statement -> const_declaration
+Rule 281   statement -> function_definition
+Rule 282   statement -> class_declaration
+Rule 283   statement -> interface_declaration
+Rule 284   statement -> trait_declaration
+Rule 285   statement -> namespace_definition
+Rule 286   statement -> namespace_use_declaration
+Rule 287   statement -> global_declaration
+Rule 288   statement -> function_static_declaration
+Rule 289   compound_statement -> LEFT_CBRAC statement_list RIGHT_CBRAC
+Rule 290   compound_statement -> LEFT_CBRAC RIGHT_CBRAC
+Rule 291   statement_list -> statement
+Rule 292   statement_list -> statement_list statement
+Rule 293   named_label_statement -> name DOUBLE_POINT
+Rule 294   expression_statement -> expression SEMICOLON
+Rule 295   expression_statement -> SEMICOLON
+Rule 296   selection_statement -> if_statement
+Rule 297   selection_statement -> switch_statement
+Rule 298   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif_clauses_1 else_clause_1
+Rule 299   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif_clauses_1
+Rule 300   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement else_clause_1
+Rule 301   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
+Rule 302   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 else_clause_2 ENDIF SEMICOLON
+Rule 303   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 ENDIF SEMICOLON
+Rule 304   if_statement -> IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list else_clause_2 ENDIF SEMICOLON
+Rule 305   elseif_clauses_1 -> elseif_clause_1
+Rule 306   elseif_clauses_1 -> elseif_clauses_1 elseif_clause_1
+Rule 307   elseif_clause_1 -> ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
+Rule 308   else_clause_1 -> ELSE statement
+Rule 309   elseif_clauses_2 -> elseif_clause_2
+Rule 310   elseif_clauses_2 -> elseif_clauses_2 elseif_clause_2
+Rule 311   elseif_clause_2 -> ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list
+Rule 312   else_clause_2 -> ELSE DOUBLE_POINT statement_list
+Rule 313   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC case_statements RIGHT_CBRAC
+Rule 314   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC RIGHT_CBRAC
+Rule 315   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT case_statements ENDSWITCH SEMICOLON
+Rule 316   switch_statement -> SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT ENDSWITCH SEMICOLON
+Rule 317   case_statements -> case_statement case_statements
+Rule 318   case_statements -> case_statement
+Rule 319   case_statements -> default_statement case_statements
+Rule 320   case_statements -> default_statement
+Rule 321   case_statement -> CASE expression case_default_label_terminator statement_list
+Rule 322   case_statement -> CASE expression case_default_label_terminator
+Rule 323   default_statement -> DEFAULT case_default_label_terminator statement_list
+Rule 324   default_statement -> DEFAULT case_default_label_terminator
+Rule 325   case_default_label_terminator -> DOUBLE_POINT
+Rule 326   case_default_label_terminator -> SEMICOLON
+Rule 327   iteration_statement -> while_statement
+Rule 328   iteration_statement -> do_statement
+Rule 329   iteration_statement -> for_statement
+Rule 330   iteration_statement -> foreach_statement
+Rule 331   while_statement -> WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
+Rule 332   while_statement -> WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDWHILE SEMICOLON
+Rule 333   do_statement -> DO statement WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS SEMICOLON
+Rule 334   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
+Rule 335   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS statement
+Rule 336   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
+Rule 337   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement
+Rule 338   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
+Rule 339   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS statement
+Rule 340   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
+Rule 341   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement
+Rule 342   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 343   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 344   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 345   for_statement -> FOR LEFT_PARENTHESIS for_initializer SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 346   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 347   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 348   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 349   for_statement -> FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
+Rule 350   for_initializer -> for_expression_group
+Rule 351   for_control -> for_expression_group
+Rule 352   for_end_of_loop -> for_expression_group
+Rule 353   for_expression_group -> expression
+Rule 354   for_expression_group -> for_expression_group COLON expression
+Rule 355   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS statement
+Rule 356   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS statement
+Rule 357   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON
+Rule 358   foreach_statement -> FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON
+Rule 359   foreach_collection_name -> expression
+Rule 360   foreach_key -> expression DOUBLE_ARROW
+Rule 361   foreach_value -> foreach_value_expression
+Rule 362   foreach_value -> AMPERSAND expression
+Rule 363   foreach_value -> list_intrinsic
+Rule 364   jump_statement -> goto_statement
+Rule 365   jump_statement -> continue_statement
+Rule 366   jump_statement -> break_statement
+Rule 367   jump_statement -> return_statement
+Rule 368   jump_statement -> throw_statement
+Rule 369   goto_statement -> GOTO name SEMICOLON
+Rule 370   continue_statement -> CONTINUE breakout_level SEMICOLON
+Rule 371   continue_statement -> CONTINUE SEMICOLON
+Rule 372   breakout_level -> INTEGER_LITERAL
+Rule 373   breakout_level -> LEFT_PARENTHESIS breakout_level RIGHT_PARENTHESIS
+Rule 374   break_statement -> BREAK breakout_levelopt SEMICOLON
+Rule 375   breakout_levelopt -> breakout_level
+Rule 376   breakout_levelopt -> <empty>
+Rule 377   breakout_level -> expression
+Rule 378   return_statement -> RETURN expressionopt SEMICOLON
+Rule 379   expressionopt -> expression
+Rule 380   expressionopt -> <empty>
+Rule 381   throw_statement -> THROW expression SEMICOLON
+Rule 382   try_statement -> TRY compound_statement catch_clauses
+Rule 383   try_statement -> TRY compound_statement finally_clause
+Rule 384   try_statement -> TRY compound_statement catch_clauses finally_clause
+Rule 385   catch_clauses -> catch_clause
+Rule 386   catch_clauses -> catch_clauses catch_clause
+Rule 387   catch_clause -> CATCH LEFT_PARENTHESIS catch_name_list VARIABLE RIGHT_PARENTHESIS compound_statement
+Rule 388   catch_name_list -> qualified_name
+Rule 389   catch_name_list -> catch_name_list
+Rule 390   finally_clause -> FINALLY compound_statement
+Rule 391   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS statement
+Rule 392   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDDECLARE SEMICOLON
+Rule 393   declare_statement -> DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS SEMICOLON
+Rule 394   declare_directive -> TICKS EQUALS literal
+Rule 395   declare_directive -> ENCODING EQUALS literal
+Rule 396   declare_directive -> STRICT_TYPES EQUALS literal
+Rule 397   echo_statement -> ECHO expression_list SEMICOLON
+Rule 398   expression_list -> expression
+Rule 399   expression_list -> expression_list expression
+Rule 400   unset_statement -> UNSET LEFT_PARENTHESIS variable_list COLON RIGHT_PARENTHESIS SEMICOLON
+Rule 401   unset_statement -> UNSET LEFT_PARENTHESIS variable_list RIGHT_PARENTHESIS SEMICOLON
+Rule 402   function_definition -> function_definition_header compound_statement
+Rule 403   function_definition_header -> FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_typeopt
+Rule 404   ampersandopt -> AMPERSAND
+Rule 405   ampersandopt -> <empty>
+Rule 406   parameter_declaration_list -> simple_parameter_declaration_list
+Rule 407   parameter_declaration_list -> variadic_declaration_list
+Rule 408   simple_parameter_declaration_list -> parameter_declaration
+Rule 409   simple_parameter_declaration_list -> parameter_declaration_list parameter_declaration
+Rule 410   variadic_declaration_list -> simple_parameter_declaration_list variadic_parameter
+Rule 411   variadic_declaration_list -> variadic_parameter
+Rule 412   parameter_declaration -> type_declarationopt ampersandopt VARIABLE default_argument_specifieropt
+Rule 413   variadic_parameter -> type_declarationopt ampersandopt ELLIPSIS VARIABLE
+Rule 414   return_type -> DOUBLE_POINT type_declaration
+Rule 415   return_type -> DOUBLE_POINT VOID
+Rule 416   type_declarationopt -> type_declaration
+Rule 417   type_declarationopt -> <empty>
+Rule 418   type_declaration -> TERNARY_OPERATIONopt base_type_declaration
+Rule 419   TERNARY_OPERATIONopt -> TERNARY_OPERATION
+Rule 420   TERNARY_OPERATIONopt -> <empty>
+Rule 421   base_type_declaration -> array
+Rule 422   base_type_declaration -> callable
+Rule 423   base_type_declaration -> iterable
+Rule 424   base_type_declaration -> scalar_type
+Rule 425   base_type_declaration -> qualified_name
+Rule 426   scalar_type -> BOOL
+Rule 427   scalar_type -> FLOAT
+Rule 428   scalar_type -> INT
+Rule 429   scalar_type -> STRING
+Rule 430   default_argument_specifieropt -> default_argument_specifier
+Rule 431   default_argument_specifieropt -> <empty>
+Rule 432   default_argument_specifier -> EQUAL constant_expression
+Rule 433   class_declaration -> class_modifieropt CLASS name class_base_clauseopt class_interface_clauseopt LEFT_CBRAC class_member_declarationsopt RIGHT_CBRAC
+Rule 434   class_modifieropt -> class_modifier
+Rule 435   class_modifieropt -> <empty>
+Rule 436   class_base_clauseopt -> class_base_clause
+Rule 437   class_base_clauseopt -> <empty>
+Rule 438   class_interface_clauseopt -> class_interface_clause
+Rule 439   class_interface_clauseopt -> <empty>
+Rule 440   class_member_declarationsopt -> class_member_declarations
+Rule 441   class_member_declarationsopt -> <empty>
+Rule 442   class_modifier -> ABSTRACT
+Rule 443   class_modifier -> FINAL
+Rule 444   class_base_clause -> EXTENDS qualified_name
+Rule 445   class_interface_clause -> IMPLEMENTS qualified_name
+Rule 446   class_interface_clause -> class_interface_clause qualified_name
+Rule 447   class_member_declarations -> class_member_declaration
+Rule 448   class_member_declarations -> class_member_declarations class_member_declaration
+Rule 449   class_member_declaration -> class_const_declaration
+Rule 450   class_member_declaration -> property_declaration
+Rule 451   class_member_declaration -> method_declaration
+Rule 452   class_member_declaration -> constructor_declaration
+Rule 453   class_member_declaration -> destructor_declaration
+Rule 454   class_member_declaration -> trait_use_clause
+Rule 455   const_declaration -> CONST const_elements SEMICOLON
+Rule 456   class_const_declaration -> visibility_modifier_opt CONST const_elements SEMICOLON
+Rule 457   const_elements -> const_element
+Rule 458   const_elements -> const_elements const_element
+Rule 459   const_element -> name EQUAL constant_expression
+Rule 460   property_declaration -> property_modifier property_elements SEMICOLON
+Rule 461   property_modifier -> VAR
+Rule 462   property_modifier -> visibility_modifier static_modifieropt
+Rule 463   property_modifier -> static_modifier visibility_modifier_opt
+Rule 464   static_modifieropt -> static_modifier
+Rule 465   static_modifieropt -> <empty>
+Rule 466   visibility_modifier -> PUBLIC
+Rule 467   visibility_modifier -> PROTECTED
+Rule 468   visibility_modifier -> PRIVATE
+Rule 469   static_modifier -> STATIC
+Rule 470   property_elements -> property_element
+Rule 471   property_elements -> property_elements property_element
+Rule 472   property_element -> VARIABLE property_initializeropt SEMICOLON
+Rule 473   property_initializeropt -> property_initializer
+Rule 474   property_initializeropt -> <empty>
+Rule 475   property_initializer -> EQUAL constant_expression
+Rule 476   method_declaration -> method_modifiersopt function_definition
+Rule 477   method_declaration -> method_modifiers function_definition_header SEMICOLON
+Rule 478   method_modifiersopt -> method_modifiers
+Rule 479   method_modifiersopt -> <empty>
+Rule 480   method_modifiers -> method_modifier
+Rule 481   method_modifiers -> method_modifiers method_modifier
+Rule 482   method_modifier -> visibility_modifier
+Rule 483   method_modifier -> static_modifier
+Rule 484   method_modifier -> class_modifier
+Rule 485   constructor_declaration -> method_modifiers FUNCTION name AMPERSAND_opt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement
+Rule 486   destructor_declaration -> method_modifiers FUNCTION name AMPERSAND_opt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement
+Rule 487   parameter_declaration_listopt -> parameter_declaration_list
+Rule 488   parameter_declaration_listopt -> <empty>
+Rule 489   interface_declaration -> INTERFACE name interface_base_clauseopt LEFT_CBRAC interface_member_declarationsopt RIGHT_CBRAC
+Rule 490   interface_base_clauseopt -> interface_base_clause
+Rule 491   interface_base_clauseopt -> <empty>
+Rule 492   interface_member_declarationsopt -> interface_member_declarations
+Rule 493   interface_member_declarationsopt -> <empty>
+Rule 494   interface_base_clause -> EXTENDS qualified_name
+Rule 495   interface_base_clause -> interface_base_clause qualified_name
+Rule 496   interface_member_declarations -> interface_member_declaration
+Rule 497   interface_member_declarations -> interface_member_declarations interface_member_declaration
+Rule 498   interface_member_declaration -> class_const_declaration
+Rule 499   interface_member_declaration -> method_declaration
+Rule 500   trait_declaration -> TRAIT name LEFT_CBRAC trait_member_declarationsopt RIGHT_CBRAC
+Rule 501   trait_member_declarationsopt -> trait_member_declarations
+Rule 502   trait_member_declarationsopt -> <empty>
+Rule 503   trait_member_declarations -> trait_member_declaration
+Rule 504   trait_member_declarations -> trait_member_declarations trait_member_declaration
+Rule 505   trait_member_declaration -> property_declaration
+Rule 506   trait_member_declaration -> method_declaration
+Rule 507   trait_member_declaration -> constructor_declaration
+Rule 508   trait_member_declaration -> destructor_declaration
+Rule 509   trait_member_declaration -> trait_use_clauses
+Rule 510   trait_use_clauses -> trait_use_clause
+Rule 511   trait_use_clauses -> trait_use_clauses trait_use_clause
+Rule 512   trait_use_clause -> USE trait_name_list trait_use_specification
+Rule 513   trait_name_list -> qualified_name
+Rule 514   trait_name_list -> trait_name_list qualified_name
+Rule 515   trait_use_specification -> SEMICOLON
+Rule 516   trait_use_specification -> LEFT_CBRAC trait_select_and_alias_clausesopt RIGHT_CBRAC
+Rule 517   trait_select_and_alias_clausesopt -> trait_select_and_alias_clauses
+Rule 518   trait_select_and_alias_clausesopt -> <empty>
+Rule 519   trait_select_and_alias_clauses -> trait_select_and_alias_clause
+Rule 520   trait_select_and_alias_clauses -> trait_select_and_alias_clauses trait_select_and_alias_clause
+Rule 521   trait_select_and_alias_clause -> trait_select_insteadof_clause SEMICOLON
+Rule 522   trait_select_and_alias_clause -> trait_alias_as_clause SEMICOLON
+Rule 523   trait_select_insteadof_clause -> qualified_name DOUBLE_COLON name INSTEADOF trait_name_list
+Rule 524   trait_alias_as_clause -> name AS visibility_modifier_opt name
+Rule 525   trait_alias_as_clause -> name AS visibility_modifier nameopt
+Rule 526   visibility_modifier_opt -> visibility_modifier
+Rule 527   visibility_modifier_opt -> <empty>
+Rule 528   nameopt -> name
+Rule 529   nameopt -> <empty>
+Rule 530   namespace_definition -> NAMESPACE namespace_name SEMICOLON
+Rule 531   namespace_definition -> NAMESPACE namespace_nameopt compound_statement
+Rule 532   namespace_nameopt -> namespace_name
+Rule 533   namespace_nameopt -> <empty>
+Rule 534   namespace_use_declaration -> USE namespace_function_or_constopt namespace_use_clauses SEMICOLON
+Rule 535   namespace_use_declaration -> USE namespace_function_or_const NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
+Rule 536   namespace_use_declaration -> USE NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_2 RIGHT_CBRAC SEMICOLON
+Rule 537   namespace_function_or_constopt -> namespace_function_or_const
+Rule 538   namespace_function_or_constopt -> <empty>
+Rule 539   NS_SEPARATORopt -> NS_SEPARATOR
+Rule 540   NS_SEPARATORopt -> <empty>
+Rule 541   namespace_use_clauses -> namespace_use_clause
+Rule 542   namespace_use_clauses -> namespace_use_clauses namespace_use_clause
+Rule 543   namespace_use_clause -> qualified_name namespace_aliasing_clause_opt
+Rule 544   namespace_aliasing_clause_opt -> namespace_aliasing_clause
+Rule 545   qualified_name -> name
+Rule 546   namespace_aliasing_clause -> AS name
+Rule 547   namespace_function_or_const -> FUNCTION
+Rule 548   namespace_function_or_const -> CONST
+Rule 549   namespace_use_group_clauses_1 -> namespace_use_group_clause_1
+Rule 550   namespace_use_group_clauses_1 -> namespace_use_group_clauses_1 namespace_use_group_clause_1
+Rule 551   namespace_use_group_clause_1 -> namespace_name namespace_aliasing_clause_opt
+Rule 552   namespace_use_group_clauses_2 -> namespace_use_group_clause_2
+Rule 553   namespace_use_group_clauses_2 -> namespace_use_group_clauses_2 namespace_use_group_clause_2
+Rule 554   namespace_use_group_clause_2 -> namespace_function_or_constopt namespace_name namespace_aliasing_clause_opt
+Rule 555   name -> STRING
 
 Terminals, with rules where they appear
 
-ABSTRACT             : 440
-AMPERSAND            : 76 199 205 205 229 231 360 402
-AND                  : 253
-AND_EQUAL            : 242
-ARRAY                : 111
-ARROW                : 105 120 134 138 139
-AS                   : 353 354 355 356 522 523 543
+ABSTRACT             : 442
+AMPERSAND            : 78 201 207 207 231 233 362 404
+AND                  : 255
+AND_EQUAL            : 244
+ARRAY                : 113
+ARROW                : 107 122 136 140 141
+AS                   : 355 356 357 358 524 525 546
 ASTERISK             : 
 ATTRIBUTE            : 
-BACKTICK             : 144 144
+BACKTICK             : 146 146
 BAD_CARACTER         : 
 BITWISE_NOT          : 
-BITWISE_OR           : 203 207 207
-BITWISE_XOR          : 201
-BOOL                 : 424
+BITWISE_OR           : 205 209 209
+BITWISE_XOR          : 203
+BOOL                 : 426
 BOOLEAN_AND          : 
 BOOLEAN_OR           : 
-BREAK                : 372
+BREAK                : 374
 CALLABLE             : 
-CASE                 : 319 320
-CATCH                : 385
-CLASS                : 90 91 431
-CLONE                : 158
+CASE                 : 321 322
+CATCH                : 387
+CLASS                : 92 93 433
+CLONE                : 160
 CLOSE_TAG            : 5
-COALESCE             : 209
+COALESCE             : 211
 COALESCE_EQUAL       : 
-COLON                : 88 116 118 220 223 224 224 225 227 352 398
+COLON                : 90 118 120 222 225 226 226 227 229 354 400
 COMMENT              : 
-CONCAT               : 183
-CONCAT_EQUAL         : 239
-CONST                : 453 454 545
+CONCAT               : 185
+CONCAT_EQUAL         : 241
+CONST                : 455 456 548
 CONSTANT_ENCAPSED_STRING : 
-CONTINUE             : 368 369
+CONTINUE             : 370 371
 CURLY_OPEN           : 
 DEC                  : 
-DECLARE              : 389 390 391
-DEFAULT              : 321 322
-DIE                  : 67 68
-DIVIDE               : 178
-DIV_EQUAL            : 235
-DNUMBER              : 57
-DO                   : 331
+DECLARE              : 391 392 393
+DEFAULT              : 323 324
+DIE                  : 69 70
+DIVIDE               : 180
+DIV_EQUAL            : 237
+DNUMBER              : 59
+DO                   : 333
 DOC_COMMENT          : 
-DOLLAR               : 34 35
+DOLLAR               : 36 37
 DOLLAR_OPEN_CURLY_BRACES : 
-DOUBLE_ARROW         : 226 227 249 358
-DOUBLE_COLON         : 106 107 108 147 148 149 150 521
-DOUBLE_POINT         : 211 212 291 300 301 302 309 310 313 314 323 330 340 341 342 343 344 345 346 347 355 356 390 412 413
+DOUBLE_ARROW         : 228 229 251 360
+DOUBLE_COLON         : 108 109 110 149 150 151 152 523
+DOUBLE_POINT         : 213 214 293 302 303 304 311 312 315 316 325 332 342 343 344 345 346 347 348 349 357 358 392 414 415
 DQUOTATION_MARK      : 
-ECHO                 : 395
-ELLIPSIS             : 133 411
-ELSE                 : 306 310
-ELSEIF               : 305 309
-EMPTY                : 63
-ENDDECLARE           : 390
-ENDFOR               : 340 341 342 343 344 345 346 347
-ENDFOREACH           : 355 356
-ENDIF                : 300 301 302
-ENDSWITCH            : 313 314
-ENDWHILE             : 330
-EQUAL                : 11 14 194 216 217 231 430 457 473
-EQUALS               : 392 393 394
-EVAL                 : 64
-EXIT                 : 65 66
+ECHO                 : 397
+ELLIPSIS             : 135 413
+ELSE                 : 308 312
+ELSEIF               : 307 311
+EMPTY                : 65
+ENDDECLARE           : 392
+ENDFOR               : 342 343 344 345 346 347 348 349
+ENDFOREACH           : 357 358
+ENDIF                : 302 303 304
+ENDSWITCH            : 315 316
+ENDWHILE             : 332
+EQUAL                : 13 16 196 218 219 233 432 459 475
+EQUALS               : 394 395 396
+EVAL                 : 66
+EXIT                 : 67 68
 EXPONENT_DNUMBER     : 
-EXTENDS              : 442 492
-FINAL                : 441
-FINALLY              : 388
-FLOAT                : 425
+EXTENDS              : 444 494
+FINAL                : 443
+FINALLY              : 390
+FLOAT                : 427
 FN                   : 
-FOR                  : 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347
-FOREACH              : 353 354 355 356
-FUNCTION             : 73 401 483 484 544
-GLOBAL               : 15
-GOTO                 : 367
-IF                   : 296 297 298 299 300 301 302
-IMPLEMENTS           : 443
+FOR                  : 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349
+FOREACH              : 355 356 357 358
+FUNCTION             : 75 403 485 486 547
+GLOBAL               : 17
+GOTO                 : 369
+IF                   : 298 299 300 301 302 303 304
+IMPLEMENTS           : 445
 INC                  : 
-INCLUDE              : 263
-INCLUDE_ONCE         : 264
+INCLUDE              : 265
+INCLUDE_ONCE         : 266
 INSTANCEOF           : 
-INSTEADOF            : 521
-INT                  : 426
-INTERFACE            : 487
-ISSET                : 69
+INSTEADOF            : 523
+INT                  : 428
+INTERFACE            : 489
+ISSET                : 71
 IS_EQUAL             : 
-IS_GREATER_OR_EQUAL  : 190
-IS_IDENTICAL         : 196
-IS_NOT_EQUAL         : 195
-IS_NOT_IDENTICAL     : 197
-IS_SMALLER_OR_EQUAL  : 189
-LEFT_CBRAC           : 35 90 91 103 104 112 123 124 137 287 288 311 312 431 487 498 514 533 534
-LEFT_PARENTHESIS     : 32 37 41 63 64 66 68 69 73 84 87 88 90 111 125 126 127 128 138 139 148 149 170 218 296 297 298 299 300 301 302 305 309 311 312 313 314 329 330 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 353 354 355 356 371 385 389 390 391 398 399 401 483 484
+IS_GREATER_OR_EQUAL  : 192
+IS_IDENTICAL         : 198
+IS_NOT_EQUAL         : 197
+IS_NOT_IDENTICAL     : 199
+IS_SMALLER_OR_EQUAL  : 191
+LEFT_CBRAC           : 37 92 93 105 106 114 125 126 139 289 290 313 314 433 489 500 516 535 536
+LEFT_PARENTHESIS     : 34 39 43 65 66 68 70 71 75 86 89 90 92 113 127 128 129 130 140 141 150 151 172 220 298 299 300 301 302 303 304 307 311 313 314 315 316 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 355 356 357 358 373 387 391 392 393 400 401 403 485 486
 LEFT_SQRBRAC         : 
-LESS                 : 141 141 143 143 182
-LESS_THAN            : 188
-LIST                 : 218
-LNUMBER              : 56
-MINUS_EQUAL          : 238
-MOD_EQUAL            : 236
+LESS                 : 143 143 145 145 184
+LESS_THAN            : 190
+LIST                 : 220
+LNUMBER              : 58
+MINUS_EQUAL          : 240
+MOD_EQUAL            : 238
 MORE_THAN            : 
-MUL_EQUAL            : 234
-NAMESPACE            : 528 529
+MUL_EQUAL            : 236
+NAME                 : 7 8 137 152
+NAMESPACE            : 530 531
 NEGATION             : 
-NEW                  : 87 88 89 90 91
-NS_SEPARATOR         : 533 534 537
+NEW                  : 89 90 91 92 93
+NS_SEPARATOR         : 8 535 536 539
 NULLSAFE_OBJECT_OPERATOR : 
 OBJECT_OPERATOR      : 
 OPEN_TAG             : 3
 OPEN_TAG_WITH_ECHO   : 4
-OR                   : 257
-OR_EQUAL             : 244
-PLUS                 : 140 140 142 142 166 181
-PLUS_EQUAL           : 237
+OR                   : 259
+OR_EQUAL             : 246
+PLUS                 : 142 142 144 144 168 183
+PLUS_EQUAL           : 239
 POW                  : 
-POW_EQUAL            : 233
-PRINT                : 251
-PRIVATE              : 466
-PROTECTED            : 465
-PUBLIC               : 464
-REQUIRE              : 265
-REQUIRE_ONCE         : 266
-RETURN               : 376
-RIGHT_CBRAC          : 35 103 112 123 287 288 311 312 431 487 498 514 533 534
-RIGHT_PARENTHESIS    : 32 37 41 63 64 66 68 69 73 84 87 88 90 90 91 104 111 124 125 126 127 128 137 138 139 148 149 170 218 296 297 298 299 300 301 302 305 309 311 312 313 314 329 330 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 353 354 355 356 371 385 389 390 391 398 399 401 483 484
+POW_EQUAL            : 235
+PRINT                : 253
+PRIVATE              : 468
+PROTECTED            : 467
+PUBLIC               : 466
+REQUIRE              : 267
+REQUIRE_ONCE         : 268
+RETURN               : 378
+RIGHT_CBRAC          : 37 105 114 125 289 290 313 314 433 489 500 516 535 536
+RIGHT_PARENTHESIS    : 34 39 43 65 66 68 70 71 75 86 89 90 92 92 93 106 113 126 127 128 129 130 139 140 141 150 151 172 220 298 299 300 301 302 303 304 307 311 313 314 315 316 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 355 356 357 358 373 387 391 392 393 400 401 403 485 486
 RIGHT_SQRBRAC        : 
-SEMICOLON            : 7 15 292 293 300 301 302 313 314 324 330 331 332 332 333 333 334 334 335 335 336 336 337 337 338 338 339 339 340 340 340 341 341 341 342 342 342 343 343 343 344 344 344 345 345 345 346 346 346 347 347 347 355 356 367 368 369 372 376 379 390 391 395 398 399 453 454 458 470 475 513 519 520 528 532 533 534
-SL                   : 185
-SL_EQUAL             : 240
-SPACESHIP            : 192
-SR                   : 186
-SR_EQUAL             : 241
+SEMICOLON            : 9 17 294 295 302 303 304 315 316 326 332 333 334 334 335 335 336 336 337 337 338 338 339 339 340 340 341 341 342 342 342 343 343 343 344 344 344 345 345 345 346 346 346 347 347 347 348 348 348 349 349 349 357 358 369 370 371 374 378 381 392 393 397 400 401 455 456 460 472 477 515 521 522 530 534 535 536
+SL                   : 187
+SL_EQUAL             : 242
+SPACESHIP            : 194
+SR                   : 188
+SR_EQUAL             : 243
 START_HEREDOC        : 
-STATIC               : 7 74 156 467
-STRING               : 58 427 552
-SWITCH               : 311 312 313 314
-TERNARY_OPERATION    : 211 212 417
-THROW                : 379
-TRAIT                : 498
-TRY                  : 380 381 382
-UNSET                : 398 399
-USE                  : 84 510 532 533 534
-VAR                  : 459
-VARIABLE             : 10 33 85 86 385 410 411 470
-WHILE                : 329 330 331
+STATIC               : 9 76 158 469
+STRING               : 60 429 555
+SWITCH               : 313 314 315 316
+TERNARY_OPERATION    : 213 214 419
+THROW                : 381
+TRAIT                : 500
+TRY                  : 382 383 384
+UNSET                : 400 401
+USE                  : 86 512 534 535 536
+VAR                  : 461
+VARIABLE             : 12 35 87 88 387 412 413 472
+WHILE                : 331 332 333
 WHITESPACE           : 
-XOR                  : 255
-XOR_EQUAL            : 243
-YIELD                : 247 248 249
-YIELD_FROM           : 245
+XOR                  : 257
+XOR_EQUAL            : 245
+YIELD                : 249 250 251
+YIELD_FROM           : 247
 __CLASS__            : 
 __DIR__              : 
 __FILE__             : 
@@ -762,276 +766,275 @@ error                :
 
 Nonterminals, with rules where they appear
 
-AMPERSAND_opt        : 73 85 86 119 120 483 484
-AT                   : 169
-ENCODING             : 393
-EXPONENTIATION       : 160
-GREATER_THAN_OR_EQUAL : 191
-INTEGER_LITERAL      : 370
-MINUS                : 167
-MODULO               : 179
-NAME                 : 135 150
-NOT                  : 175
-NS_SEPARATORopt      : 533 534
-PARENT               : 155
-SELF                 : 154
-STRICT_TYPES         : 394
-TERNARY_OPERATIONopt : 416
-TICKS                : 392
-TILDE                : 168
-TIMES                : 177
-VOID                 : 413
-__construct          : 483
-__destruct           : 484
-additive_expression  : 181 182 183 184 185 186
-ampersandopt         : 401 410 411
-anonymous_function_creation_expression : 24
-anonymous_function_use_clause : 80
-anonymous_function_use_clause_opt : 73
-argument_expression  : 129 130
-argument_expression_list : 88 92 126 128 130 139 149
-argument_expression_list_opt : 87 90 125 127 138 148
-array                : 419
-array_creation_expression : 22 38 42
-array_element_initializer : 117 118 118
-array_initializer    : 113
-array_initializer_list : 115 116
-array_initializer_opt : 111 112
-assignment_expression : 216 217 232 245
-base_type_declaration : 416
-bitwise_AND_expression : 199 200 201
-bitwise_exc_OR_expression : 201 202 203
-bitwise_inc_OR_expression : 203 204 205
-break_statement      : 364
-breakout_level       : 368 371 373
-breakout_levelopt    : 372
-byref_assignment_expression : 30
-callable             : 420
-callable_expression  : 127 128
-callable_variable    : 40 49
-case_default_label_terminator : 319 320 321 322
-case_statement       : 315 316
-case_statements      : 311 313 315 317
-cast_expression      : 164
-catch_clause         : 383 384
-catch_clauses        : 380 382 384
-catch_name_list      : 385 387
-class_base_clause    : 94 434
-class_base_clause_opt : 90 91
-class_base_clauseopt : 431
-class_const_declaration : 447 496
-class_constant_access_expression : 19
-class_declaration    : 280
-class_interface_clause : 96 436 444
-class_interface_clause_opt : 90 91
-class_interface_clauseopt : 431
-class_member_declaration : 445 446
-class_member_declarations : 98 438 446
-class_member_declarations_opt : 90 91
-class_member_declarationsopt : 431
-class_modifier       : 432 482
-class_modifieropt    : 431
-class_type_designator : 87 88 89 172
-clone_expression     : 159 160
-coalesce_expression  : 209 210 211 212
-compound_assignment_expression : 215
-compound_assignment_operator : 232
-compound_statement   : 73 268 380 381 382 385 388 400 483 484 529
-conditional_expression : 211 212 213
-const_declaration    : 278
-const_element        : 455 456
-const_elements       : 453 454 456
-constant_access_expression : 20
-constant_expression  : 11 14 430 457 473
-constructor_declaration : 450 505
-continue_statement   : 363
-declare_directive    : 389 390 391
-declare_statement    : 275
-default_argument_specifier : 428
-default_argument_specifieropt : 410
-default_statement    : 317 318
-dereferencable_expression : 123 124 134 138 139 153
-destructor_declaration : 451 506
-do_statement         : 326
-dq_char_sequence     : 145
-dq_char_sequence_opt : 144
-echo_statement       : 276
-element_key          : 120
-element_value        : 119 120
-else_clause_1        : 296 298
-else_clause_2        : 300 302
-elseif_clause_1      : 303 304
-elseif_clause_2      : 307 308
-elseif_clauses_1     : 296 297 304
-elseif_clauses_2     : 300 301 308
-empty_intrinsic      : 59
+AMPERSAND_opt        : 75 87 88 121 122 485 486
+AT                   : 171
+ENCODING             : 395
+EXPONENTIATION       : 162
+GREATER_THAN_OR_EQUAL : 193
+INTEGER_LITERAL      : 372
+MINUS                : 169
+MODULO               : 181
+NOT                  : 177
+NS_SEPARATORopt      : 535 536
+PARENT               : 157
+SELF                 : 156
+STRICT_TYPES         : 396
+TERNARY_OPERATIONopt : 418
+TICKS                : 394
+TILDE                : 170
+TIMES                : 179
+VOID                 : 415
+__construct          : 485
+__destruct           : 486
+additive_expression  : 183 184 185 186 187 188
+ampersandopt         : 403 412 413
+anonymous_function_creation_expression : 26
+anonymous_function_use_clause : 82
+anonymous_function_use_clause_opt : 75
+argument_expression  : 131 132
+argument_expression_list : 90 94 128 130 132 141 151
+argument_expression_list_opt : 89 92 127 129 140 150
+array                : 421
+array_creation_expression : 24 40 44
+array_element_initializer : 119 120 120
+array_initializer    : 115
+array_initializer_list : 117 118
+array_initializer_opt : 113 114
+assignment_expression : 218 219 234 247
+base_type_declaration : 418
+bitwise_AND_expression : 201 202 203
+bitwise_exc_OR_expression : 203 204 205
+bitwise_inc_OR_expression : 205 206 207
+break_statement      : 366
+breakout_level       : 370 373 375
+breakout_levelopt    : 374
+byref_assignment_expression : 32
+callable             : 422
+callable_expression  : 129 130
+callable_variable    : 42 51
+case_default_label_terminator : 321 322 323 324
+case_statement       : 317 318
+case_statements      : 313 315 317 319
+cast_expression      : 166
+catch_clause         : 385 386
+catch_clauses        : 382 384 386
+catch_name_list      : 387 389
+class_base_clause    : 96 436
+class_base_clause_opt : 92 93
+class_base_clauseopt : 433
+class_const_declaration : 449 498
+class_constant_access_expression : 21
+class_declaration    : 282
+class_interface_clause : 98 438 446
+class_interface_clause_opt : 92 93
+class_interface_clauseopt : 433
+class_member_declaration : 447 448
+class_member_declarations : 100 440 448
+class_member_declarations_opt : 92 93
+class_member_declarationsopt : 433
+class_modifier       : 434 484
+class_modifieropt    : 433
+class_type_designator : 89 90 91 174
+clone_expression     : 161 162
+coalesce_expression  : 211 212 213 214
+compound_assignment_expression : 217
+compound_assignment_operator : 234
+compound_statement   : 75 270 382 383 384 387 390 402 485 486 531
+conditional_expression : 213 214 215
+const_declaration    : 280
+const_element        : 457 458
+const_elements       : 455 456 458
+constant_access_expression : 22
+constant_expression  : 13 16 432 459 475
+constructor_declaration : 452 507
+continue_statement   : 365
+declare_directive    : 391 392 393
+declare_statement    : 277
+default_argument_specifier : 430
+default_argument_specifieropt : 412
+default_statement    : 319 320
+dereferencable_expression : 125 126 136 140 141 155
+destructor_declaration : 453 508
+do_statement         : 328
+dq_char_sequence     : 147
+dq_char_sequence_opt : 146
+echo_statement       : 278
+element_key          : 122
+element_value        : 121 122
+else_clause_1        : 298 300
+else_clause_2        : 302 304
+elseif_clause_1      : 305 306
+elseif_clause_2      : 309 310
+elseif_clauses_1     : 298 299 306
+elseif_clauses_2     : 302 303 310
+empty_intrinsic      : 61
 end_tag              : 
-equality_expression  : 194 195 196 197 198 199
-error_control_expression : 163
-eval_intrinsic       : 60
-exit_intrinsic       : 61
-exponentiation_expression : 160 161
-expression           : 32 35 37 41 63 64 104 109 121 122 124 132 133 137 211 226 227 263 264 265 266 267 292 296 297 298 299 300 301 302 305 309 311 312 313 314 319 320 329 330 331 351 352 357 358 360 375 377 379 396 397
-expression_list      : 395 397
-expression_opt       : 66 68 103 123
-expression_statement : 270
-expressionopt        : 376
-finally_clause       : 381 382
-floating_literal     : 54
-for_control          : 332 333 336 337 340 341 344 345
-for_end_of_loop      : 332 334 336 338 340 342 344 346
-for_expression_group : 348 349 350 352
-for_initializer      : 332 333 334 335 340 341 342 343
-for_statement        : 327
-foreach_collection_name : 353 354 355 356
-foreach_key          : 353 355
-foreach_statement    : 328
-foreach_value        : 353 354 355 356
-foreach_value_expression : 359
-function_call_expression : 48
-function_definition  : 279 474
-function_definition_header : 400 475
-function_static_declaration : 286
-function_static_initializer : 12
-function_static_initializer_opt : 10
-global_declaration   : 285
-goto_statement       : 362
-if_statement         : 294
-include_expression   : 259
-include_once_expression : 260
-instanceof           : 172
-instanceof_expression : 173 174 175
-instanceof_subj      : 172
-integer_literal      : 53
-interface_base_clause : 488 493
-interface_base_clauseopt : 487
-interface_declaration : 281
-interface_member_declaration : 494 495
-interface_member_declarations : 490 495
-interface_member_declarationsopt : 487
-intrinsic            : 23
-isset_intrinsic      : 62
-iterable             : 421
-iteration_statement  : 272
-jump_statement       : 273
-keyed_list_expression_list : 220 221 227
-list_expression_list : 218
-list_intrinsic       : 217 228 361
-list_or_variable     : 222 224 225 226 227
-literal              : 21 392 393 394
-logical_AND_expression_1 : 205 206 207
-logical_AND_expression_2 : 253 254 255
-logical_exc_OR_expression : 255 256 257
-logical_inc_OR_expression_1 : 207 208 209
-logical_inc_OR_expression_2 : 257 258
-logical_not_expression : 176 177 178 179
-member_access_expression : 51
-member_call_expression : 46
-member_name          : 105 134 138 139 148 149
-method_declaration   : 449 497 504
-method_modifier      : 478 479
-method_modifiers     : 475 476 479 483 484
-method_modifiersopt  : 474
-multiplicative_expression : 177 178 179 180 181 182 183
-name                 : 291 367 401 431 457 483 484 487 498 521 522 522 523 526 542 543
-named_label_statement : 269
-nameopt              : 523
-namespace_aliasing_clause : 
-namespace_aliasing_clauseopt : 541 548 551
-namespace_definition : 283
-namespace_function_or_const : 533 535
-namespace_function_or_constopt : 532 551
-namespace_name       : 528 530 533 534 548 551
-namespace_nameopt    : 529
-namespace_use_clause : 539 540
-namespace_use_clauses : 532 540
-namespace_use_declaration : 284
-namespace_use_group_clause_1 : 546 547
-namespace_use_group_clause_2 : 549 550
-namespace_use_group_clauses_1 : 533 547
-namespace_use_group_clauses_2 : 534 550
-new_variable         : 101 103 104 105 108
-object_creation_expression : 25
-parameter_declaration : 406 407
-parameter_declaration_list : 78 407 485
-parameter_declaration_list_opt : 73
-parameter_declaration_listopt : 401 483
-postfix_decrement_expression : 27
-postfix_increment_expression : 26
-prefix_decrement_expression : 29
-prefix_increment_expression : 28
-primary_expression   : 157 158
-print_expression     : 251 252
-property_declaration : 448 503
-property_element     : 468 469
-property_elements    : 458 469
-property_initializer : 471
-property_initializeropt : 470
-property_modifier    : 458
-qualified_name       : 52 100 106 125 126 152 386 423 442 443 444 492 493 511 512 521 541
-relational_expression : 188 189 190 191 192 193 194 195 196 197
-relative_scope       : 107 151
-require_expression   : 261
-require_once_expression : 262
-return_statement     : 365
-return_type          : 82
-return_type_opt      : 73
-return_typeopt       : 401
-scalar_type          : 422
-scope_resolution_qualifier : 147 148 149 150
-scoped_call_expression : 47
-scoped_property_access_expression : 50
-selection_statement  : 271
-shell_command_expression : 31
-shift_expression     : 185 186 187 188 189 190 191 192
-simple_assignment_expression : 214
-simple_parameter_declaration_list : 404 408
-simple_variable      : 16 17 34 44 102 106 107 108 136 147
+equality_expression  : 196 197 198 199 200 201
+error_control_expression : 165
+eval_intrinsic       : 62
+exit_intrinsic       : 63
+exponentiation_expression : 162 163
+expression           : 34 37 39 43 65 66 106 111 123 124 126 134 135 139 213 228 229 265 266 267 268 269 294 298 299 300 301 302 303 304 307 311 313 314 315 316 321 322 331 332 333 353 354 359 360 362 377 379 381 398 399
+expression_list      : 397 399
+expression_opt       : 68 70 105 125
+expression_statement : 272
+expressionopt        : 378
+finally_clause       : 383 384
+floating_literal     : 56
+for_control          : 334 335 338 339 342 343 346 347
+for_end_of_loop      : 334 336 338 340 342 344 346 348
+for_expression_group : 350 351 352 354
+for_initializer      : 334 335 336 337 342 343 344 345
+for_statement        : 329
+foreach_collection_name : 355 356 357 358
+foreach_key          : 355 357
+foreach_statement    : 330
+foreach_value        : 355 356 357 358
+foreach_value_expression : 361
+function_call_expression : 50
+function_definition  : 281 476
+function_definition_header : 402 477
+function_static_declaration : 288
+function_static_initializer : 14
+function_static_initializer_opt : 12
+global_declaration   : 287
+goto_statement       : 364
+if_statement         : 296
+include_expression   : 261
+include_once_expression : 262
+instanceof           : 174
+instanceof_expression : 175 176 177
+instanceof_subj      : 174
+integer_literal      : 55
+interface_base_clause : 490 495
+interface_base_clauseopt : 489
+interface_declaration : 283
+interface_member_declaration : 496 497
+interface_member_declarations : 492 497
+interface_member_declarationsopt : 489
+intrinsic            : 25
+isset_intrinsic      : 64
+iterable             : 423
+iteration_statement  : 274
+jump_statement       : 275
+keyed_list_expression_list : 222 223 229
+list_expression_list : 220
+list_intrinsic       : 219 230 363
+list_or_variable     : 224 226 227 228 229
+literal              : 23 394 395 396
+logical_AND_expression_1 : 207 208 209
+logical_AND_expression_2 : 255 256 257
+logical_exc_OR_expression : 257 258 259
+logical_inc_OR_expression_1 : 209 210 211
+logical_inc_OR_expression_2 : 259 260
+logical_not_expression : 178 179 180 181
+member_access_expression : 53
+member_call_expression : 48
+member_name          : 107 136 140 141 150 151
+method_declaration   : 451 499 506
+method_modifier      : 480 481
+method_modifiers     : 477 478 481 485 486
+method_modifiersopt  : 476
+multiplicative_expression : 179 180 181 182 183 184 185
+name                 : 293 369 403 433 459 485 486 489 500 523 524 524 525 528 545 546
+named_label_statement : 271
+nameopt              : 525
+namespace_aliasing_clause : 544
+namespace_aliasing_clause_opt : 543 551 554
+namespace_definition : 285
+namespace_function_or_const : 535 537
+namespace_function_or_constopt : 534 554
+namespace_name       : 8 530 532 535 536 551 554
+namespace_nameopt    : 531
+namespace_use_clause : 541 542
+namespace_use_clauses : 534 542
+namespace_use_declaration : 286
+namespace_use_group_clause_1 : 549 550
+namespace_use_group_clause_2 : 552 553
+namespace_use_group_clauses_1 : 535 550
+namespace_use_group_clauses_2 : 536 553
+new_variable         : 103 105 106 107 110
+object_creation_expression : 27
+parameter_declaration : 408 409
+parameter_declaration_list : 80 409 487
+parameter_declaration_list_opt : 75
+parameter_declaration_listopt : 403 485
+postfix_decrement_expression : 29
+postfix_increment_expression : 28
+prefix_decrement_expression : 31
+prefix_increment_expression : 30
+primary_expression   : 159 160
+print_expression     : 253 254
+property_declaration : 450 505
+property_element     : 470 471
+property_elements    : 460 471
+property_initializer : 473
+property_initializeropt : 472
+property_modifier    : 460
+qualified_name       : 54 102 108 127 128 154 388 425 444 445 446 494 495 513 514 523 543
+relational_expression : 190 191 192 193 194 195 196 197 198 199
+relative_scope       : 109 153
+require_expression   : 263
+require_once_expression : 264
+return_statement     : 367
+return_type          : 84
+return_type_opt      : 75
+return_typeopt       : 403
+scalar_type          : 424
+scope_resolution_qualifier : 149 150 151 152
+scoped_call_expression : 49
+scoped_property_access_expression : 52
+selection_statement  : 273
+shell_command_expression : 33
+shift_expression     : 187 188 189 190 191 192 193 194
+simple_assignment_expression : 216
+simple_parameter_declaration_list : 406 410
+simple_variable      : 18 19 36 46 104 108 109 110 138 149
 start_tag            : 
-statement            : 289 290 296 297 298 299 305 306 329 331 332 333 334 335 336 337 338 339 353 354 389
-statement_list       : 1 287 290 300 301 302 309 310 319 321 330 340 341 342 343 344 345 346 347 355 356 390
+statement            : 291 292 298 299 300 301 307 308 331 333 334 335 336 337 338 339 340 341 355 356 391
+statement_list       : 1 289 292 302 303 304 311 312 321 323 332 342 343 344 345 346 347 348 349 357 358 392
 statement_list_opt   : 0
-static_modifier      : 461 462 481
-static_modifieropt   : 460
-static_opt           : 73
-static_variable_declaration : 8 9
-static_variable_name_list : 7 9
-string_literal       : 39 43 55
-subscript_expression : 45
-switch_statement     : 295
-throw_statement      : 366
-trait_alias_as_clause : 520
-trait_declaration    : 282
-trait_member_declaration : 501 502
-trait_member_declarations : 499 502
-trait_member_declarationsopt : 498
-trait_name_list      : 510 512 521
-trait_select_and_alias_clause : 517 518
-trait_select_and_alias_clauses : 515 518
-trait_select_and_alias_clausesopt : 514
-trait_select_insteadof_clause : 519
-trait_use_clause     : 452 508 509
-trait_use_clauses    : 507 509
-trait_use_specification : 510
-try_statement        : 274
-type_declaration     : 412 414
-type_declarationopt  : 410 411
-unary_expression     : 165 169 170 171
-unary_op_expression  : 162
-unary_operator       : 165
-unkeyed_list_expression_list : 219 224 225
-unset_statement      : 277
-use_variable_name_list : 84 86
-variable             : 18 36 71 72 140 141 142 143 216 229 230 231 231 232
-variable_list        : 70 72 398 399
-variable_list_opt    : 69
-variable_name_list   : 15 17
-variadic_declaration_list : 405
-variadic_parameter   : 408 409
-variadic_unpacking   : 131
-visibility_modifier  : 460 480 523 524
-visibility_modifier_opt : 454 461 522
-while_statement      : 325
-yield_expression     : 248 249 250 253
-yield_from_expression : 246 249
+static_modifier      : 463 464 483
+static_modifieropt   : 462
+static_opt           : 75
+static_variable_declaration : 10 11
+static_variable_name_list : 9 11
+string_literal       : 41 45 57
+subscript_expression : 47
+switch_statement     : 297
+throw_statement      : 368
+trait_alias_as_clause : 522
+trait_declaration    : 284
+trait_member_declaration : 503 504
+trait_member_declarations : 501 504
+trait_member_declarationsopt : 500
+trait_name_list      : 512 514 523
+trait_select_and_alias_clause : 519 520
+trait_select_and_alias_clauses : 517 520
+trait_select_and_alias_clausesopt : 516
+trait_select_insteadof_clause : 521
+trait_use_clause     : 454 510 511
+trait_use_clauses    : 509 511
+trait_use_specification : 512
+try_statement        : 276
+type_declaration     : 414 416
+type_declarationopt  : 412 413
+unary_expression     : 167 171 172 173
+unary_op_expression  : 164
+unary_operator       : 167
+unkeyed_list_expression_list : 221 226 227
+unset_statement      : 279
+use_variable_name_list : 86 88
+variable             : 20 38 73 74 142 143 144 145 218 231 232 233 233 234
+variable_list        : 72 74 400 401
+variable_list_opt    : 71
+variable_name_list   : 17 19
+variadic_declaration_list : 407
+variadic_parameter   : 410 411
+variadic_unpacking   : 133
+visibility_modifier  : 462 482 525 526
+visibility_modifier_opt : 456 463 524
+while_statement      : 327
+yield_expression     : 250 251 252 255
+yield_from_expression : 248 251
 

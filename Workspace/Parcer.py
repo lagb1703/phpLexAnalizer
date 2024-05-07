@@ -94,12 +94,6 @@ VERBOSE = 1
 
 # #5
 
-# def p_namespace_name_one(t):
-#     'namespace-name : name'
-
-# def p_namespace_name_two(t):
-#     'namespace-name : namespace-name NS_SEPARATOR name'
-
 # def p_namespace_name_as_a_prefix_backslash(t):
 #     'namespace-name-as-a-prefix : NS_SEPARATOR '
 
@@ -504,6 +498,12 @@ def p_end_tag(t):
 
 def p_end_tag_empty(t):
     'end_tag : '
+
+def p_namespace_name_one(t):
+    'namespace_name : NAME'
+
+def p_namespace_name_two(t):
+    'namespace_name : namespace_name NS_SEPARATOR NAME'
 
 # def p_text(t):
 #     'text : ARBITRARY_TEXT'
@@ -1800,7 +1800,10 @@ def p_namespace_use_clauses(p):
                               | namespace_use_clauses  namespace_use_clause'''
 
 def p_namespace_use_clause(p):
-    '''namespace_use_clause : qualified_name namespace_aliasing_clauseopt'''
+    '''namespace_use_clause : qualified_name namespace_aliasing_clause_opt'''
+
+def p_namespace_aliasing_clause_opt(p):
+    '''namespace_aliasing_clause_opt : namespace_aliasing_clause'''
 
 def p_qualified_name(p):
     '''qualified_name : name'''
@@ -1817,7 +1820,7 @@ def p_namespace_use_group_clauses_1(p):
                                       | namespace_use_group_clauses_1  namespace_use_group_clause_1'''
 
 def p_namespace_use_group_clause_1(p):
-    '''namespace_use_group_clause_1 : namespace_name namespace_aliasing_clauseopt'''
+    '''namespace_use_group_clause_1 : namespace_name namespace_aliasing_clause_opt'''
 
 
 def p_namespace_use_group_clauses_2(p):
@@ -1825,7 +1828,7 @@ def p_namespace_use_group_clauses_2(p):
                                       | namespace_use_group_clauses_2  namespace_use_group_clause_2'''
 
 def p_namespace_use_group_clause_2(p):
-    '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clauseopt'''
+    '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clause_opt'''
 
 def p_name(p):
     '''name : STRING'''

@@ -191,6 +191,7 @@ tokens = (
     'PLUS',
     'LESS',
     'ARROW',
+    'NAME',
 )
 
 #palabras reservadas declaracion de php
@@ -341,6 +342,11 @@ def t_ISSET(t):
 def t_LIST(t):
     r'list'
     return t
+
+def t_NAME(t):
+    r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
+    return t
+
 def t_NAMESPACE(t):
     r'namespace'
     return t
