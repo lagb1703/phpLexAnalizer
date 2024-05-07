@@ -1,11 +1,6 @@
-
 //Analizador léxico
-
 //Hecho por : 
 //- Luis alejandro Giraldo Bolaños
 //- Stiven Castro Soto
 //- Juan Camilo Galvis Agudelo
-
-$a = 3d;
-$ b = 35;
-$a = 3.35e;
+<?php echo "Hello, World!"; ?>

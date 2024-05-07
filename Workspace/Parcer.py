@@ -466,27 +466,26 @@ VERBOSE = 1
 
 #Basic concepts
 
-# def p_script_one(t):
-#     'script : script_section'
+def p_script_one(t):
+    'script : script_section'
 
-# def p_script_two(t):
-#     'script : script script_section'
+def p_script_two(t):
+    'script : script script_section'
 
-# def p_script_section(t):
-#     'script_section : text_opt start_tag statement_list_opt end_tago_opt text_opt'
+def p_script_section(t):
+    'script_section : text_opt start_tag statement_list_opt end_tag_opt text_opt'
 
-# def p_text_opt(t):
-#     '''text_opt : text 
-#                     |'''
+def p_text_opt(t):
+    '''text_opt : STRING 
+                    |'''
     
-# def p_end_tago_opt(t):
-#     '''end_tago_opt : end_tago
-#                     |'''
+def p_end_tag_opt(t):
+    '''end_tag_opt : CLOSE_TAG
+                    |'''
     
 def p_statement_list_opt(t):
     '''statement_list_opt : statement_list
                                 | '''
-
 def p_start_tag_php(t):
     'start_tag : OPEN_TAG'
 
