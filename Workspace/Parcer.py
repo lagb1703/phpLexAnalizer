@@ -626,7 +626,10 @@ def p_exit_intrinsic(t):
                       | DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS'''
 
 def p_intrinsic_isset(t):
-    '''intrinsic : ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS'''
+    '''isset_intrinsic : ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS'''
+
+def p_variable_list_opt(t):
+    """variable_list_opt : variable_list """
 
 def p_variable_list_single(t):
     'variable_list : variable'
@@ -638,7 +641,7 @@ def p_anonymous_function_creation_expression(t):
     '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement'''
 
 def p_static_opt(t):
-    '''static_opt : static
+    '''static_opt : STATIC
                     |'''
 
 def p_AMPERSAND_opt(t):
@@ -668,10 +671,10 @@ def p_use_variable_name_list_multiple(t):
 
 def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
-                                  | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list _opt RIGHT_PARENTHESIS
+                                  | NEW class_type_designator LEFT_PARENTHESIS argument_expression_list COLON RIGHT_PARENTHESIS
                                   | NEW class_type_designator
-                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt t_RIGHT_PARENTHESIS
-                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt t_RIGHT_PARENTHESIS'''
+                                  | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
+                                  | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS'''
 
 def p_argument_expression_list_opt(t):
     '''argument_expression_list_opt : argument_expression_list
@@ -696,9 +699,9 @@ def p_class_type_designator_new_variable(t):
 def p_new_variable_simple_variable(t):
     'new_variable : simple_variable'
 
-def p_new_variable_array_access(t):
+def p_new_variable(t):
     '''new_variable : new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
-                    | new_variable LEFT_CBRAC expression t_RIGHT_PARENTHESIS
+                    | new_variable LEFT_CBRAC expression RIGHT_PARENTHESIS
                     | new_variable ARROW member_name
                     | qualified_name DOUBLE_COLON simple_variable
                     | relative_scope DOUBLE_COLON simple_variable
@@ -717,10 +720,12 @@ def p_array_initializer_opt(t):
                               | '''
 
 def p_array_initializer(t):
-    '''array_initializer : array_initializer_list _opt'''
+    '''array_initializer : array_initializer_list
+                        | array_initializer_list COLON'''
 
 def p_array_initializer_list(t):
-    '''array_initializer_list : array_element_initializer _opt'''
+    '''array_initializer_list : array_element_initializer
+                              | array_element_initializer COLON array_element_initializer'''
 
 def p_array_element_initializer_single(t):
     '''array_element_initializer : AMPERSAND_opt element_value'''
@@ -738,7 +743,7 @@ def p_subscript_expression_brackets(t):
     '''subscript_expression : dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC'''
 
 def p_subscript_expression_deprecated(t):
-    '''subscript_expression : dereferencable_expression LEFT_CBRAC expression t_RIGHT_PARENTHESIS'''
+    '''subscript_expression : dereferencable_expression LEFT_CBRAC expression RIGHT_PARENTHESIS'''
 
 def p_function_call_expression_qualified_name(t):
     '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
@@ -771,23 +776,23 @@ def p_member_name_simple_variable(t):
     '''member_name : simple_variable'''
 
 def p_member_name_expression(t):
-    '''member_name : LEFT_CBRAC expression t_RIGHT_PARENTHESIS'''
+    '''member_name : LEFT_CBRAC expression RIGHT_PARENTHESIS'''
 
 def p_member_call_expression(t):
     '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                               | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_postfix_increment_expression(t):
-    '''postfix_increment_expression : variable INCREMENT'''
+    '''postfix_increment_expression : variable PLUS PLUS'''
 
 def p_postfix_decrement_expression(t):
-    '''postfix_decrement_expression : variable DECREMENT'''
+    '''postfix_decrement_expression : variable LESS LESS'''
 
 def p_prefix_increment_expression(t):
-    '''prefix_increment_expression : INCREMENT variable'''
+    '''prefix_increment_expression : PLUS PLUS variable'''
 
 def p_prefix_decrement_expression(t):
-    '''prefix_decrement_expression : DECREMENT variable'''
+    '''prefix_decrement_expression : LESS LESS variable'''
 
 def p_shell_command_expression(t):
     '''shell_command_expression : BACKTICK dq_char_sequence_opt BACKTICK'''
@@ -1609,10 +1614,10 @@ def p_const_declaration(p):
     '''const_declaration : CONST const_elements SEMICOLON'''
 #_____________________________________________________________
 def p_class_const_declaration(p):
-    '''class_const_declaration : visibility_modifieropt CONST const_elements SEMICOLON'''
+    '''class_const_declaration : visibility_modifier_opt CONST const_elements SEMICOLON'''
 
 # def p_visibility_modifieropt(p): #opcionales
-#     '''visibility_modifieropt : visibility_modifier
+#     '''visibility_modifier_opt : visibility_modifier
 #                                 |'''
 
 def p_const_elements(p):
@@ -1628,14 +1633,14 @@ def p_property_declaration(p):
 def p_property_modifier(p):
     '''property_modifier : VAR
                           | visibility_modifier static_modifieropt
-                          | static_modifier visibility_modifieropt'''
+                          | static_modifier visibility_modifier_opt'''
     
 def p_static_modifieropt(p): #opcionales
     '''static_modifieropt : static_modifier
                             |'''
 
 # def p_visibility_modifieropt_1(p): #opcionales
-#     '''visibility_modifieropt : visibility_modifier
+#     '''visibility_modifier_opt : visibility_modifier
 #                                 |'''
 
 def p_visibility_modifier(p):
@@ -1678,10 +1683,10 @@ def p_method_modifier(p):
                        | class_modifier'''
 
 def p_constructor_declaration(p):
-    '''constructor_declaration : method_modifiers FUNCTION name AMPERSANDopt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
+    '''constructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt __construct LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
 
 def p_destructor_declaration(p):
-    '''destructor_declaration : method_modifiers FUNCTION name AMPERSANDopt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
+    '''destructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt __destruct LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
 
 def p_parameter_declaration_listopt(p): #opcionales
     '''parameter_declaration_listopt : parameter_declaration_list
@@ -1759,12 +1764,12 @@ def p_trait_select_insteadof_clause(p):
     '''trait_select_insteadof_clause : qualified_name DOUBLE_COLON name INSTEADOF trait_name_list'''
 #_____________________________________________________________
 def p_trait_alias_as_clause(p):
-    '''trait_alias_as_clause : name AS visibility_modifieropt name
+    '''trait_alias_as_clause : name AS visibility_modifier_opt name
                               | name AS visibility_modifier nameopt'''
 
-# def p_visibility_modifieropt_2(p): #opcionales
-#     '''visibility_modifieropt : visibility_modifier
-#                                 |'''
+def p_visibility_modifieropt(p): #opcionales
+    '''visibility_modifier_opt : visibility_modifier
+                                |'''
 
 def p_nameopt(p): #opcionales
     '''nameopt : name
