@@ -5,7 +5,6 @@ Unused terminals:
     ASTERISK
     ATTRIBUTE
     BAD_CARACTER
-    BITWISE_NOT
     BOOLEAN_AND
     BOOLEAN_OR
     CALLABLE
@@ -185,10 +184,10 @@ Rule 138   member_name -> simple_variable
 Rule 139   member_name -> LEFT_CBRAC expression RIGHT_PARENTHESIS
 Rule 140   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
 Rule 141   member_call_expression -> dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list RIGHT_PARENTHESIS
-Rule 142   postfix_increment_expression -> variable PLUS PLUS
-Rule 143   postfix_decrement_expression -> variable LESS LESS
-Rule 144   prefix_increment_expression -> PLUS PLUS variable
-Rule 145   prefix_decrement_expression -> LESS LESS variable
+Rule 142   postfix_increment_expression -> variable DOUBLEPLUS
+Rule 143   postfix_decrement_expression -> variable DOUBLELESS
+Rule 144   prefix_increment_expression -> DOUBLEPLUS variable
+Rule 145   prefix_decrement_expression -> DOUBLELESS variable
 Rule 146   shell_command_expression -> BACKTICK dq_char_sequence_opt BACKTICK
 Rule 147   dq_char_sequence_opt -> dq_char_sequence
 Rule 148   dq_char_sequence_opt -> <empty>
@@ -205,15 +204,15 @@ Rule 158   relative_scope -> STATIC
 Rule 159   clone_expression -> primary_expression
 Rule 160   clone_expression -> CLONE primary_expression
 Rule 161   exponentiation_expression -> clone_expression
-Rule 162   exponentiation_expression -> clone_expression EXPONENTIATION exponentiation_expression
+Rule 162   exponentiation_expression -> clone_expression DOUBLEASTERISK exponentiation_expression
 Rule 163   unary_expression -> exponentiation_expression
 Rule 164   unary_expression -> unary_op_expression
 Rule 165   unary_expression -> error_control_expression
 Rule 166   unary_expression -> cast_expression
 Rule 167   unary_op_expression -> unary_operator unary_expression
 Rule 168   unary_operator -> PLUS
-Rule 169   unary_operator -> MINUS
-Rule 170   unary_operator -> TILDE
+Rule 169   unary_operator -> LESS
+Rule 170   unary_operator -> BITWISE_NOT
 Rule 171   error_control_expression -> AT unary_expression
 Rule 172   cast_expression -> LEFT_PARENTHESIS RIGHT_PARENTHESIS unary_expression
 Rule 173   instanceof_expression -> unary_expression
@@ -610,10 +609,11 @@ ARRAY                : 113
 ARROW                : 107 122 136 140 141
 AS                   : 355 356 357 358 524 525 546
 ASTERISK             : 
+AT                   : 171
 ATTRIBUTE            : 
 BACKTICK             : 146 146
 BAD_CARACTER         : 
-BITWISE_NOT          : 
+BITWISE_NOT          : 170
 BITWISE_OR           : 205 209 209
 BITWISE_XOR          : 203
 BOOL                 : 426
@@ -647,6 +647,9 @@ DO                   : 333
 DOC_COMMENT          : 
 DOLLAR               : 36 37
 DOLLAR_OPEN_CURLY_BRACES : 
+DOUBLEASTERISK       : 162
+DOUBLELESS           : 143 145
+DOUBLEPLUS           : 142 144
 DOUBLE_ARROW         : 228 229 251 360
 DOUBLE_COLON         : 108 109 110 149 150 151 152 523
 DOUBLE_POINT         : 213 214 293 302 303 304 311 312 315 316 325 332 342 343 344 345 346 347 348 349 357 358 392 414 415
@@ -696,7 +699,7 @@ IS_SMALLER_OR_EQUAL  : 191
 LEFT_CBRAC           : 37 92 93 105 106 114 125 126 139 289 290 313 314 433 489 500 516 535 536
 LEFT_PARENTHESIS     : 34 39 43 65 66 68 70 71 75 86 89 90 92 113 127 128 129 130 140 141 150 151 172 220 298 299 300 301 302 303 304 307 311 313 314 315 316 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 355 356 357 358 373 387 391 392 393 400 401 403 485 486
 LEFT_SQRBRAC         : 
-LESS                 : 143 143 145 145 184
+LESS                 : 169 184
 LESS_THAN            : 190
 LIST                 : 220
 LNUMBER              : 58
@@ -715,7 +718,8 @@ OPEN_TAG             : 3
 OPEN_TAG_WITH_ECHO   : 4
 OR                   : 259
 OR_EQUAL             : 246
-PLUS                 : 142 142 144 144 168 183
+PARENT               : 157
+PLUS                 : 168 183
 PLUS_EQUAL           : 239
 POW                  : 
 POW_EQUAL            : 235
@@ -729,6 +733,7 @@ RETURN               : 378
 RIGHT_CBRAC          : 37 105 114 125 289 290 313 314 433 489 500 516 535 536
 RIGHT_PARENTHESIS    : 34 39 43 65 66 68 70 71 75 86 89 90 92 92 93 106 113 126 127 128 129 130 139 140 141 150 151 172 220 298 299 300 301 302 303 304 307 311 313 314 315 316 331 332 333 334 335 336 337 338 339 340 341 342 343 344 345 346 347 348 349 355 356 357 358 373 387 391 392 393 400 401 403 485 486
 RIGHT_SQRBRAC        : 
+SELF                 : 156
 SEMICOLON            : 9 17 294 295 302 303 304 315 316 326 332 333 334 334 335 335 336 336 337 337 338 338 339 339 340 340 341 341 342 342 342 343 343 343 344 344 344 345 345 345 346 346 346 347 347 347 348 348 348 349 349 349 357 358 369 370 371 374 378 381 392 393 397 400 401 455 456 460 472 477 515 521 522 530 534 535 536
 SL                   : 187
 SL_EQUAL             : 242
@@ -767,21 +772,15 @@ error                :
 Nonterminals, with rules where they appear
 
 AMPERSAND_opt        : 75 87 88 121 122 485 486
-AT                   : 171
 ENCODING             : 395
-EXPONENTIATION       : 162
 GREATER_THAN_OR_EQUAL : 193
 INTEGER_LITERAL      : 372
-MINUS                : 169
 MODULO               : 181
 NOT                  : 177
 NS_SEPARATORopt      : 535 536
-PARENT               : 157
-SELF                 : 156
 STRICT_TYPES         : 396
 TERNARY_OPERATIONopt : 418
 TICKS                : 394
-TILDE                : 170
 TIMES                : 179
 VOID                 : 415
 __construct          : 485

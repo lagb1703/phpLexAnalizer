@@ -783,16 +783,16 @@ def p_member_call_expression(t):
                               | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
 
 def p_postfix_increment_expression(t):
-    '''postfix_increment_expression : variable PLUS PLUS'''
+    '''postfix_increment_expression : variable DOUBLEPLUS'''
 
 def p_postfix_decrement_expression(t):
-    '''postfix_decrement_expression : variable LESS LESS'''
+    '''postfix_decrement_expression : variable DOUBLELESS'''
 
 def p_prefix_increment_expression(t):
-    '''prefix_increment_expression : PLUS PLUS variable'''
+    '''prefix_increment_expression : DOUBLEPLUS variable'''
 
 def p_prefix_decrement_expression(t):
-    '''prefix_decrement_expression : LESS LESS variable'''
+    '''prefix_decrement_expression : DOUBLELESS variable'''
 
 def p_shell_command_expression(t):
     '''shell_command_expression : BACKTICK dq_char_sequence_opt BACKTICK'''
@@ -837,7 +837,7 @@ def p_clone_expression_clone_primary_expression(t):
 
 def p_exponentiation_expression(t):
     '''exponentiation_expression : clone_expression
-                                  | clone_expression EXPONENTIATION exponentiation_expression'''
+                                  | clone_expression DOUBLEASTERISK exponentiation_expression'''
 
 def p_unary_expression(t):
     '''unary_expression : exponentiation_expression
@@ -852,10 +852,10 @@ def p_unary_operator_plus(t):
     '''unary_operator : PLUS'''
 
 def p_unary_operator_minus(t):
-    '''unary_operator : MINUS'''
+    '''unary_operator : LESS'''
 
 def p_unary_operator_tilde(t):
-    '''unary_operator : TILDE'''
+    '''unary_operator : BITWISE_NOT'''
 
 def p_error_control_expression(t):
     '''error_control_expression : AT unary_expression'''

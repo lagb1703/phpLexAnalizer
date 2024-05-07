@@ -192,6 +192,12 @@ tokens = (
     'LESS',
     'ARROW',
     'NAME',
+    'SELF',
+    'PARENT',
+    'DOUBLEPLUS',
+    'DOUBLELESS',
+    'DOUBLEASTERISK',
+    'AT',
 )
 
 #palabras reservadas declaracion de php
@@ -437,6 +443,12 @@ def t_NS_C(t):
 def t_TRAIT_C(t):
     r'__TRAIT__'
     return t
+def t_SELF(t):
+    r'self'
+    return t
+def t_PARENT(t):
+    r'parent'
+    return t
 #hasta qui las palabras reservadas de php
 #simbolos no simples de php
 # def t_ARRAY_CAST(t):
@@ -664,6 +676,10 @@ t_LESS = r'-'
 t_EQUALS = r'='
 t_DOLLAR = r'\$'
 t_ARROW = r'->'
+t_DOUBLEPLUS = r'\+\+'
+t_DOUBLELESS = r'\-\-'
+t_DOUBLEASTERISK = r'\*\*'
+t_AT = r'\@'
 
 # # Ignorar espacios y tabs.
 
