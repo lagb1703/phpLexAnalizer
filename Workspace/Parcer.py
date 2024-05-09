@@ -467,14 +467,14 @@ VERBOSE = 1
 #Basic concepts
 
 def p_script_one(t):
-    '''script : script_section
-            | WHITESPACE'''
+    '''script : script_section'''
 
 def p_script_two(t):
     'script : script script_section'
 
 def p_script_section(t):
-    'script_section : text_opt start_tag statement_list_opt end_tag_opt text_opt'
+    '''script_section : text_opt start_tag statement_list_opt end_tag_opt text_opt
+                        | WHITESPACE'''
 
 def p_text_opt(t):
     '''text_opt : STRING 
@@ -1143,6 +1143,9 @@ def p_expression_logical_inc_OR(t):
 
 def p_expression_include(t):
     'expression : include_expression'
+
+def p_expression_string(t):
+    'expression : STRING'
 
 def p_expression_include_once_expression(t):
     'expression : include_once_expression'
@@ -1836,7 +1839,7 @@ def p_name(p):
 def p_error(p):
 	if VERBOSE:
 		if p is not None:
-			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL Token  " + str(p.value))
+			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL TOKEN  " + str(p))
 		else:
 			print ("ERROR SINTACTICO EN LA LINEA: " + str(AnalixadorLex.lexer.lineno))
 	else:

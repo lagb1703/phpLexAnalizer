@@ -381,6 +381,10 @@ def t_LIST(t):
     r'list'
     return t
 
+def t_STRING(t):
+    r'["\'][^\n]*["\']'
+    return t
+
 def t_NAME(t):
     r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
     return t
@@ -513,9 +517,9 @@ def t_CONCAT_EQUAL(t):
 # def t_STRING_VARNAME(t): #nombre de variable dentro de un string
 #     r'\"(. | \b)*?\$\{[a-zA-Z_][a-zA-Z0-9_]*\}'
 #     return t
-def t_CONSTANT_ENCAPSED_STRING(t): #captura strings dentro de comillas simples o dobles 
-    r'(\'[^\']*\' | \"[^\"]*\")'
-    return t
+# def t_CONSTANT_ENCAPSED_STRING(t): #captura strings dentro de comillas simples o dobles 
+#     r'(\'[^\']*\' | \"[^\"]*\")'
+#     return t
 def t_CURLY_OPEN(t):
     r'\$\{'
     return t
@@ -551,7 +555,7 @@ number = r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
 dnumber = r'(' + number + r'(\. [0-9]*))'   
 exponent_dnumber = r'(' + dnumber + r'(e[-]?[0-9]+))' 
 integer_literal = r'(' + dnumber + r'([a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]))'
-dq_char_sq = r'(\")' ############################################################################################### ARREGLAR ESTO POR FAVOR
+dq_char_sq = r'( integer_literal )' ############################################################################################### ARREGLAR ESTO POR FAVOR
 
 #Para t_BAD_CARACTER ---------------------------------
 
@@ -667,9 +671,6 @@ def t_SR(t):
     return t
 def t_SR_EQUAL(t):
     r'>>='
-    return t
-def t_STRING(t):
-    r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
     return t
 
 def t_WHITESPACE(t):
