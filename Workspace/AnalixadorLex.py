@@ -385,9 +385,6 @@ def t_STRING(t):
     r'["\'][^\n]*["\']'
     return t
 
-def t_NAME(t):
-    r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
-    return t
 
 def t_NAMESPACE(t):
     r'namespace'
@@ -549,6 +546,10 @@ def t_ELLIPSIS(t):
     return t
 def t_VARIABLE(t):
     r'\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9 _\x7f-\xff]*'
+    return t
+
+def t_NAME(t):
+    r'([a-zA-Z_\x7f-\xff^\$][a-zA-Z0-9_\x7f-\xff^\$]*)'
     return t
 
 number = r'([+-]?(([1-9][0-9]* | 0) | 0[0-7]+ | 0[xX][0-9a-fA-F]+ | 0b[01]+))'
