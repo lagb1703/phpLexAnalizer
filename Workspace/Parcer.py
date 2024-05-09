@@ -2,6 +2,15 @@ import ply.yacc as yacc
 from AnalixadorLex import tokens
 import AnalixadorLex
 import sys
+import inspect
+
+# Variable global para almacenar el nombre de la regla de producción actual
+current_production_rule = None
+
+# Función para establecer el nombre de la regla de producción actual
+def set_current_production_rule():
+    global current_production_rule
+    current_production_rule = inspect.stack()[1].function
 
 VERBOSE = 1
 
@@ -468,42 +477,55 @@ VERBOSE = 1
 
 def p_script_one(t):
     '''script : script_section'''
+    set_current_production_rule()
 
 def p_script_two(t):
     'script : script script_section'
+    set_current_production_rule()
 
 def p_script_section(t):
     '''script_section : text_opt start_tag statement_list_opt end_tag_opt text_opt
                         | WHITESPACE'''
+    set_current_production_rule()
 
 def p_text_opt(t):
     '''text_opt : STRING 
                     |'''
+    set_current_production_rule()
     
 def p_end_tag_opt(t):
     '''end_tag_opt : CLOSE_TAG
                     |'''
+    set_current_production_rule()
     
 def p_statement_list_opt(t):
     '''statement_list_opt : statement_list
                                 | '''
+    set_current_production_rule()
+    
 def p_start_tag_php(t):
     'start_tag : OPEN_TAG'
+    set_current_production_rule()
 
 def p_start_tag_echo(t):
     'start_tag : OPEN_TAG_WITH_ECHO'
+    set_current_production_rule()
 
 def p_end_tag(t):
     'end_tag : CLOSE_TAG'
+    set_current_production_rule()
 
 def p_end_tag_empty(t):
     'end_tag : '
+    set_current_production_rule()
 
 def p_namespace_name_one(t):
     'namespace_name : NAME'
+    set_current_production_rule()
 
 def p_namespace_name_two(t):
     'namespace_name : namespace_name NS_SEPARATOR NAME'
+    set_current_production_rule()
 
 # def p_text(t):
 #     'text : ARBITRARY_TEXT'
@@ -512,35 +534,45 @@ def p_namespace_name_two(t):
 
 def p_function_static_declaration(t):
     'function_static_declaration : STATIC static_variable_name_list SEMICOLON'
+    set_current_production_rule()
 
 def p_static_variable_name_list_single(t):
     'static_variable_name_list : static_variable_declaration'
+    set_current_production_rule()
 
 def p_static_variable_name_list_multiple(t):
     'static_variable_name_list : static_variable_name_list  static_variable_declaration'
+    set_current_production_rule()
 
 def p_static_variable_declaration(t):
     'static_variable_declaration : VARIABLE function_static_initializer_opt'
+    set_current_production_rule()
 
 def p_function_static_initializer(t):
    '''function_static_initializer : EQUAL   constant_expression'''
+   set_current_production_rule()
 
 
 def p_function_static_initializer_opt(t):
     '''function_static_initializer_opt : function_static_initializer
                                          | '''
+    set_current_production_rule()
 
 def p_function_static_initializer_opt_1(t):
     '''function_static_initializer_opt : EQUAL constant_expression'''
+    set_current_production_rule()
 
 def p_global_declaration(t):
     'global_declaration : GLOBAL variable_name_list SEMICOLON'
+    set_current_production_rule()
 
 def p_variable_name_list_single(t):
     'variable_name_list : simple_variable'
+    set_current_production_rule()
 
 def p_variable_name_list_multiple(t):
     'variable_name_list : variable_name_list  simple_variable'
+    set_current_production_rule()
 
 #Expressions
 
@@ -560,23 +592,27 @@ def p_primary_expression_variable(t):
                            | byref_assignment_expression
                            | shell_command_expression
                            | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_simple_variable(t):
     '''simple_variable : VARIABLE
                        | DOLLAR simple_variable
                        | DOLLAR LEFT_CBRAC expression RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_dereferencable_expression(t):
     '''dereferencable_expression : variable
                                   | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
                                   | array_creation_expression
                                   | string_literal'''
+    set_current_production_rule()
 
 def p_callable_expression(t):
     '''callable_expression : callable_variable
                             | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
                             | array_creation_expression
                             | string_literal'''
+    set_current_production_rule()
 
 def p_callable_variable(t):
     '''callable_variable : simple_variable
@@ -584,90 +620,114 @@ def p_callable_variable(t):
                          | member_call_expression
                          | scoped_call_expression
                          | function_call_expression'''
+    set_current_production_rule()
 
 def p_variable(t):
     '''variable : callable_variable
                 | scoped_property_access_expression
                 | member_access_expression'''
+    set_current_production_rule()
 
 def p_constant_access_expression(t):
     'constant_access_expression : qualified_name'
+    set_current_production_rule()
 
 def p_literal_integer(t):
     '''literal : integer_literal
                 | floating_literal
                 | string_literal'''
+    set_current_production_rule()
 
 def p_integer_literal(t):
     'integer_literal : LNUMBER'
+    set_current_production_rule()
 
 def p_floating_literal(t):
     'floating_literal : DNUMBER'
+    set_current_production_rule()
 
 def p_string_literal(p):
     '''string_literal : STRING'''
+    set_current_production_rule()
 
 def p_intrinsic(t):
     '''intrinsic : empty_intrinsic
                   | eval_intrinsic
                   | exit_intrinsic
                   | isset_intrinsic'''
+    set_current_production_rule()
 
 def p_empty_intrinsic(t):
     '''empty_intrinsic : EMPTY LEFT_PARENTHESIS expression RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_eval_intrinsic(t):
     '''eval_intrinsic : EVAL LEFT_PARENTHESIS expression RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_exit_intrinsic(t):
     '''exit_intrinsic : EXIT
                       | EXIT LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS
                       | DIE
                       | DIE LEFT_PARENTHESIS expression_opt RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_intrinsic_isset(t):
     '''isset_intrinsic : ISSET LEFT_PARENTHESIS variable_list_opt RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_variable_list_opt(t):
     """variable_list_opt : variable_list """
+    set_current_production_rule()
 
 def p_variable_list_single(t):
     'variable_list : variable'
+    set_current_production_rule()
 
 def p_variable_list_multiple(t):
     'variable_list : variable_list  variable'
+    set_current_production_rule()
 
 def p_anonymous_function_creation_expression(t):
     '''anonymous_function_creation_expression : static_opt FUNCTION AMPERSAND_opt LEFT_PARENTHESIS parameter_declaration_list_opt RIGHT_PARENTHESIS anonymous_function_use_clause_opt return_type_opt compound_statement'''
+    set_current_production_rule()
 
 def p_static_opt(t):
     '''static_opt : STATIC
                     |'''
+    set_current_production_rule()
 
 def p_AMPERSAND_opt(t):
     '''AMPERSAND_opt : AMPERSAND
                     |'''
+    set_current_production_rule()
 
 def p_parameter_declaration_list_opt(t):
     '''parameter_declaration_list_opt : parameter_declaration_list
                                         |'''
+    set_current_production_rule()
 
 def p_anonymous_function_use_clause_opt(t):
     '''anonymous_function_use_clause_opt : anonymous_function_use_clause
                                         |'''
+    set_current_production_rule()
 
 def p_return_type_opt(t):
     '''return_type_opt : return_type
                         |'''
+    set_current_production_rule()
 
 def p_anonymous_function_use_clause(t):
     'anonymous_function_use_clause : USE LEFT_PARENTHESIS use_variable_name_list RIGHT_PARENTHESIS'
+    set_current_production_rule()
 
 def p_use_variable_name_list_single(t):
     '''use_variable_name_list : AMPERSAND_opt VARIABLE'''
+    set_current_production_rule()
 
 def p_use_variable_name_list_multiple(t):
     '''use_variable_name_list : use_variable_name_list  AMPERSAND_opt VARIABLE'''
+    set_current_production_rule()
 
 def p_object_creation_expression(t):
     '''object_creation_expression : NEW class_type_designator LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
@@ -675,29 +735,39 @@ def p_object_creation_expression(t):
                                   | NEW class_type_designator
                                   | NEW CLASS LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS
                                   | NEW CLASS class_base_clause_opt class_interface_clause_opt LEFT_CBRAC class_member_declarations_opt RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_argument_expression_list_opt(t):
     '''argument_expression_list_opt : argument_expression_list
                                     |'''
+    set_current_production_rule()
+    
 def p_class_base_clause_opt(t):
     '''class_base_clause_opt : class_base_clause
                             |'''
+    set_current_production_rule()
 
 def p_class_interface_clause_opt(t):
     '''class_interface_clause_opt : class_interface_clause
                             |'''
+    set_current_production_rule()
+    
 def p_class_member_declarations_opt(t):
     '''class_member_declarations_opt : class_member_declarations
                                     |'''
+    set_current_production_rule()
 
 def p_class_type_designator_qualified_name(t):
     'class_type_designator : qualified_name'
+    set_current_production_rule()
 
 def p_class_type_designator_new_variable(t):
     'class_type_designator : new_variable'
+    set_current_production_rule()
 
 def p_new_variable_simple_variable(t):
     'new_variable : simple_variable'
+    set_current_production_rule()
 
 def p_new_variable(t):
     '''new_variable : new_variable LEFT_CBRAC expression_opt RIGHT_CBRAC
@@ -706,162 +776,210 @@ def p_new_variable(t):
                     | qualified_name DOUBLE_COLON simple_variable
                     | relative_scope DOUBLE_COLON simple_variable
                     | new_variable DOUBLE_COLON simple_variable'''
+    set_current_production_rule()
 
 def p_expression_opt_1(t):
     '''expression_opt : expression
                         |'''
+    set_current_production_rule()
 
 def p_array_creation_expression_array(t):
     '''array_creation_expression : ARRAY LEFT_PARENTHESIS array_initializer_opt RIGHT_PARENTHESIS
                                   | LEFT_CBRAC array_initializer_opt RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_array_initializer_opt(t):
     '''array_initializer_opt : array_initializer
                               | '''
+    set_current_production_rule()
 
 def p_array_initializer(t):
     '''array_initializer : array_initializer_list
                         | array_initializer_list COLON'''
+    set_current_production_rule()
 
 def p_array_initializer_list(t):
     '''array_initializer_list : array_element_initializer
                               | array_element_initializer COLON array_element_initializer'''
+    set_current_production_rule()
 
 def p_array_element_initializer_single(t):
     '''array_element_initializer : AMPERSAND_opt element_value'''
+    set_current_production_rule()
 
 def p_array_element_initializer_key_value(t):
     '''array_element_initializer : element_key ARROW  AMPERSAND_opt element_value'''
+    set_current_production_rule()
 
 def p_element_key(t):
     '''element_key : expression'''
+    set_current_production_rule()
 
 def p_element_value(t):
     '''element_value : expression'''
+    set_current_production_rule()
 
 def p_subscript_expression_brackets(t):
     '''subscript_expression : dereferencable_expression LEFT_CBRAC expression_opt RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_subscript_expression_deprecated(t):
     '''subscript_expression : dereferencable_expression LEFT_CBRAC expression RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_function_call_expression_qualified_name(t):
     '''function_call_expression : qualified_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                                 | qualified_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_function_call_expression_callable_expression(t):
     '''function_call_expression : callable_expression LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                                 | callable_expression LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_argument_expression_list_single(t):
     '''argument_expression_list : argument_expression'''
+    set_current_production_rule()
 
 def p_argument_expression_list_multiple(t):
     '''argument_expression_list : argument_expression_list  argument_expression'''
+    set_current_production_rule()
 
 def p_argument_expression(t):
     '''argument_expression : variadic_unpacking
                            | expression'''
+    set_current_production_rule()
 
 def p_variadic_unpacking(t):
     '''variadic_unpacking : ELLIPSIS expression'''
+    set_current_production_rule()
 
 def p_member_access_expression(t):
     '''member_access_expression : dereferencable_expression ARROW member_name'''
+    set_current_production_rule()
 
 def p_member_name_name(t):
     '''member_name : NAME'''
+    set_current_production_rule()
 
 def p_member_name_simple_variable(t):
     '''member_name : simple_variable'''
+    set_current_production_rule()
 
 def p_member_name_expression(t):
     '''member_name : LEFT_CBRAC expression RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_member_call_expression(t):
     '''member_call_expression : dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                               | dereferencable_expression ARROW member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_postfix_increment_expression(t):
     '''postfix_increment_expression : variable DOUBLEPLUS'''
+    set_current_production_rule()
 
 def p_postfix_decrement_expression(t):
     '''postfix_decrement_expression : variable DOUBLELESS'''
+    set_current_production_rule()
 
 def p_prefix_increment_expression(t):
     '''prefix_increment_expression : DOUBLEPLUS variable'''
+    set_current_production_rule()
 
 def p_prefix_decrement_expression(t):
     '''prefix_decrement_expression : DOUBLELESS variable'''
+    set_current_production_rule()
 
 def p_shell_command_expression(t):
     '''shell_command_expression : BACKTICK dq_char_sequence_opt BACKTICK'''
+    set_current_production_rule()
 
 def p_dq_char_sequence_opt(t):
     '''dq_char_sequence_opt : DQ_CHAR_SEQUENCE
                             |'''
+    set_current_production_rule()
 
 def p_scoped_property_access_expression(t):
     '''scoped_property_access_expression : scope_resolution_qualifier DOUBLE_COLON simple_variable'''
+    set_current_production_rule()
 
 def p_scoped_call_expression(t):
     '''scoped_call_expression : scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list_opt RIGHT_PARENTHESIS
                                | scope_resolution_qualifier DOUBLE_COLON member_name LEFT_PARENTHESIS argument_expression_list  RIGHT_PARENTHESIS'''
+    set_current_production_rule()
 
 def p_class_constant_access_expression(t):
     '''class_constant_access_expression : scope_resolution_qualifier DOUBLE_COLON NAME'''
+    set_current_production_rule()
 
 def p_scope_resolution_qualifier_relative_scope(t):
     '''scope_resolution_qualifier : relative_scope'''
+    set_current_production_rule()
 
 def p_scope_resolution_qualifier_qualified_name(t):
     '''scope_resolution_qualifier : qualified_name'''
+    set_current_production_rule()
 
 def p_scope_resolution_qualifier_dereferencable_expression(t):
     '''scope_resolution_qualifier : dereferencable_expression'''
+    set_current_production_rule()
 
 def p_relative_scope_self(t):
     '''relative_scope : SELF'''
+    set_current_production_rule()
 
 def p_relative_scope_parent(t):
     '''relative_scope : PARENT'''
+    set_current_production_rule()
 
 def p_relative_scope_static(t):
     '''relative_scope : STATIC'''
+    set_current_production_rule()
 
 def p_clone_expression_primary_expression(t):
     '''clone_expression : primary_expression'''
+    set_current_production_rule()
 
 def p_clone_expression_clone_primary_expression(t):
     '''clone_expression : CLONE primary_expression'''
+    set_current_production_rule()
 
 def p_exponentiation_expression(t):
     '''exponentiation_expression : clone_expression
                                   | clone_expression DOUBLEASTERISK exponentiation_expression'''
+    set_current_production_rule()
 
 def p_unary_expression(t):
     '''unary_expression : exponentiation_expression
                         | unary_op_expression
                         | error_control_expression
                         | cast_expression'''
+    set_current_production_rule()
 
 def p_unary_op_expression(t):
     '''unary_op_expression : unary_operator unary_expression'''
+    set_current_production_rule()
 
 def p_unary_operator_plus(t):
     '''unary_operator : PLUS'''
+    set_current_production_rule()
 
 def p_unary_operator_minus(t):
     '''unary_operator : LESS'''
+    set_current_production_rule()
 
 def p_unary_operator_tilde(t):
     '''unary_operator : BITWISE_NOT'''
+    set_current_production_rule()
 
 def p_error_control_expression(t):
     '''error_control_expression : AT unary_expression'''
+    set_current_production_rule()
 
 def p_cast_expression(t):
     '''cast_expression : LEFT_PARENTHESIS RIGHT_PARENTHESIS unary_expression'''
+    set_current_production_rule()
 
 # def p_cast_type(t):
 #     '''cast_type : ARRAY
@@ -880,19 +998,23 @@ def p_cast_expression(t):
 def p_instanceof_expression(t):
     '''instanceof_expression : unary_expression
                              | instanceof_subj INSTANCEOF class_type_designator'''
+    set_current_production_rule()
 
 def p_instanceof_subj(t):
     '''instanceof_subj : instanceof_expression'''
+    set_current_production_rule()
 
 def p_logical_not_expression(t):
     '''logical_not_expression : instanceof_expression
                                | NEGATION instanceof_expression'''
+    set_current_production_rule()
 
 def p_multiplicative_expression(t):
     '''multiplicative_expression : logical_not_expression
                                   | multiplicative_expression ASTERISK logical_not_expression
                                   | multiplicative_expression DIVIDE logical_not_expression
                                   | multiplicative_expression MODULO logical_not_expression'''
+    set_current_production_rule()
 
 
 #Luis
@@ -900,362 +1022,473 @@ def p_multiplicative_expression(t):
 
 def p_additive_expression_multiplicative(t):
     'additive_expression : multiplicative_expression'
+    set_current_production_rule()
 
 def p_additive_expression_addition(t):
     'additive_expression : additive_expression PLUS multiplicative_expression'
+    set_current_production_rule()
 
 def p_additive_expression_subtraction(t):
     'additive_expression : additive_expression LESS multiplicative_expression'
+    set_current_production_rule()
 
 def p_additive_expression_concatenation(t):
     'additive_expression : additive_expression CONCAT multiplicative_expression'
+    set_current_production_rule()
 
 def p_shift_expression_additive(t):
     'shift_expression : additive_expression'
+    set_current_production_rule()
 
 def p_shift_expression_left_shift(t):
     'shift_expression : shift_expression SL additive_expression'
+    set_current_production_rule()
 
 def p_shift_expression_right_shift(t):
     'shift_expression : shift_expression SR additive_expression'
+    set_current_production_rule()
 
 def p_relational_expression_shift(t):
     'relational_expression : shift_expression'
+    set_current_production_rule()
 
 def p_relational_expression_less_than(t):
     'relational_expression : relational_expression LESS_THAN shift_expression'
+    set_current_production_rule()
 
 def p_relational_expression_greater_than(t):
     'relational_expression : relational_expression IS_SMALLER_OR_EQUAL shift_expression'
+    set_current_production_rule()
 
 def p_relational_expression_less_than_or_equal(t):
     'relational_expression : relational_expression IS_GREATER_OR_EQUAL shift_expression'
+    set_current_production_rule()
 
 def p_relational_expression_greater_than_or_equal(t):
     'relational_expression : relational_expression GREATER_THAN_OR_EQUAL shift_expression'
+    set_current_production_rule()
 
 def p_relational_expression_spaceship(t):
     'relational_expression : relational_expression SPACESHIP shift_expression'
+    set_current_production_rule()
 
 
 #2
 
 def p_equality_expression_relational(t):
     'equality_expression : relational_expression'
+    set_current_production_rule()
 
 def p_equality_expression_equal(t):
     'equality_expression : equality_expression EQUAL relational_expression'
+    set_current_production_rule()
 
 def p_equality_expression_not_equal(t):
     'equality_expression : equality_expression IS_NOT_EQUAL relational_expression'
+    set_current_production_rule()
 
 def p_equality_expression_identical(t):
     'equality_expression : equality_expression IS_IDENTICAL relational_expression'
+    set_current_production_rule()
 
 def p_equality_expression_not_identical(t):
     'equality_expression : equality_expression IS_NOT_IDENTICAL relational_expression'
+    set_current_production_rule()
 
 def p_bitwise_AND_expression_equality(t):
     'bitwise_AND_expression : equality_expression'
+    set_current_production_rule()
 
 def p_bitwise_AND_expression_AND(t):
     'bitwise_AND_expression : bitwise_AND_expression AMPERSAND equality_expression'
+    set_current_production_rule()
 
 def p_bitwise_exc_OR_expression_AND(t):
     'bitwise_exc_OR_expression : bitwise_AND_expression'
+    set_current_production_rule()
 
 def p_bitwise_exc_OR_expression_exc_OR(t):
     'bitwise_exc_OR_expression : bitwise_exc_OR_expression BITWISE_XOR bitwise_AND_expression'
+    set_current_production_rule()
 
 def p_bitwise_inc_OR_expression_exc_OR(t):
     'bitwise_inc_OR_expression : bitwise_exc_OR_expression'
+    set_current_production_rule()
 
 def p_bitwise_inc_OR_expression_inc_OR(t):
     'bitwise_inc_OR_expression : bitwise_inc_OR_expression BITWISE_OR bitwise_exc_OR_expression'
+    set_current_production_rule()
 
 #3
 
 def p_logical_AND_expression_1_bitwise_inc_OR(t):
     'logical_AND_expression_1 : bitwise_inc_OR_expression'
+    set_current_production_rule()
 
 def p_logical_AND_expression_1_AND(t):
     'logical_AND_expression_1 : logical_AND_expression_1 AMPERSAND AMPERSAND bitwise_inc_OR_expression'
+    set_current_production_rule()
 
 def p_logical_inc_OR_expression_1_logical_AND(t):
     'logical_inc_OR_expression_1 : logical_AND_expression_1'
+    set_current_production_rule()
 
 def p_logical_inc_OR_expression_1_OR(t):
     'logical_inc_OR_expression_1 : logical_inc_OR_expression_1 BITWISE_OR BITWISE_OR logical_AND_expression_1'
+    set_current_production_rule()
 
 def p_coalesce_expression_logical_inc_OR(t):
     'coalesce_expression : logical_inc_OR_expression_1'
+    set_current_production_rule()
 
 def p_coalesce_expression_coalesce(t):
     'coalesce_expression : logical_inc_OR_expression_1 COALESCE coalesce_expression'
+    set_current_production_rule()
 
 def p_conditional_expression_coalesce(t):
     'conditional_expression : coalesce_expression'
+    set_current_production_rule()
 
 def p_conditional_expression_ternary(t):
     '''conditional_expression : conditional_expression TERNARY_OPERATION expression DOUBLE_POINT coalesce_expression
                                 | conditional_expression TERNARY_OPERATION DOUBLE_POINT coalesce_expression'''
+    set_current_production_rule()
 
 #4
 
 def p_assignment_expression_conditional(t):
     'assignment_expression : conditional_expression'
+    set_current_production_rule()
 
 def p_assignment_expression_simple(t):
     'assignment_expression : simple_assignment_expression'
+    set_current_production_rule()
 
 def p_assignment_expression_compound(t):
     'assignment_expression : compound_assignment_expression'
+    set_current_production_rule()
 
 def p_simple_assignment_expression_variable(t):
     'simple_assignment_expression : variable EQUAL assignment_expression'
+    set_current_production_rule()
 
 def p_simple_assignment_expression_list_intrinsic(t):
     'simple_assignment_expression : list_intrinsic EQUAL assignment_expression'
+    set_current_production_rule()
 
 def p_list_intrinsic(t):
     'list_intrinsic : LIST LEFT_PARENTHESIS list_expression_list RIGHT_PARENTHESIS'
+    set_current_production_rule()
 
 def p_list_expression_list_unkeyed(t):
     'list_expression_list : unkeyed_list_expression_list'
+    set_current_production_rule()
 
 def p_list_expression_list_keyed(t):
     '''list_expression_list : keyed_list_expression_list COLON
                                 | keyed_list_expression_list'''
+    set_current_production_rule()
 
 def p_unkeyed_list_expression_list_single(t):
     'unkeyed_list_expression_list : list_or_variable'
+    set_current_production_rule()
 
 def p_unkeyed_list_expression_list_comma(t):
     'unkeyed_list_expression_list : COLON'
+    set_current_production_rule()
 
 def p_unkeyed_list_expression_list_multiple(t):
     '''unkeyed_list_expression_list : unkeyed_list_expression_list COLON list_or_variable COLON
                                         | unkeyed_list_expression_list COLON list_or_variable'''
+    set_current_production_rule()
 
 def p_keyed_list_expression_list_single(t):
     'keyed_list_expression_list : expression DOUBLE_ARROW list_or_variable'
+    set_current_production_rule()
 
 def p_keyed_list_expression_list_multiple(t):
     'keyed_list_expression_list : keyed_list_expression_list COLON expression DOUBLE_ARROW list_or_variable'
+    set_current_production_rule()
 
 #5
 
 def p_list_or_variable_list_intrinsic(t):
     'list_or_variable : list_intrinsic'
+    set_current_production_rule()
 
 def p_list_or_variable_variable(t):
     '''list_or_variable : AMPERSAND variable
                             | variable'''
+    set_current_production_rule()
 
 def p_byref_assignment_expression(t):
     'byref_assignment_expression : variable EQUAL AMPERSAND variable'
+    set_current_production_rule()
 
 def p_compound_assignment_expression(t):
     'compound_assignment_expression : variable compound_assignment_operator assignment_expression'
+    set_current_production_rule()
 
 #6
 
 def p_compound_assignment_operator_power(t):
     'compound_assignment_operator : POW_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_multiply(t):
     'compound_assignment_operator : MUL_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_divide(t):
     'compound_assignment_operator : DIV_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_modulus(t):
     'compound_assignment_operator : MOD_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_add(t):
     'compound_assignment_operator : PLUS_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_subtract(t):
     'compound_assignment_operator : MINUS_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_concatenate(t):
     'compound_assignment_operator : CONCAT_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_left_shift(t):
     'compound_assignment_operator : SL_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_right_shift(t):
     'compound_assignment_operator : SR_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_bitwise_AND(t):
     'compound_assignment_operator : AND_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_bitwise_exc_OR(t):
     'compound_assignment_operator : XOR_EQUAL'
+    set_current_production_rule()
 
 def p_compound_assignment_operator_bitwise_inc_OR(t):
     'compound_assignment_operator : OR_EQUAL'
+    set_current_production_rule()
 
 #7
 
 def p_yield_from_expression(t):
     'yield_from_expression : YIELD_FROM assignment_expression'
+    set_current_production_rule()
 
 def p_yield_expression_yield_from(t):
     'yield_expression : yield_from_expression'
+    set_current_production_rule()
 
 def p_yield_expression_yield(t):
     'yield_expression : YIELD'
+    set_current_production_rule()
 
 def p_yield_expression_yield_yield(t):
     'yield_expression : YIELD yield_expression'
+    set_current_production_rule()
 
 def p_yield_expression_yield_yield_from_yield(t):
     'yield_expression : YIELD yield_from_expression DOUBLE_ARROW yield_expression'
+    set_current_production_rule()
 
 def p_print_expression_yield(t):
     'print_expression : yield_expression'
+    set_current_production_rule()
 
 def p_print_expression_print(t):
     'print_expression : PRINT print_expression'
+    set_current_production_rule()
 
 def p_logical_AND_expression_2_print(t):
     'logical_AND_expression_2 : print_expression'
+    set_current_production_rule()
 
 def p_logical_AND_expression_2_and_yield(t):
     'logical_AND_expression_2 : logical_AND_expression_2 AND yield_expression'
+    set_current_production_rule()
 
 #! 8 hay que revisar estas expresiones esta muy rara
 def p_logical_exc_OR_expression_logical_AND(t):
     'logical_exc_OR_expression : logical_AND_expression_2'
+    set_current_production_rule()
 
 def p_logical_exc_OR_expression_xor(t):
     'logical_exc_OR_expression : logical_exc_OR_expression XOR logical_AND_expression_2'
+    set_current_production_rule()
 
 def p_logical_inc_OR_expression_2_logical_exc_OR(t):
     'logical_inc_OR_expression_2 : logical_exc_OR_expression'
+    set_current_production_rule()
 
 def p_logical_inc_OR_expression_2_or_logical_exc_OR(t):
     'logical_inc_OR_expression_2 : logical_inc_OR_expression_2 OR logical_exc_OR_expression'
+    set_current_production_rule()
 
 def p_expression_logical_inc_OR(t):
     'expression : logical_inc_OR_expression_2'
+    set_current_production_rule()
 
 def p_expression_include(t):
     'expression : include_expression'
+    set_current_production_rule()
 
 def p_expression_string(t):
     'expression : STRING'
+    set_current_production_rule()
 
 def p_expression_include_once_expression(t):
     'expression : include_once_expression'
+    set_current_production_rule()
 
 def p_expression_require_expression(t):
     'expression : require_expression'
+    set_current_production_rule()
 
 def p_expression_require_once_expression(t):
     'expression : require_once_expression'
+    set_current_production_rule()
 
 def p_include_expression(t):
     'include_expression : INCLUDE expression'
+    set_current_production_rule()
 
 #9
 
 def p_include_once_expression(t):
     'include_once_expression : INCLUDE_ONCE expression'
+    set_current_production_rule()
 
 def p_require_expression(t):
     'require_expression : REQUIRE expression'
+    set_current_production_rule()
 
 def p_require_once_expression(t):
     'require_once_expression : REQUIRE_ONCE expression'
+    set_current_production_rule()
 
 def p_constant_expression(t):
     'constant_expression : expression'
+    set_current_production_rule()
 
 #10
 
 def p_statement_compound(t):
     'statement : compound_statement'
+    set_current_production_rule()
 
 def p_statement_named_label(t):
     'statement : named_label_statement'
+    set_current_production_rule()
 
 def p_statement_expression(t):
     'statement : expression_statement'
+    set_current_production_rule()
 
 def p_statement_selection(t):
     'statement : selection_statement'
+    set_current_production_rule()
 
 def p_statement_iteration(t):
     'statement : iteration_statement'
+    set_current_production_rule()
 
 def p_statement_jump(t):
     'statement : jump_statement'
+    set_current_production_rule()
 
 def p_statement_try(t):
     'statement : try_statement'
+    set_current_production_rule()
 
 def p_statement_declare(t):
     'statement : declare_statement'
+    set_current_production_rule()
 
 def p_statement_echo(t):
     'statement : echo_statement'
+    set_current_production_rule()
 
 def p_statement_unset(t):
     'statement : unset_statement'
+    set_current_production_rule()
 
 def p_statement_const_declaration(t):
     'statement : const_declaration'
+    set_current_production_rule()
 
 def p_statement_function_definition(t):
     'statement : function_definition'
+    set_current_production_rule()
 
 def p_statement_class_declaration(t):
     'statement : class_declaration'
+    set_current_production_rule()
 
 def p_statement_interface_declaration(t):
     'statement : interface_declaration'
+    set_current_production_rule()
 
 def p_statement_trait_declaration(t):
     'statement : trait_declaration'
+    set_current_production_rule()
 
 def p_statement_namespace_definition(t):
     'statement : namespace_definition'
+    set_current_production_rule()
 
 def p_statement_namespace_use_declaration(t):
     'statement : namespace_use_declaration'
+    set_current_production_rule()
 
 def p_statement_global_declaration(t):
     'statement : global_declaration'
+    set_current_production_rule()
 
 def p_statement_function_static_declaration(t):
     'statement : function_static_declaration'
+    set_current_production_rule()
 
 #11
 
 def p_compound_statement(t):
     '''compound_statement : LEFT_CBRAC statement_list RIGHT_CBRAC
                             | LEFT_CBRAC RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_statement_list(t):
     'statement_list : statement'
+    set_current_production_rule()
 
 def p_statement_list_multiple(t):
     'statement_list : statement_list statement'
+    set_current_production_rule()
 
 def p_named_label_statement(t):
     'named_label_statement : name DOUBLE_POINT'
+    set_current_production_rule()
 
 def p_expression_statement(t):
     '''expression_statement : expression SEMICOLON
                             | SEMICOLON'''
+    set_current_production_rule()
 
 def p_selection_statement_if(t):
     'selection_statement : if_statement'
+    set_current_production_rule()
 
 def p_selection_statement_switch(t):
     'selection_statement : switch_statement'
+    set_current_production_rule()
 
 #12
 
@@ -1264,92 +1497,117 @@ def p_if_statement_1(t):
                         | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement elseif_clauses_1
                         | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement else_clause_1
                         | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'''
+    set_current_production_rule()
 
 def p_if_statement_2(t):
     '''if_statement : IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 else_clause_2 ENDIF SEMICOLON
                         | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list elseif_clauses_2 ENDIF SEMICOLON
                         | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list else_clause_2 ENDIF SEMICOLON'''
+    set_current_production_rule()
 
 def p_elseif_clauses_1_single(t):
     'elseif_clauses_1 : elseif_clause_1'
+    set_current_production_rule()
 
 def p_elseif_clauses_1_multiple(t):
     'elseif_clauses_1 : elseif_clauses_1 elseif_clause_1'
+    set_current_production_rule()
 
 def p_elseif_clause_1(t):
     'elseif_clause_1 : ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'
+    set_current_production_rule()
 
 def p_else_clause_1(t):
     'else_clause_1 : ELSE statement'
+    set_current_production_rule()
 
 #13
 
 def p_elseif_clauses_2_single(t):
     'elseif_clauses_2 : elseif_clause_2'
+    set_current_production_rule()
 
 def p_elseif_clauses_2_multiple(t):
     'elseif_clauses_2 : elseif_clauses_2 elseif_clause_2'
+    set_current_production_rule()
 
 def p_elseif_clause_2(t):
     'elseif_clause_2 : ELSEIF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list'
+    set_current_production_rule()
 
 def p_else_clause_2(t):
     'else_clause_2 : ELSE DOUBLE_POINT statement_list'
+    set_current_production_rule()
 
 def p_switch_statement_1(t):
     '''switch_statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC case_statements RIGHT_CBRAC
                             | SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS LEFT_CBRAC RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_switch_statement_2(t):
     '''switch_statement : SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT case_statements ENDSWITCH SEMICOLON
                             | SWITCH LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT ENDSWITCH SEMICOLON'''
+    set_current_production_rule()
 
 #14
 
 def p_case_statements_1(t):
     '''case_statements : case_statement case_statements
                         | case_statement'''
+    set_current_production_rule()
 
 def p_case_statements_2(t):
     '''case_statements : default_statement case_statements
                         | default_statement'''
+    set_current_production_rule()
 
 def p_case_statement(t):
     '''case_statement : CASE expression case_default_label_terminator statement_list
                         | CASE expression case_default_label_terminator'''
+    set_current_production_rule()
 
 def p_default_statement(t):
     '''default_statement : DEFAULT case_default_label_terminator statement_list
                         | DEFAULT case_default_label_terminator'''
+    set_current_production_rule()
 
 def p_case_default_label_terminator_colon(t):
     'case_default_label_terminator : DOUBLE_POINT'
+    set_current_production_rule()
 
 def p_case_default_label_terminator_semicolon(t):
     'case_default_label_terminator : SEMICOLON'
+    set_current_production_rule()
 
 #15
 
 def p_iteration_statement_while(t):
     'iteration_statement : while_statement'
+    set_current_production_rule()
 
 def p_iteration_statement_do(t):
     'iteration_statement : do_statement'
+    set_current_production_rule()
 
 def p_iteration_statement_for(t):
     'iteration_statement : for_statement'
+    set_current_production_rule()
 
 def p_iteration_statement_foreach(t):
     'iteration_statement : foreach_statement'
+    set_current_production_rule()
 
 def p_while_statement(t):
     'while_statement : WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement'
+    set_current_production_rule()
 
 def p_while_statement_block(t):
     'while_statement : WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDWHILE SEMICOLON'
+    set_current_production_rule()
 
 def p_do_statement(t):
     'do_statement : DO statement WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS SEMICOLON'
+    set_current_production_rule()
 
 #16
 
@@ -1362,6 +1620,7 @@ def p_for_statement(t):
                         | FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS statement
                         | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS statement
                         | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS statement'''
+    set_current_production_rule()
 
 def p_for_statement_block(t):
     '''for_statement : FOR LEFT_PARENTHESIS for_initializer SEMICOLON for_control SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
@@ -1372,183 +1631,233 @@ def p_for_statement_block(t):
                         | FOR LEFT_PARENTHESIS SEMICOLON for_control SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
                         | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON for_end_of_loop RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON
                         | FOR LEFT_PARENTHESIS SEMICOLON SEMICOLON RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOR SEMICOLON'''
+    set_current_production_rule()
 
 def p_for_initializer(t):
     'for_initializer : for_expression_group'
+    set_current_production_rule()
 
 def p_for_control(t):
     'for_control : for_expression_group'
+    set_current_production_rule()
 
 def p_for_end_of_loop(t):
     'for_end_of_loop : for_expression_group'
+    set_current_production_rule()
 
 def p_for_expression_group_single(t):
     'for_expression_group : expression'
+    set_current_production_rule()
 
 def p_for_expression_group_multiple(t):
     'for_expression_group : for_expression_group COLON expression'
+    set_current_production_rule()
 
 #17
 
 def p_foreach_statement(t):
     '''foreach_statement : FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS statement
                             | FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS statement'''
+    set_current_production_rule()
 
 def p_foreach_statement_block(t):
     '''foreach_statement : FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_key foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON
                             | FOREACH LEFT_PARENTHESIS foreach_collection_name AS foreach_value RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDFOREACH SEMICOLON'''
+    set_current_production_rule()
 
 def p_foreach_collection_name(t):
     'foreach_collection_name : expression'
+    set_current_production_rule()
 
 def p_foreach_key(t):
     'foreach_key : expression DOUBLE_ARROW'
+    set_current_production_rule()
 
 def p_foreach_value(t):
     'foreach_value : AMPERSAND_opt expression'
+    set_current_production_rule()
 
 def p_foreach_value_amp_expression(t):
     'foreach_value : AMPERSAND expression'
+    set_current_production_rule()
 
 def p_foreach_value_list_intrinsic(t):
     'foreach_value : list_intrinsic'
+    set_current_production_rule()
 
 #18
 
 def p_jump_statement_goto(t):
     'jump_statement : goto_statement'
+    set_current_production_rule()
 
 def p_jump_statement_continue(t):
     'jump_statement : continue_statement'
+    set_current_production_rule()
 
 def p_jump_statement_break(t):
     'jump_statement : break_statement'
+    set_current_production_rule()
 
 def p_jump_statement_return(t):
     'jump_statement : return_statement'
+    set_current_production_rule()
 
 def p_jump_statement_throw(t):
     'jump_statement : throw_statement'
+    set_current_production_rule()
 
 def p_goto_statement(t):
     'goto_statement : GOTO name SEMICOLON'
+    set_current_production_rule()
 
 def p_continue_statement(t):
     '''continue_statement : CONTINUE breakout_level SEMICOLON
                         | CONTINUE SEMICOLON'''
+    set_current_production_rule()
 
 def p_breakout_level(t):
     'breakout_level : INTEGER_LITERAL'
+    set_current_production_rule()
 
 def p_breakout_level_expression(t):
     'breakout_level : LEFT_PARENTHESIS breakout_level RIGHT_PARENTHESIS'
+    set_current_production_rule()
 
 #stiven
 
 # Construcción de la gramática
 def p_break_statement(p):
     '''break_statement : BREAK breakout_levelopt SEMICOLON'''
+    set_current_production_rule()
 
 def p_breakout_levelopt(p):
     '''breakout_levelopt : breakout_level
                          |'''
+    set_current_production_rule()
 
 def p_breakout_level_1(p):
     '''breakout_level : expression'''
+    set_current_production_rule()
 
 def p_return_statement(p):
     '''return_statement : RETURN expressionopt SEMICOLON'''
+    set_current_production_rule()
 
 def p_expressionopt(p):
     '''expressionopt : expression
                      |'''
+    set_current_production_rule()
 
 def p_throw_statement(p):
     '''throw_statement : THROW expression SEMICOLON'''
+    set_current_production_rule()
 
 def p_try_statement(p):
     '''try_statement : TRY compound_statement catch_clauses
                      | TRY compound_statement finally_clause
                      | TRY compound_statement catch_clauses finally_clause'''
+    set_current_production_rule()
 
 def p_catch_clauses(p):
     '''catch_clauses : catch_clause
                      | catch_clauses catch_clause'''
+    set_current_production_rule()
 
 def p_catch_clause(p):
     '''catch_clause : CATCH LEFT_PARENTHESIS catch_name_list VARIABLE RIGHT_PARENTHESIS compound_statement'''
+    set_current_production_rule()
 
 #ojo correcccion
 def p_catch_name_list(p): #! ojo aca con el | del centro
     '''catch_name_list : qualified_name
                        | catch_name_list'''
+    set_current_production_rule()
 
 def p_finally_clause(p):
     '''finally_clause : FINALLY compound_statement'''
+    set_current_production_rule()
 
 def p_declare_statement(p):
     '''declare_statement : DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS statement
                          | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS DOUBLE_POINT statement_list ENDDECLARE SEMICOLON
                          | DECLARE LEFT_PARENTHESIS declare_directive RIGHT_PARENTHESIS SEMICOLON'''
+    set_current_production_rule()
 
 def p_declare_directive(p):
     '''declare_directive : TICKS EQUALS literal
                          | ENCODING EQUALS literal
                          | STRICT_TYPES EQUALS literal'''
+    set_current_production_rule()
 
 def p_echo_statement(p):
     '''echo_statement : ECHO expression_list SEMICOLON'''
+    set_current_production_rule()
 
 def p_expression_list(p):
     '''expression_list : expression
                        | expression_list  expression'''
+    set_current_production_rule()
 
 def p_unset_statement(p):
     '''unset_statement : UNSET LEFT_PARENTHESIS variable_list COLON RIGHT_PARENTHESIS SEMICOLON
                         | UNSET LEFT_PARENTHESIS variable_list RIGHT_PARENTHESIS SEMICOLON'''
+    set_current_production_rule()
 
 def p_function_definition(p):
     '''function_definition : function_definition_header compound_statement'''
+    set_current_production_rule()
 
 def p_function_definition_header(p):
     '''function_definition_header : FUNCTION ampersandopt name LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS return_type_opt'''
+    set_current_production_rule()
 
 def p_ampersandopt(p): #opcionales
     '''ampersandopt : AMPERSAND
                     |'''
+    set_current_production_rule()
 
 def p_parameter_declaration_list(p):
     '''parameter_declaration_list : simple_parameter_declaration_list
                                    | variadic_declaration_list'''
+    set_current_production_rule()
 
 def p_simple_parameter_declaration_list(p):
     '''simple_parameter_declaration_list : parameter_declaration
                                           | parameter_declaration_list  parameter_declaration'''
+    set_current_production_rule()
 
 def p_variadic_declaration_list(p):
     '''variadic_declaration_list : simple_parameter_declaration_list  variadic_parameter
                                   | variadic_parameter'''
+    set_current_production_rule()
 #_____________________________________________________________
 def p_parameter_declaration(p):
     '''parameter_declaration : type_declarationopt ampersandopt VARIABLE default_argument_specifieropt'''
+    set_current_production_rule()
 
 def p_variadic_parameter(p):
     '''variadic_parameter : type_declarationopt ampersandopt ELLIPSIS VARIABLE'''
+    set_current_production_rule()
 
 def p_return_type(p):
     '''return_type : DOUBLE_POINT type_declaration
                    | DOUBLE_POINT VOID'''
+    set_current_production_rule()
 #____________________________________________________________
 def p_type_declarationopt(p): #opcionales
     '''type_declarationopt : type_declaration
                            |'''
+    set_current_production_rule()
 
 def p_type_declaration(p):
     '''type_declaration : TERNARY_OPERATIONopt base_type_declaration'''
+    set_current_production_rule()
 
 def p_TERNARY_OPERATIONopt(p): #opcionales
     '''TERNARY_OPERATIONopt : TERNARY_OPERATION
                         |'''
+    set_current_production_rule()
 
 def p_base_type_declaration(p):
     '''base_type_declaration : ARRAY
@@ -1556,54 +1865,67 @@ def p_base_type_declaration(p):
                              | ITERABLE
                              | scalar_type
                              | qualified_name'''
+    set_current_production_rule()
 
 def p_scalar_type(p):
     '''scalar_type : BOOL
                    | FLOAT
                    | INT
                    | STRING'''
+    set_current_production_rule()
 
 def p_default_argument_specifieropt(p): #opcionales
     '''default_argument_specifieropt : default_argument_specifier
                                      |'''
+    set_current_production_rule()
 
 def p_default_argument_specifier(p):
     '''default_argument_specifier : EQUAL constant_expression'''
+    set_current_production_rule()
 
 def p_class_declaration(p):
     '''class_declaration : class_modifieropt CLASS name class_base_clauseopt class_interface_clauseopt LEFT_CBRAC class_member_declarationsopt RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_class_modifieropt(p): #opcionales
     '''class_modifieropt : class_modifier
                          |'''
+    set_current_production_rule()
 
 def p_class_base_clauseopt(p): #opcionales
     '''class_base_clauseopt : class_base_clause
                             |'''
+    set_current_production_rule()
 
 def p_class_interface_clauseopt(p): #opcionales
     '''class_interface_clauseopt : class_interface_clause
                                     |'''
+    set_current_production_rule()
 
 def p_class_member_declarationsopt(p): #opcionales
     '''class_member_declarationsopt : class_member_declarations
                                     |'''
+    set_current_production_rule()
 #_____________________________________________________________
 #estas no tiene opt
 def p_class_modifier(p):
     '''class_modifier : ABSTRACT
                        | FINAL'''
+    set_current_production_rule()
 
 def p_class_base_clause(p):
     '''class_base_clause : EXTENDS qualified_name'''
+    set_current_production_rule()
 
 def p_class_interface_clause(p):
     '''class_interface_clause : IMPLEMENTS qualified_name
                                | class_interface_clause  qualified_name'''
+    set_current_production_rule()
 
 def p_class_member_declarations(p):
     '''class_member_declarations : class_member_declaration
                                   | class_member_declarations class_member_declaration'''
+    set_current_production_rule()
 
 def p_class_member_declaration(p):
     '''class_member_declaration : class_const_declaration
@@ -1612,12 +1934,15 @@ def p_class_member_declaration(p):
                                  | constructor_declaration
                                  | destructor_declaration
                                  | trait_use_clause'''
+    set_current_production_rule()
 
 def p_const_declaration(p):
     '''const_declaration : CONST const_elements SEMICOLON'''
+    set_current_production_rule()
 #_____________________________________________________________
 def p_class_const_declaration(p):
     '''class_const_declaration : visibility_modifier_opt CONST const_elements SEMICOLON'''
+    set_current_production_rule()
 
 # def p_visibility_modifieropt(p): #opcionales
 #     '''visibility_modifier_opt : visibility_modifier
@@ -1626,21 +1951,26 @@ def p_class_const_declaration(p):
 def p_const_elements(p):
     '''const_elements : const_element
                       | const_elements  const_element'''
+    set_current_production_rule()
 
 def p_const_element(p):
     '''const_element : name EQUAL constant_expression'''
+    set_current_production_rule()
 
 def p_property_declaration(p):
     '''property_declaration : property_modifier property_elements SEMICOLON'''
+    set_current_production_rule()
 
 def p_property_modifier(p):
     '''property_modifier : VAR
                           | visibility_modifier static_modifieropt
                           | static_modifier visibility_modifier_opt'''
+    set_current_production_rule()
     
 def p_static_modifieropt(p): #opcionales
     '''static_modifieropt : static_modifier
                             |'''
+    set_current_production_rule()
 
 # def p_visibility_modifieropt_1(p): #opcionales
 #     '''visibility_modifier_opt : visibility_modifier
@@ -1650,84 +1980,106 @@ def p_visibility_modifier(p):
     '''visibility_modifier : PUBLIC
                             | PROTECTED
                             | PRIVATE'''
+    set_current_production_rule()
 
 def p_static_modifier(p):
     '''static_modifier : STATIC'''
+    set_current_production_rule()
 #_____________________________________________________________
 def p_property_elements(p):
     '''property_elements : property_element
                           | property_elements property_element'''
+    set_current_production_rule()
 
 def p_property_element(p):
     '''property_element : VARIABLE property_initializeropt SEMICOLON'''
+    set_current_production_rule()
 
 def p_property_initializeropt(p): #opcionales
     '''property_initializeropt : property_initializer
                                  |'''
+    set_current_production_rule()
 
 def p_property_initializer(p):
     '''property_initializer : EQUAL constant_expression'''
+    set_current_production_rule()
 
 def p_method_declaration(p):
     '''method_declaration : method_modifiersopt function_definition
                            | method_modifiers function_definition_header SEMICOLON'''
+    set_current_production_rule()
 
 def p_method_modifiersopt(p): #opcionales
     '''method_modifiersopt : method_modifiers
                             |'''
+    set_current_production_rule()
 
 def p_method_modifiers(p):
     '''method_modifiers : method_modifier
                         | method_modifiers method_modifier'''
+    set_current_production_rule()
 
 def p_method_modifier(p):
     '''method_modifier : visibility_modifier
                        | static_modifier
                        | class_modifier'''
+    set_current_production_rule()
 
 def p_constructor_declaration(p):
     '''constructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt CONSTRUCT LEFT_PARENTHESIS parameter_declaration_listopt RIGHT_PARENTHESIS compound_statement'''
+    set_current_production_rule()
 
 def p_destructor_declaration(p):
     '''destructor_declaration : method_modifiers FUNCTION name AMPERSAND_opt DESTRUCT LEFT_PARENTHESIS RIGHT_PARENTHESIS compound_statement'''
+    set_current_production_rule()
 
 def p_parameter_declaration_listopt(p): #opcionales
     '''parameter_declaration_listopt : parameter_declaration_list
                                     |'''
+    set_current_production_rule()
 
 def p_interface_declaration(p):
     '''interface_declaration : INTERFACE name interface_base_clauseopt LEFT_CBRAC interface_member_declarationsopt RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_interface_base_clauseopt(p): #opcionales
     '''interface_base_clauseopt : interface_base_clause
                                 |'''
+    set_current_production_rule()
 
 def p_interface_member_declarationsopt(p): #opcionales
     '''interface_member_declarationsopt : interface_member_declarations
                                         |'''
+    set_current_production_rule()
 
 def p_interface_base_clause(p):
     '''interface_base_clause : EXTENDS qualified_name
                              | interface_base_clause  qualified_name'''
+    set_current_production_rule()
 
 def p_interface_member_declarations(p):
     '''interface_member_declarations : interface_member_declaration
                                      | interface_member_declarations interface_member_declaration'''
+    set_current_production_rule()
 
 def p_interface_member_declaration(p):
     '''interface_member_declaration : class_const_declaration
                                      | method_declaration'''
+    set_current_production_rule()
 
 def p_trait_declaration(p):
     '''trait_declaration : TRAIT name LEFT_CBRAC trait_member_declarationsopt RIGHT_CBRAC'''
+    set_current_production_rule()
 
 def p_trait_member_declarationsopt(p): #opcionales
     '''trait_member_declarationsopt : trait_member_declarations
                                     |'''
+    set_current_production_rule()
 
 def p_trait_member_declarations(p):
     '''trait_member_declarations : trait_member_declaration
                                  | trait_member_declarations trait_member_declaration'''
+    
 #_____________________________________________________________
 def p_trait_member_declaration(p):
     '''trait_member_declaration : property_declaration
@@ -1735,111 +2087,141 @@ def p_trait_member_declaration(p):
                                  | constructor_declaration
                                  | destructor_declaration
                                  | trait_use_clauses'''
+    set_current_production_rule()
 
 def p_trait_use_clauses(p):
     '''trait_use_clauses : trait_use_clause
                          | trait_use_clauses trait_use_clause'''
+    set_current_production_rule()
 
 def p_trait_use_clause(p):
     '''trait_use_clause : USE trait_name_list trait_use_specification'''
+    set_current_production_rule()
 
 def p_trait_name_list(p):
     '''trait_name_list : qualified_name
                        | trait_name_list  qualified_name'''
+    set_current_production_rule()
 
 def p_trait_use_specification(p):
     '''trait_use_specification : SEMICOLON
                                | LEFT_CBRAC trait_select_and_alias_clausesopt RIGHT_CBRAC'''
+    set_current_production_rule()
     
 def p_trait_select_and_alias_clausesopt(p): #opcionales
     '''trait_select_and_alias_clausesopt : trait_select_and_alias_clauses
                                             |'''
+    set_current_production_rule()
 
 def p_trait_select_and_alias_clauses(p):
     '''trait_select_and_alias_clauses : trait_select_and_alias_clause
                                       | trait_select_and_alias_clauses trait_select_and_alias_clause'''
+    set_current_production_rule()
 
 def p_trait_select_and_alias_clause(p):
     '''trait_select_and_alias_clause : trait_select_insteadof_clause SEMICOLON
                                      | trait_alias_as_clause SEMICOLON'''
+    set_current_production_rule()
 
 def p_trait_select_insteadof_clause(p):
     '''trait_select_insteadof_clause : qualified_name DOUBLE_COLON name INSTEADOF trait_name_list'''
+    set_current_production_rule()
 #_____________________________________________________________
 def p_trait_alias_as_clause(p):
     '''trait_alias_as_clause : name AS visibility_modifier_opt name
                               | name AS visibility_modifier nameopt'''
+    set_current_production_rule()
 
 def p_visibility_modifieropt(p): #opcionales
     '''visibility_modifier_opt : visibility_modifier
                                 |'''
+    set_current_production_rule()
 
 def p_nameopt(p): #opcionales
     '''nameopt : name
                 |'''
+    set_current_production_rule()
 
 def p_namespace_definition(p):
     '''namespace_definition : NAMESPACE namespace_name SEMICOLON
                              | NAMESPACE namespace_nameopt compound_statement'''
+    set_current_production_rule()
 
 def p_namespace_nameopt(p): #opcionales
     '''namespace_nameopt : namespace_name
                             |'''
+    set_current_production_rule()
+    
 def p_namespace_use_declaration(p):
     '''namespace_use_declaration : USE namespace_function_or_constopt namespace_use_clauses SEMICOLON
                                   | USE namespace_function_or_const NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_1 RIGHT_CBRAC SEMICOLON
                                   | USE NS_SEPARATORopt namespace_name NS_SEPARATOR LEFT_CBRAC namespace_use_group_clauses_2 RIGHT_CBRAC SEMICOLON'''
+    set_current_production_rule()
 
 def p_namespace_function_or_constopt(p): #opcionales
     '''namespace_function_or_constopt : namespace_function_or_const
                                       |'''
+    set_current_production_rule()
 
 def p_NS_SEPARATORopt(p): #opcionales
     '''NS_SEPARATORopt : NS_SEPARATOR
                     |'''
+    set_current_production_rule()
 
 def p_namespace_use_clauses(p):
     '''namespace_use_clauses : namespace_use_clause
                               | namespace_use_clauses  namespace_use_clause'''
+    set_current_production_rule()
 
 def p_namespace_use_clause(p):
     '''namespace_use_clause : qualified_name namespace_aliasing_clause_opt'''
+    set_current_production_rule()
 
 def p_namespace_aliasing_clause_opt(p):
     '''namespace_aliasing_clause_opt : namespace_aliasing_clause'''
+    set_current_production_rule()
 
 def p_qualified_name(p):
     '''qualified_name : name'''
+    set_current_production_rule()
 
 def p_namespace_aliasing_clause(p):
     '''namespace_aliasing_clause : AS name'''
+    set_current_production_rule()
 
 def p_namespace_function_or_const(p):
     '''namespace_function_or_const : FUNCTION
                                     | CONST'''
+    set_current_production_rule()
 
 def p_namespace_use_group_clauses_1(p):
     '''namespace_use_group_clauses_1 : namespace_use_group_clause_1
                                       | namespace_use_group_clauses_1  namespace_use_group_clause_1'''
+    set_current_production_rule()
 
 def p_namespace_use_group_clause_1(p):
     '''namespace_use_group_clause_1 : namespace_name namespace_aliasing_clause_opt'''
+    set_current_production_rule()
 
 
 def p_namespace_use_group_clauses_2(p):
     '''namespace_use_group_clauses_2 : namespace_use_group_clause_2
                                       | namespace_use_group_clauses_2  namespace_use_group_clause_2'''
+    set_current_production_rule()
 
 def p_namespace_use_group_clause_2(p):
     '''namespace_use_group_clause_2 : namespace_function_or_constopt namespace_name namespace_aliasing_clause_opt'''
+    set_current_production_rule()
 
 def p_name(p):
     '''name : STRING'''
+    set_current_production_rule()
 
 def p_error(p):
 	if VERBOSE:
 		if p is not None:
-			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL TOKEN  " + str(p))
+			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL TOKEN  " + str(p.value))
+			print("Error en la regla de producción:", current_production_rule)
 		else:
 			print ("ERROR SINTACTICO EN LA LINEA: " + str(AnalixadorLex.lexer.lineno))
 	else:

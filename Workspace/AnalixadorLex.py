@@ -385,7 +385,6 @@ def t_STRING(t):
     r'["\'][^\n]*["\']'
     return t
 
-
 def t_NAMESPACE(t):
     r'namespace'
     return t
