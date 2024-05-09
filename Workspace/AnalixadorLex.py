@@ -728,7 +728,8 @@ t_GREATER_THAN_OR_EQUAL = r'\<\=\>'
 
 # # Ignorar espacios y tabs.
 
-t_ignore = r' \t | \n'
+
+t_ignore = r' \t'
 
 
 # Una regla para manejar errores.

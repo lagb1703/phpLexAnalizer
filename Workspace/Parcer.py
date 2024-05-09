@@ -467,7 +467,8 @@ VERBOSE = 1
 #Basic concepts
 
 def p_script_one(t):
-    'script : script_section'
+    '''script : script_section
+            | WHITESPACE'''
 
 def p_script_two(t):
     'script : script script_section'
