@@ -158,7 +158,7 @@ tokens = (
     # 'STRING_CAST', 
     # 'STRING_VARNAME', 
     'VARIABLE',
-    'WHITESPACE',
+    # 'WHITESPACE',
     'XOR_EQUAL',
     'BACKTICK',
     # Tokens que no maneja php de por si
@@ -673,9 +673,9 @@ def t_SR_EQUAL(t):
     r'>>='
     return t
 
-def t_WHITESPACE(t):
-    r'\t | \n | \r'
-    return t
+# def t_WHITESPACE(t):
+#     r'\t | \n | \r'
+#     return t
 def t_XOR_EQUAL(t):
     r'\^='
     return t
@@ -730,7 +730,7 @@ t_GREATER_THAN_OR_EQUAL = r'\<\=\>'
 # # Ignorar espacios y tabs.
 
 
-t_ignore = r' \t'
+t_ignore = ' \t\n'
 
 
 # Una regla para manejar errores.
