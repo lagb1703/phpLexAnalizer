@@ -6,14 +6,14 @@ import lex
 import sys
 
 VERBOSE = 1
-
+has_errors = False
 def p_script(p):
     '''script :   script_section
               |   script script_section'''
 
 def p_string_literal(p):
-    '''string_literal                   :   CONSTANT_ENCAPSED_STRING
-                                        |   HEREDOC'''
+    '''string_literal  :   CONSTANT_ENCAPSED_STRING
+                       |   HEREDOC'''
 
 def p_namespace_name(p):
     '''namespace_name                   :   STRING
@@ -204,16 +204,7 @@ def p_array_element_initializer(p):
                                         |   element_value
                                         |   element_key DOUBLE_ARROW DOLLAR element_value
                                         |   element_key DOUBLE_ARROW element_value'''
-
-def p_matrix(p):
-    '''matrix                           :   VARIABLE matrix_access_group ASSIGN assignment_expression'''
-
-def p_matrix_access_group(p):
-    '''matrix_access_group              :   matrix_access
-                                        |   matrix_access_group matrix_access'''
-
-def p_matrix_access(p):
-    '''matrix_access                    :   OBRACK integer_literal CBRACK'''
+#aqui va matrix
 
 def p_element_key(p):
     '''element_key                      :   expression'''
@@ -418,8 +409,7 @@ def p_assignment_expression(p):
     '''assignment_expression            :   conditional_expression
                                         |   simple_assignment_expression
                                         |   compound_assignment_expression
-                                        |   matrix
-                                        '''
+                                        ''' #flata |matrix
 
 def p_simple_assignment_expression(p):
     '''simple_assignment_expression     :   variable ASSIGN assignment_expression
@@ -1132,23 +1122,27 @@ def p_namespace_use_group_clause_2(p):
     '''
 #--------------------------------------------------------------
 def p_error(p):
-	if VERBOSE:
-		if p is not None:
-			print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL Token  " + str(p.value))
-		else:
-			print ("ERROR SINTACTICO EN LA LINEA: " + str(AnalixadorLex.lexer.lineno))
-	else:
-		raise Exception('syntax', 'error')
-
+    global has_errors
+    has_errors = True
+    if VERBOSE:
+        if p is not None:
+                print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL TOKEN  " + str(p.value))
+        else:
+                print ("ERROR SINTACTICO EN LA LINEA: " + str(lex.lexer.lineno))
+    else:
+        raise Exception('syntax', 'error')
 
 parser = yacc.yacc()
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     if (len(sys.argv) > 1):
         fin = sys.argv[1]
     else:
-        fin = 'test.txt'
-    f = open(fin, 'r')
+        fin = "test.txt"
+    f = open(fin, "r")
     data = f.read()
-    #print (data)
-    result = parser.parse(data)
-    print(result)
+    parser.parse(data, debug = True)
+    if not has_errors:
+        print("sin ningun problema")
+    else:
+        print("con problemas revise")

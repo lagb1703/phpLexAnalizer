@@ -1,0 +1,12 @@
+<?php
+
+// Definición de una función
+function suma($a, $b) {
+    return $a + $b;
+}
+
+// Uso de la función
+$resultado = suma(5, 3);
+echo "El resultado de la suma es: " . $resultado;
+
+?>
