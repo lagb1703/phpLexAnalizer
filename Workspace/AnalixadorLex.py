@@ -17,9 +17,11 @@ import sys
 # Lista de nombres de tokens. Esto es obligatorio.
 tokens = (
     #palabras reservadas de php
-    '__HALT_COMPILER',
+    # '__HALT_COMPILER',
     'ABSTRACT',
+    'AMPERSAND',
     'AND',
+    'AND_EQUAL',
     'ARRAY',
     'AS',
     'BREAK',
@@ -97,7 +99,7 @@ tokens = (
     '__TRAIT__',
     #symbols de php
     #falta revisar que no falte alguno
-    'AND_EQUAL',
+    
     # 'ARRAY_CAST',
     'ATTRIBUTE',
     'FLOAT',
@@ -176,7 +178,7 @@ tokens = (
     'CONCAT',
     'DIVIDE',
     'DQUOTATION_MARK',
-    'AMPERSAND',
+    
     'NEGATION',
     'MORE_THAN',
     'LESS_THAN' ,
@@ -212,9 +214,9 @@ tokens = (
 )
 
 #palabras reservadas declaracion de php
-def t_HALT_COMPILER(t): 
-    r'__halt_compiler'
-    return t
+# def t_HALT_COMPILER(t): 
+#     r'__halt_compiler'
+#     return t
 def t_ITERABLE(t): 
     r'iterable'
     return t
@@ -499,7 +501,7 @@ def t_BOOLEAN_OR(t):
 #     r'\(bool\) | \(boolean\)'
 #     return t
 def t_CLOSE_TAG(t):
-    r'\?> | \%\>'
+    r'\?>'
     return t
 def t_COALESCE(t):
     r'\?\?'
