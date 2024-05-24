@@ -1120,8 +1120,7 @@ def p_error(p):
                 print ("ERROR SINTACTICO EN LA LINEA " + str(p.lexer.lineno) + " NO SE ESPERABA EL TOKEN  " + str(p.value))
         else:
                 print ("ERROR SINTACTICO EN LA LINEA: " + str(lex.lexer.lineno))
-    else:
-        raise Exception('syntax', 'error')
+    raise Exception('syntax', 'error')
 
 parser = yacc.yacc()
 
@@ -1132,8 +1131,12 @@ if __name__ == "__main__":
         fin = "test.txt"
     f = open(fin, "r")
     data = f.read()
-    parser.parse(data, debug = True)
-    if not has_errors:
-        print("sin ningun problema")
-    else:
-        print("con problemas revise")
+    try:
+        parser.parse(data, debug=True)
+        if not has_errors:
+            print("sin ningun problema")
+    except Exception as e:
+        if str(e) == "('syntax', 'error')":
+            print("con problemas revise")
+        else:
+            raise e
