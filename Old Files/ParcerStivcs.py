@@ -1,5 +1,6 @@
 #este es un analizador sintactico del lenguaje PHP hecho en python con la libreria PLY
 # from re import VERBOSE
+#prueba
 import ply.yacc as yacc
 from lex import tokens
 import lex
